@@ -1,0 +1,73 @@
+#!/bin/sh
+# =============================================================================================
+# 脚本名称：prepare-commit-msg
+#
+# 【功能】
+# Git 提交预处理钩子。根据输入特征，自动将无效或简短的提交信息替换为具体的文件变更列表。
+# 替换格式示例：“新增 a.txt; 修订 b.py; 删除 c.md”。
+#
+# 【触发与放行规则】
+# 1. 触发替换：输入字符数 <= 阈值（默认10），或匹配 GitHub 默认提交格式。
+# 2. 放行保留：输入字符数 > 阈值，且非 GitHub 默认格式（判定为有效自定义备注）。
+#
+# 【部署说明】（适用于仓库统一管理，免复制）
+# 1. 存放路径：项目根目录 `.githooks/prepare-commit-msg`（必须无后缀名）。
+# 2. 生效指令：在终端执行 `git config core.hooksPath .githooks`。
+# 3. 权限要求：在终端执行 `chmod +x .githooks/prepare-commit-msg`。
+# =============================================================================================
+
+set -e
+set -u
+
+# 注入特定环境变量，防止 Windows Portable Git 空格路径导致的命令失效
+export PATH="/c/Portable Files/PortableGit/bin:/c/Portable Files/PortableGit/usr/bin:$PATH"
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=${2:-}
+
+# 忽略 merge 与 squash 类型的自动提交
+if [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "squash" ]; then
+    exit 0
+fi
+
+# 1. 读取提交内容并清理首尾空格
+ORIGINAL_MSG=$(cat "$COMMIT_MSG_FILE" | xargs)
+
+# 2. 统计逻辑字符数（中英文字符均计为 1）
+MSG_LENGTH=$(echo -n "$ORIGINAL_MSG" | wc -m | tr -d ' ')
+THRESHOLD=10
+
+# 3. 判定是否为 GitHub Desktop 默认提交格式
+IS_GITHUB_DEFAULT=0
+case "$ORIGINAL_MSG" in
+    Update*|Create*|Delete*|Rename*|"up"|"")
+        IS_GITHUB_DEFAULT=1
+        ;;
+esac
+
+# 4. 若为超出阈值的自定义长文本，直接放行
+if [ "$MSG_LENGTH" -gt "$THRESHOLD" ] && [ "$IS_GITHUB_DEFAULT" -eq 0 ]; then
+    exit 0
+fi
+
+# ---------------------------------------------------------
+# 提取暂存区变更并重写提交信息
+# ---------------------------------------------------------
+FILE_LIST=""
+
+ADDED=$(git diff --cached --name-status | awk '$1 ~ /^A/ {print $2}' | awk -F/ '{print $NF}' | paste -sd ", " - || true)
+if [ -n "$ADDED" ]; then FILE_LIST="${FILE_LIST}新增 $ADDED; "; fi
+
+MODIFIED=$(git diff --cached --name-status | awk '$1 ~ /^M/ {print $2}' | awk -F/ '{print $NF}' | paste -sd ", " - || true)
+if [ -n "$MODIFIED" ]; then FILE_LIST="${FILE_LIST}修订 $MODIFIED; "; fi
+
+DELETED=$(git diff --cached --name-status | awk '$1 ~ /^D/ {print $2}' | awk -F/ '{print $NF}' | paste -sd ", " - || true)
+if [ -n "$DELETED" ]; then FILE_LIST="${FILE_LIST}删除 $DELETED; "; fi
+
+# 清理末尾多余的分隔符
+FILE_LIST=$(echo "$FILE_LIST" | sed 's/; $//')
+
+# 将生成的变更列表覆盖写入提交文件
+if [ -n "$FILE_LIST" ]; then
+    echo "$FILE_LIST" > "$COMMIT_MSG_FILE"
+fi
