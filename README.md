@@ -33,7 +33,7 @@
 
 1. 在您的广告拦截工具（如 uBlock Origin、AdGuard 等）中
 2. 添加自定义过滤列表
-3. 输入订阅地址：`https://ex.135468.xyz/adblocklist.txt`
+3. 输入订阅地址：`https://ex.135468.xyz/adblock/adblocklist.txt`
 
 > 本项目遵循 Adblock Plus 许可规范，所有规则均来自开源社区贡献。规则数量：动态更新，当前版本包含数千条高效过滤规则。
 
