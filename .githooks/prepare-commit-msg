@@ -19,55 +19,89 @@
 set -e
 set -u
 
-# 注入特定环境变量，防止 Windows Portable Git 空格路径导致的命令失效
+# 1. 注入便携版 Git 环境
 export PATH="/c/Portable Files/PortableGit/bin:/c/Portable Files/PortableGit/usr/bin:$PATH"
 
 COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=${2:-}
 
-# 忽略 merge 与 squash 类型的自动提交
+# 2. 忽略合并等特殊操作
 if [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "squash" ]; then
     exit 0
 fi
 
-# 1. 读取提交内容并清理首尾空格
 ORIGINAL_MSG=$(cat "$COMMIT_MSG_FILE" | xargs)
-
-# 2. 统计逻辑字符数（中英文字符均计为 1）
 MSG_LENGTH=$(echo -n "$ORIGINAL_MSG" | wc -m | tr -d ' ')
 THRESHOLD=10
-
-# 3. 判定是否为 GitHub Desktop 默认提交格式
 IS_GITHUB_DEFAULT=0
+
 case "$ORIGINAL_MSG" in
     Update*|Create*|Delete*|Rename*|"up"|"")
         IS_GITHUB_DEFAULT=1
         ;;
 esac
 
-# 4. 若为超出阈值的自定义长文本，直接放行
+# 3. 如果是有效的手写长备注，放行
 if [ "$MSG_LENGTH" -gt "$THRESHOLD" ] && [ "$IS_GITHUB_DEFAULT" -eq 0 ]; then
     exit 0
 fi
 
-# ---------------------------------------------------------
-# 提取暂存区变更并重写提交信息
-# ---------------------------------------------------------
-FILE_LIST=""
+# =========================================================
+# 4. 提取文件并构建【标题】与【正文】
+# =========================================================
+SUBJECT=""
+BODY="【详细变更清单】"
+HAS_CHANGE=0
 
-ADDED=$(git diff --cached --name-status | awk '$1 ~ /^A/ {print $2}' | awk -F/ '{print $NF}' | paste -sd ", " - || true)
-if [ -n "$ADDED" ]; then FILE_LIST="${FILE_LIST}新增 $ADDED; "; fi
+# 处理新增 (A)
+ADDED_RAW=$(git diff --cached --name-status | awk '$1 ~ /^A/ {print $2}' | awk -F/ '{print $NF}')
+if [ -n "$ADDED_RAW" ]; then
+    COUNT=$(echo "$ADDED_RAW" | wc -l | tr -d ' ')
+    FULL=$(echo "$ADDED_RAW" | paste -sd ", " -)
+    if [ "$COUNT" -gt 3 ]; then
+        PREVIEW=$(echo "$ADDED_RAW" | head -n 2 | paste -sd ", " -)
+        SUBJECT="${SUBJECT}新增 $PREVIEW 等 $COUNT 个; "
+    else
+        SUBJECT="${SUBJECT}新增 $FULL; "
+    fi
+    BODY="${BODY}\n[新增] ${FULL}"
+    HAS_CHANGE=1
+fi
 
-MODIFIED=$(git diff --cached --name-status | awk '$1 ~ /^M/ {print $2}' | awk -F/ '{print $NF}' | paste -sd ", " - || true)
-if [ -n "$MODIFIED" ]; then FILE_LIST="${FILE_LIST}修订 $MODIFIED; "; fi
+# 处理修订 (M)
+MODIFIED_RAW=$(git diff --cached --name-status | awk '$1 ~ /^M/ {print $2}' | awk -F/ '{print $NF}')
+if [ -n "$MODIFIED_RAW" ]; then
+    COUNT=$(echo "$MODIFIED_RAW" | wc -l | tr -d ' ')
+    FULL=$(echo "$MODIFIED_RAW" | paste -sd ", " -)
+    if [ "$COUNT" -gt 3 ]; then
+        PREVIEW=$(echo "$MODIFIED_RAW" | head -n 2 | paste -sd ", " -)
+        SUBJECT="${SUBJECT}修订 $PREVIEW 等 $COUNT 个; "
+    else
+        SUBJECT="${SUBJECT}修订 $FULL; "
+    fi
+    BODY="${BODY}\n[修订] ${FULL}"
+    HAS_CHANGE=1
+fi
 
-DELETED=$(git diff --cached --name-status | awk '$1 ~ /^D/ {print $2}' | awk -F/ '{print $NF}' | paste -sd ", " - || true)
-if [ -n "$DELETED" ]; then FILE_LIST="${FILE_LIST}删除 $DELETED; "; fi
+# 处理删除 (D)
+DELETED_RAW=$(git diff --cached --name-status | awk '$1 ~ /^D/ {print $2}' | awk -F/ '{print $NF}')
+if [ -n "$DELETED_RAW" ]; then
+    COUNT=$(echo "$DELETED_RAW" | wc -l | tr -d ' ')
+    FULL=$(echo "$DELETED_RAW" | paste -sd ", " -)
+    if [ "$COUNT" -gt 3 ]; then
+        PREVIEW=$(echo "$DELETED_RAW" | head -n 2 | paste -sd ", " -)
+        SUBJECT="${SUBJECT}删除 $PREVIEW 等 $COUNT 个; "
+    else
+        SUBJECT="${SUBJECT}删除 $FULL; "
+    fi
+    BODY="${BODY}\n[删除] ${FULL}"
+    HAS_CHANGE=1
+fi
 
-# 清理末尾多余的分隔符
-FILE_LIST=$(echo "$FILE_LIST" | sed 's/; $//')
+# 清理标题末尾多余的分号
+SUBJECT=$(echo "$SUBJECT" | sed 's/; $//')
 
-# 将生成的变更列表覆盖写入提交文件
-if [ -n "$FILE_LIST" ]; then
-    echo "$FILE_LIST" > "$COMMIT_MSG_FILE"
+# 5. 格式化写入：第一行是标题，空一行，后面是正文
+if [ "$HAS_CHANGE" -eq 1 ]; then
+    printf "%s\n\n%b\n" "$SUBJECT" "$BODY" > "$COMMIT_MSG_FILE"
 fi
