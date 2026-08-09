@@ -3,6 +3,7 @@
 #undef mainCRTStartup
 
 void mainCRTStartup(void) {
+    WCHAR url[256];
     static BYTE response[]=
         "{\"data\":["
         "{\"id\":\"model-a\",\"context_length\":200000},"
@@ -12,5 +13,10 @@ void mainCRTStartup(void) {
     if(g_model_count!=2)ExitProcess(10);
     if(!weq_ci(g_models[0],L"model-a")||g_model_context_capacity[0]!=200000)ExitProcess(11);
     if(!weq_ci(g_models[1],L"model-b")||g_model_context_capacity[1]!=1000000)ExitProcess(12);
+    build_anthropic_messages_url(L"https://gateway.example/v1",url,256);
+    if(!weq_ci(url,L"https://gateway.example/v1/messages"))ExitProcess(13);
+    build_anthropic_messages_url(L"https://gateway.example/",url,256);
+    if(!weq_ci(url,L"https://gateway.example/v1/messages"))ExitProcess(14);
+    if(!is_unsupported_manager_field_native(L"CLAUDE_CODE_MAX_CONTEXT_TOKENS"))ExitProcess(15);
     ExitProcess(0);
 }

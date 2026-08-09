@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.1 - 2026-08-09
+
+### Gateway compatibility
+
+- 修复模型列表读取成功但 Claude Code 运行时报“模型不存在或无访问权限”的假成功。
+- “测试并获取模型”现在先验证 Anthropic `/v1/messages` 路由，再读取 `/v1/models`。
+- 404/405 会被识别为仅支持 OpenAI Chat Completions 的不兼容接口，并阻止误保存。
+- 明确 NVIDIA Integrate 免费托管地址不能直接作为 Claude Code 的网关；支持
+  Anthropic Messages 的自托管 NIM 或兼容网关仍可使用。
+
+### Credential isolation
+
+- 启动器只注入当前配置激活的凭据，不再加载 Windows 凭据库中的全部历史密钥。
+- 官方账号模式无 API Key 时停用旧网关凭据，让原生 Claude Code 使用 `/login`。
+- 停止重复保存无 Claude Code 作用的 `GATEWAY_ACCESS_KEY` 环境变量。
+- 清理遗留的 `CLAUDE_CODE_MAX_CONTEXT_TOKENS` 和 `contextWindow` 非公开字段。
+
 ## 1.0.0 - 2026-08-09
 
 ### Architecture
