@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+
+# ClaudeCodeManager build outputs
+ClaudeCodeManager/build/
+ClaudeCodeManager/dist/
+ClaudeCodeManager/*.exe
+ClaudeCodeManager/qa-*.png
+ClaudeCodeManager/*.log
