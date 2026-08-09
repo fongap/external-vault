@@ -26,6 +26,22 @@ Manager 负责：
 第三方网关配置只注入 Claude Code 支持的环境变量、模型名和凭据。Manager
 不增加请求代理层，也不接管网关的路由与预算。
 
+## 网关兼容性
+
+原生 Claude Code 使用 Anthropic Messages 协议。第三方地址必须提供
+`/v1/messages`；只有 `/v1/chat/completions` 和 `/v1/models` 的 OpenAI 风格
+接口不能直接使用。
+
+“测试并获取模型”会先发送不触发推理的空 JSON 请求检查 Messages 路由：
+
+- 400/422 等参数错误表示路由存在，可继续读取模型列表。
+- 401/403 表示凭据未通过验证。
+- 404/405 表示缺少 Anthropic Messages 协议，Manager 会阻止保存。
+
+NVIDIA `https://integrate.api.nvidia.com/v1` 免费托管端点目前公开的是 OpenAI
+Chat Completions，不能直接作为 Claude Code 的 `ANTHROPIC_BASE_URL`。较新的
+自托管 NVIDIA NIM 可以提供 `/v1/messages`，但仍需以实际部署响应为准。
+
 ## 模型与上下文
 
 每个角色可配置模型 ID、上下文容量标注、建议预算、压缩预警、输出预留和
@@ -44,6 +60,7 @@ Claude Code 没有公开的逐模型 `contextWindow` CLI 参数，因此 Manager
 - Token、API Key、`GATEWAY_ACCESS_KEY` 等敏感值保存在 Windows 凭据管理器。
 - 敏感值不会以明文保留在 `settings.json`。
 - 启动原生 CLI 时仅向子进程注入必要的凭据与代理环境变量。
+- 切换提供方后只激活当前模式所需的凭据，历史密钥不会串入其他会话。
 - Manager 不修改 Claude Code 可执行文件及其资源或签名。
 
 本地规划元数据保存在：

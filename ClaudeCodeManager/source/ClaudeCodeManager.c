@@ -1,5 +1,5 @@
 /*
- * ClaudeCodeManager 1.0 r11 - unified geometry, spacing and alignment
+ * ClaudeCodeManager 1.0 r12 - gateway compatibility and credential scoping
  * Copyright (c) 2026 Fongap
  * SPDX-License-Identifier: MIT
  *
@@ -847,6 +847,7 @@ static HICON g_app_icon;
 static volatile LONG g_installing;
 static volatile LONG g_shortcut_busy;
 static volatile LONG g_model_fetch_busy;
+static volatile LONG g_model_gateway_protocol_state; /* 0 unknown, 1 compatible, 2 incompatible */
 static WCHAR g_model_status[512];
 static WCHAR g_model_fetch_base[2048];
 static WCHAR g_model_fetch_secret[4096];
@@ -903,6 +904,7 @@ static WCHAR g_extra_secret_name[128];
 static WCHAR g_extra_secret_value[4096];
 static WCHAR g_extra_secret2_name[128];
 static WCHAR g_extra_secret2_value[4096];
+static WCHAR g_pending_active_credential_names[512];
 
 static WCHAR g_cfg_proxy[1024];
 static WCHAR g_cfg_url[2048];
@@ -1707,7 +1709,8 @@ static int load_credentials_to_environment(void) {
     HKEY key=0; WCHAR names[4096], name[256], target[512]; unsigned int i=0,j; int count=0; CREDENTIALW_CCM *cred=0;
     names[0]=0; g_loaded_credential_names[0]=0;
     if(pRegOpenKeyExW(HKEY_CURRENT_USER,REG_KEY,0,KEY_READ,&key)!=ERROR_SUCCESS)return 0;
-    reg_read_string(key,L"CredentialNames",names,4096); pRegCloseKey(key);
+    if(!reg_read_string(key,L"ActiveCredentialNames",names,4096))reg_read_string(key,L"CredentialNames",names,4096); pRegCloseKey(key);
+    if(weq_ci(names,L"-")){secure_zero_w(names,4096);return 0;}
     while(names[i]) {
         j=0; while(names[i] && names[i]!=L';' && j+1<256)name[j++]=names[i++]; name[j]=0; if(names[i]==L';')i++;
         if(!name[0])continue;
@@ -2132,6 +2135,7 @@ static BOOL json_decode_string_token(LPCWSTR text,CCM_JSON_TOKEN *t,LPWSTR out,u
 }
 
 static BOOL wends_ci(LPCWSTR s,LPCWSTR suffix){unsigned int ls=wlen(s),lf=wlen(suffix),i;if(lf>ls)return FALSE;for(i=0;i<lf;i++)if(lower_ascii(s[ls-lf+i])!=lower_ascii(suffix[i]))return FALSE;return TRUE;}
+static BOOL is_unsupported_manager_field_native(LPCWSTR name){return weq_ci(name,L"CLAUDE_CODE_MAX_CONTEXT_TOKENS")||weq_ci(name,L"contextWindow");}
 static BOOL is_sensitive_field_native(LPCWSTR name) {
     static const LPCWSTR exact[]={L"GATEWAY_ACCESS_KEY",L"ANTHROPIC_API_KEY",L"ANTHROPIC_AUTH_TOKEN",L"CLAUDE_CODE_OAUTH_TOKEN",L"OPENAI_API_KEY",L"DEEPSEEK_API_KEY",L"GEMINI_API_KEY",L"GOOGLE_API_KEY",L"AZURE_OPENAI_API_KEY",L"NVIDIA_API_KEY",L"NIM_API_KEY",L"OPENROUTER_API_KEY",L"MINIMAX_API_KEY",L"MISTRAL_API_KEY",L"COHERE_API_KEY",L"AWS_ACCESS_KEY_ID",L"AWS_SECRET_ACCESS_KEY"};
     static const LPCWSTR suffix[]={L"_API_KEY",L"_ACCESS_KEY",L"_AUTH_TOKEN",L"_TOKEN",L"_SECRET",L"_PASSWORD",L"_PRIVATE_KEY",L"_CREDENTIAL",L"_CLIENT_SECRET"};unsigned int i;
@@ -2155,6 +2159,14 @@ static BOOL save_credential_native(LPCWSTR name,LPCWSTR value) {
     if(!CredWriteW(&c,0))return FALSE;return register_credential_name_native(name);
 }
 
+static BOOL set_active_credential_names_native(LPCWSTR names) {
+    HKEY key=0;DWORD disp=0,bytes;BOOL ok;
+    if(!names||!names[0])return TRUE;
+    if(pRegCreateKeyExW(HKEY_CURRENT_USER,REG_KEY,0,0,0,KEY_READ|KEY_WRITE,0,&key,&disp)!=ERROR_SUCCESS)return FALSE;
+    bytes=(wlen(names)+1)*2;ok=pRegSetValueExW(key,L"ActiveCredentialNames",0,REG_SZ,(const BYTE*)names,bytes)==ERROR_SUCCESS;
+    pRegCloseKey(key);return ok;
+}
+
 static void jout_init(CCM_JSON_OUT *o,LPWSTR data,unsigned int cap){o->data=data;o->cap=cap;o->pos=0;o->ok=TRUE;if(cap)data[0]=0;}
 static void jout_char(CCM_JSON_OUT *o,WCHAR c){if(!o->ok)return;if(o->pos+1>=o->cap){o->ok=FALSE;return;}o->data[o->pos++]=c;o->data[o->pos]=0;}
 static void jout_text(CCM_JSON_OUT *o,LPCWSTR s){unsigned int i=0;while(s&&s[i])jout_char(o,s[i++]);}
@@ -2167,7 +2179,7 @@ static void import_store_token_secret(LPCWSTR name,LPCWSTR text,CCM_JSON_TOKEN *
 static BOOL json_object_find_key(LPCWSTR text,CCM_JSON_TOKEN *tokens,int object_idx,LPCWSTR wanted,int *key_idx,int *value_idx){int i,j=object_idx+1;WCHAR key[256];if(tokens[object_idx].type!=CCM_JSON_OBJECT)return FALSE;for(i=0;i<tokens[object_idx].size;i++){int k=j,v=k+1;key[0]=0;json_decode_string_token(text,&tokens[k],key,256);if(weq_ci(key,wanted)){if(key_idx)*key_idx=k;if(value_idx)*value_idx=v;return TRUE;}j=json_token_after(tokens,v);}return FALSE;}
 
 static void json_write_clean(CCM_JSON_OUT *o,LPCWSTR text,CCM_JSON_TOKEN *tokens,int idx,int depth);
-static void json_write_clean_object(CCM_JSON_OUT *o,LPCWSTR text,CCM_JSON_TOKEN *tokens,int idx,int depth){int i,j=idx+1,written=0;WCHAR key[256];jout_char(o,L'{');for(i=0;i<tokens[idx].size;i++){int k=j,v=k+1;key[0]=0;json_decode_string_token(text,&tokens[k],key,256);if(is_sensitive_field_native(key)){import_store_token_secret(key,text,&tokens[v]);}else{if(written)jout_char(o,L',');jout_text(o,L"\r\n");jout_indent(o,depth+1);jout_raw(o,text,tokens[k].start,tokens[k].end);jout_text(o,L": ");json_write_clean(o,text,tokens,v,depth+1);written++;}j=json_token_after(tokens,v);}if(written){jout_text(o,L"\r\n");jout_indent(o,depth);}jout_char(o,L'}');}
+static void json_write_clean_object(CCM_JSON_OUT *o,LPCWSTR text,CCM_JSON_TOKEN *tokens,int idx,int depth){int i,j=idx+1,written=0;WCHAR key[256];jout_char(o,L'{');for(i=0;i<tokens[idx].size;i++){int k=j,v=k+1;key[0]=0;json_decode_string_token(text,&tokens[k],key,256);if(is_sensitive_field_native(key)){import_store_token_secret(key,text,&tokens[v]);}else if(is_unsupported_manager_field_native(key)){}else{if(written)jout_char(o,L',');jout_text(o,L"\r\n");jout_indent(o,depth+1);jout_raw(o,text,tokens[k].start,tokens[k].end);jout_text(o,L": ");json_write_clean(o,text,tokens,v,depth+1);written++;}j=json_token_after(tokens,v);}if(written){jout_text(o,L"\r\n");jout_indent(o,depth);}jout_char(o,L'}');}
 static void json_write_clean(CCM_JSON_OUT *o,LPCWSTR text,CCM_JSON_TOKEN *tokens,int idx,int depth){int i,j;if(tokens[idx].type==CCM_JSON_OBJECT){json_write_clean_object(o,text,tokens,idx,depth);return;}if(tokens[idx].type==CCM_JSON_ARRAY){jout_char(o,L'[');j=idx+1;for(i=0;i<tokens[idx].size;i++){if(i)jout_text(o,L", ");json_write_clean(o,text,tokens,j,depth+1);j=json_token_after(tokens,j);}jout_char(o,L']');return;}jout_raw(o,text,tokens[idx].start,tokens[idx].end);}
 
 static void json_write_merged(CCM_JSON_OUT *o,LPCWSTR oldtext,CCM_JSON_TOKEN *oldt,int oldidx,LPCWSTR newtext,CCM_JSON_TOKEN *newt,int newidx,int depth) {
@@ -2177,6 +2189,7 @@ static void json_write_merged(CCM_JSON_OUT *o,LPCWSTR oldtext,CCM_JSON_TOKEN *ol
     for(i=0;i<oldt[oldidx].size;i++){
         int ok=j,ov=ok+1,nk=-1,nv=-1;key[0]=0;json_decode_string_token(oldtext,&oldt[ok],key,256);
         if(is_sensitive_field_native(key)){import_store_token_secret(key,oldtext,&oldt[ov]);if(json_object_find_key(newtext,newt,newidx,key,&nk,&nv))import_store_token_secret(key,newtext,&newt[nv]);}
+        else if(is_unsupported_manager_field_native(key)){}
         else{
             if(written)jout_char(o,L',');jout_text(o,L"\r\n");jout_indent(o,depth+1);
             if(json_object_find_key(newtext,newt,newidx,key,&nk,&nv)){jout_raw(o,newtext,newt[nk].start,newt[nk].end);jout_text(o,L": ");if(oldt[ov].type==CCM_JSON_OBJECT&&newt[nv].type==CCM_JSON_OBJECT)json_write_merged(o,oldtext,oldt,ov,newtext,newt,nv,depth+1);else json_write_clean(o,newtext,newt,nv,depth+1);}
@@ -2188,6 +2201,7 @@ static void json_write_merged(CCM_JSON_OUT *o,LPCWSTR oldtext,CCM_JSON_TOKEN *ol
     for(i=0;i<newt[newidx].size;i++){
         int nk=j,nv=nk+1,foundk=-1,foundv=-1;key[0]=0;json_decode_string_token(newtext,&newt[nk],key,256);
         if(is_sensitive_field_native(key)){if(!json_object_find_key(oldtext,oldt,oldidx,key,&foundk,&foundv))import_store_token_secret(key,newtext,&newt[nv]);}
+        else if(is_unsupported_manager_field_native(key)){}
         else if(!json_object_find_key(oldtext,oldt,oldidx,key,&foundk,&foundv)){if(written)jout_char(o,L',');jout_text(o,L"\r\n");jout_indent(o,depth+1);jout_raw(o,newtext,newt[nk].start,newt[nk].end);jout_text(o,L": ");json_write_clean(o,newtext,newt,nv,depth+1);written++;}
         j=json_token_after(newt,nv);
     }
@@ -2220,17 +2234,18 @@ static DWORD __stdcall import_thread(PVOID unused) {
     if(g_extra_secret_name[0]&&g_extra_secret_value[0]){if(!save_credential_native(g_extra_secret_name,g_extra_secret_value)){append_log(L"[ERROR] 无法保存模型向导中的访问密钥。");code=18;goto done;}append_log_raw(L"[SECURE] 已保存到 Windows 凭据管理器：");append_log(g_extra_secret_name);}
     if(g_extra_secret2_name[0]&&g_extra_secret2_value[0]){if(!save_credential_native(g_extra_secret2_name,g_extra_secret2_value)){append_log(L"[ERROR] 无法保存网关访问密钥。");code=18;goto done;}append_log_raw(L"[SECURE] 已保存到 Windows 凭据管理器：");append_log(g_extra_secret2_name);}
     wcopy(temp,4096,g_import_target);wcat(temp,4096,L".ccm.tmp");if(!write_utf8_text_file(temp,g_json_output_text)){append_log(L"[ERROR] 无法写入临时配置文件。");code=19;goto done;}if(!MoveFileExW(temp,g_import_target,MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)){DeleteFileW(temp);append_log(L"[ERROR] 无法原子替换目标配置文件。");code=20;goto done;}
+    if(g_pending_active_credential_names[0]&&!set_active_credential_names_native(g_pending_active_credential_names))append_log(L"[WARN] 配置已保存，但活动凭据范围未能更新。");
     append_log(L"[OK] 配置导入完成；敏感字段未写入 settings.json。");append_log_raw(L"[OK] 目标文件：");append_log(g_import_target);set_status(L"settings.json 导入完成");
 done:
     if(code){WCHAR n[32];uint_to_wstr(code,n,32);append_log_raw(L"[ERROR] 导入失败，错误代码：");append_log(n);set_status(L"settings.json 导入失败");}
-    if(g_import_delete_source&&g_import_source[0])DeleteFileW(g_import_source);g_import_delete_source=FALSE;secure_zero_w(g_import_source,4096);secure_zero_w(g_extra_secret_name,128);secure_zero_w(g_extra_secret_value,4096);secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);secure_zero_w(g_json_source_text,sizeof(g_json_source_text)/2);secure_zero_w(g_json_target_text,sizeof(g_json_target_text)/2);g_import_busy=0;set_busy(FALSE);return code;
+    if(g_import_delete_source&&g_import_source[0])DeleteFileW(g_import_source);g_import_delete_source=FALSE;secure_zero_w(g_import_source,4096);secure_zero_w(g_extra_secret_name,128);secure_zero_w(g_extra_secret_value,4096);secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);secure_zero_w(g_pending_active_credential_names,512);secure_zero_w(g_json_source_text,sizeof(g_json_source_text)/2);secure_zero_w(g_json_target_text,sizeof(g_json_target_text)/2);g_import_busy=0;set_busy(FALSE);return code;
 }
 
 static void start_import_settings(void){
     HANDLE th;DWORD tid;int r;
     if(g_installing||g_import_busy)return;
     if(!select_json_file(g_import_source,4096))return;
-    secure_zero_w(g_extra_secret_name,128);secure_zero_w(g_extra_secret_value,4096);secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);g_import_delete_source=FALSE;
+    secure_zero_w(g_extra_secret_name,128);secure_zero_w(g_extra_secret_value,4096);secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);secure_zero_w(g_pending_active_credential_names,512);g_import_delete_source=FALSE;
     if(!choose_settings_target(g_import_target,4096,TRUE)){secure_zero_w(g_import_source,4096);return;}
     r=pMessageBoxW(g_main,L"导入时会自动移除 Token、API Key、Password 等敏感字段，并保存到当前用户的 Windows 凭据管理器。\r\n\r\n原始导入文件不会被修改。是否继续？",L"导入配置",MB_YESNO|MB_ICONINFORMATION);if(r!=IDYES){secure_zero_w(g_import_source,4096);return;}
     r=pMessageBoxW(g_main,L"选择导入方式：\r\n\r\n“是”＝智能合并（推荐）\r\n“否”＝完全替换\r\n“取消”＝返回",L"导入方式",MB_YESNOCANCEL|MB_ICONQUESTION);if(r==IDCANCEL){secure_zero_w(g_import_source,4096);return;}
@@ -2323,6 +2338,28 @@ static BOOL http_get_bytes(LPCWSTR url, LPCWSTR token, LPCWSTR proxy, BYTE *out,
     if(!WinHttpQueryHeaders(request,WINHTTP_QUERY_STATUS_CODE|WINHTTP_QUERY_FLAG_NUMBER,0,status,&sz,&idx))*status=0;
     while(total+1<cap){avail=0;if(!WinHttpQueryDataAvailable(request,&avail)){*error=GetLastError();goto done;}if(!avail)break;if(avail>cap-total-1)avail=cap-total-1;if(!WinHttpReadData(request,out+total,avail,&got)){*error=GetLastError();goto done;}if(!got)break;total+=got;}
     out[total]=0;*outlen=total;ok=TRUE;
+done:
+    if(request)WinHttpCloseHandle(request);if(connect)WinHttpCloseHandle(connect);if(session)WinHttpCloseHandle(session);secure_zero_w(proxy_norm,1024);return ok;
+}
+
+static void build_anthropic_messages_url(LPCWSTR base,LPWSTR out,unsigned int cap) {
+    wcopy(out,cap,base);while(wlen(out)>0&&out[wlen(out)-1]==L'/')out[wlen(out)-1]=0;
+    if(wends_ci(out,L"/v1"))wcat(out,cap,L"/messages");else wcat(out,cap,L"/v1/messages");
+}
+
+static BOOL http_probe_anthropic_messages(LPCWSTR url,LPCWSTR token,LPCWSTR proxy,DWORD *status,DWORD *error) {
+    static char body[]="{}";WCHAR host[1024],path[4096],proxy_norm[1024],headers[12288];INTERNET_PORT port;BOOL secure;HINTERNET session=0,connect=0,request=0;DWORD sz=sizeof(DWORD),idx=0;BOOL ok=FALSE;
+    *status=0;*error=0;if(!url_parse_basic(url,host,1024,path,4096,&port,&secure)){*error=87;return FALSE;}
+    normalize_proxy_for_winhttp(proxy,proxy_norm,1024);
+    session=WinHttpOpen(L"ClaudeCodeManager/1.0",proxy_norm[0]?WINHTTP_ACCESS_TYPE_NAMED_PROXY:WINHTTP_ACCESS_TYPE_NO_PROXY,proxy_norm[0]?proxy_norm:0,0,0);
+    if(!session){*error=GetLastError();goto done;}WinHttpSetTimeouts(session,8000,8000,15000,20000);
+    connect=WinHttpConnect(session,host,port,0);if(!connect){*error=GetLastError();goto done;}
+    request=WinHttpOpenRequest(connect,L"POST",path,0,0,0,secure?WINHTTP_FLAG_SECURE:0);if(!request){*error=GetLastError();goto done;}
+    headers[0]=0;wcat(headers,12288,L"Content-Type: application/json\r\nanthropic-version: 2023-06-01\r\n");
+    if(token&&token[0]){wcat(headers,12288,L"Authorization: Bearer ");wcat(headers,12288,token);wcat(headers,12288,L"\r\nx-api-key: ");wcat(headers,12288,token);wcat(headers,12288,L"\r\nx-gateway-access-key: ");wcat(headers,12288,token);wcat(headers,12288,L"\r\n");}
+    WinHttpAddRequestHeaders(request,headers,(DWORD)-1,WINHTTP_ADDREQ_FLAG_ADD|WINHTTP_ADDREQ_FLAG_REPLACE);secure_zero_w(headers,12288);
+    if(!WinHttpSendRequest(request,0,0,body,2,2,0)){*error=GetLastError();goto done;}if(!WinHttpReceiveResponse(request,0)){*error=GetLastError();goto done;}
+    if(!WinHttpQueryHeaders(request,WINHTTP_QUERY_STATUS_CODE|WINHTTP_QUERY_FLAG_NUMBER,0,status,&sz,&idx)){*error=GetLastError();goto done;}ok=TRUE;
 done:
     if(request)WinHttpCloseHandle(request);if(connect)WinHttpCloseHandle(connect);if(session)WinHttpCloseHandle(session);secure_zero_w(proxy_norm,1024);return ok;
 }
@@ -2861,18 +2898,29 @@ static void append_context_budget_summary(void) {
 }
 
 static DWORD __stdcall model_discovery_thread(PVOID unused) {
-    WCHAR base[2048],url1[4096],url2[4096],proxy[1024],desc[256],num[32];DWORD status=0,error=0,len=0;int attempt;BOOL reachable=FALSE,authfail=FALSE;(void)unused;
+    WCHAR base[2048],messages_url[4096],url1[4096],url2[4096],proxy[1024],desc[256],num[32];DWORD status=0,error=0,len=0;int attempt;BOOL reachable=FALSE,authfail=FALSE;(void)unused;
+    g_model_gateway_protocol_state=0;
     wcopy(base,2048,g_model_fetch_base);while(wlen(base)>0&&base[wlen(base)-1]==L'/')base[wlen(base)-1]=0;
     if(wlen(base)>=3&&weq_ci(base+wlen(base)-3,L"/v1")){wcopy(url1,4096,base);wcat(url1,4096,L"/models");url2[0]=0;}else{wcopy(url1,4096,base);wcat(url1,4096,L"/v1/models");wcopy(url2,4096,base);wcat(url2,4096,L"/models");}
     pGetWindowTextW(g_proxy,g_cfg_proxy,1024);resolve_effective_proxy(proxy,1024,desc,256);
+    build_anthropic_messages_url(base,messages_url,4096);
+    if(!http_probe_anthropic_messages(messages_url,g_model_fetch_secret,proxy,&status,&error)){
+        wcopy(g_model_status,512,L"无法检测 Claude Code 所需的 Messages 接口，请检查网络和代理。");uint_to_wstr(error,num,32);append_log_raw(L"[ERROR] Anthropic Messages 兼容性检测失败，网络错误：");append_log(num);goto done;
+    }
+    reachable=TRUE;
+    if(status==401||status==403){authfail=TRUE;wcopy(g_model_status,512,L"Messages 接口已响应，但访问密钥未通过验证。");append_log(L"[ERROR] Anthropic Messages 接口拒绝了访问密钥。");goto done;}
+    if(status==404||status==405){g_model_gateway_protocol_state=2;wcopy(g_model_status,512,L"不兼容 Claude Code：服务器缺少 Anthropic /v1/messages 接口。");append_log(L"[ERROR] 服务器可列模型但不提供 Anthropic Messages 接口，不能用于原生 Claude Code。");goto done;}
+    g_model_gateway_protocol_state=1;
     for(attempt=0;attempt<2;attempt++){
         LPCWSTR url=attempt==0?url1:url2;if(!url[0])continue;status=error=len=0;
-        if(http_get_bytes(url,g_model_fetch_secret,proxy,g_http_bytes,sizeof(g_http_bytes),&len,&status,&error)){reachable=TRUE;if(status==401||status==403){authfail=TRUE;continue;}if(status>=200&&status<300){parse_models_from_http(g_http_bytes,len);if(g_model_count>0){populate_model_combos();uint_to_wstr((unsigned int)g_model_count,num,32);wcopy(g_model_status,512,L"连接正常，已获取 ");wcat(g_model_status,512,num);wcat(g_model_status,512,L" 个模型。下拉选择或手动填写均可。");append_log_raw(L"[OK] 模型接口连接正常，已获取 ");append_log_raw(num);append_log(L" 个模型。");secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);InvalidateRect(g_wizard,0,FALSE);return 0;}}}
+        if(http_get_bytes(url,g_model_fetch_secret,proxy,g_http_bytes,sizeof(g_http_bytes),&len,&status,&error)){reachable=TRUE;if(status==401||status==403){authfail=TRUE;continue;}if(status>=200&&status<300){parse_models_from_http(g_http_bytes,len);if(g_model_count>0){populate_model_combos();uint_to_wstr((unsigned int)g_model_count,num,32);wcopy(g_model_status,512,L"Messages 兼容 · 已获取 ");wcat(g_model_status,512,num);wcat(g_model_status,512,L" 个模型。");append_log_raw(L"[OK] Anthropic Messages 接口兼容，已获取 ");append_log_raw(num);append_log(L" 个模型。");goto done;}}}
     }
     if(authfail){wcopy(g_model_status,512,L"服务器已响应，但访问密钥未通过验证。");append_log(L"[ERROR] 模型连接测试失败：访问密钥未通过验证。");}
+    else if(g_model_gateway_protocol_state==1){wcopy(g_model_status,512,L"Messages 接口兼容，但没有返回模型列表；可手动填写模型 ID。");append_log(L"[WARN] Anthropic Messages 接口兼容，但未获取到模型列表。");}
     else if(reachable){wcopy(g_model_status,512,L"服务器可以连接，但没有返回可识别的模型列表；可手动填写模型 ID。");append_log(L"[WARN] 服务器可连接，但未获取到模型列表。");}
     else{wcopy(g_model_status,512,L"无法连接服务器，请检查地址、网络环境和代理设置。");uint_to_wstr(error,num,32);append_log_raw(L"[ERROR] 模型连接测试失败，网络错误：");append_log(num);}
-    secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);InvalidateRect(g_wizard,0,FALSE);return authfail?3:(reachable?2:(error?error:4));
+done:
+    secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);InvalidateRect(g_wizard,0,FALSE);return (g_model_gateway_protocol_state==1&&!authfail)?0:(authfail?3:(reachable?2:(error?error:4)));
 }
 
 static void start_model_discovery(BOOL notify_missing) {
@@ -2880,7 +2928,7 @@ static void start_model_discovery(BOOL notify_missing) {
     if(g_model_fetch_busy||!g_wizard) return;
     provider=(int)pSendMessageW(g_wiz_provider,CB_GETCURSEL,0,0);
     if(provider!=1) {wcopy(g_model_status,512,L"自动获取模型仅用于第三方或自建网关。");InvalidateRect(g_wizard,0,FALSE);return;}
-    g_model_fetch_base[0]=g_model_fetch_secret[0]=0;pGetWindowTextW(g_wiz_base_url,g_model_fetch_base,2048);pGetWindowTextW(g_wiz_secret,g_model_fetch_secret,4096);
+    g_model_gateway_protocol_state=0;g_model_fetch_base[0]=g_model_fetch_secret[0]=0;pGetWindowTextW(g_wiz_base_url,g_model_fetch_base,2048);pGetWindowTextW(g_wiz_secret,g_model_fetch_secret,4096);
     if(!g_model_fetch_base[0]||!g_model_fetch_secret[0]) {wcopy(g_model_status,512,L"请先填写服务器地址和访问密钥。");InvalidateRect(g_wizard,0,FALSE);if(notify_missing)pMessageBoxW(g_wizard,L"请先填写服务器地址和访问密钥，再测试连接。",L"还差一步",MB_ICONWARNING);secure_zero_w(g_model_fetch_secret,4096);return;}
     g_model_fetch_busy=1;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,FALSE);wcopy(g_model_status,512,L"正在测试连接并刷新模型列表……");InvalidateRect(g_wizard,0,FALSE);append_log(L"[INFO] 正在测试第三方模型接口并获取模型列表……");
     th=CreateThread(0,0,model_discovery_thread,0,0,&tid);if(th)CloseHandle(th);else{g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);secure_zero_w(g_model_fetch_secret,4096);wcopy(g_model_status,512,L"无法启动模型刷新线程。");InvalidateRect(g_wizard,0,FALSE);}
@@ -2901,7 +2949,7 @@ static BOOL wizard_target_from_scope(int scope, LPWSTR out, unsigned int cap) {
 
 static void wizard_update_provider(void) {
     int provider=(int)pSendMessageW(g_wiz_provider,CB_GETCURSEL,0,0);
-    BOOL gateway=(provider==1);
+    BOOL gateway=(provider==1);g_model_gateway_protocol_state=0;
     pEnableWindow(g_wiz_base_url,gateway);
     pEnableWindow(g_wiz_secret,gateway||provider==0);
     if(g_wiz_test_models) pEnableWindow(g_wiz_test_models,gateway&&!g_model_fetch_busy);
@@ -2946,15 +2994,19 @@ static void wizard_save(void) {
     pGetWindowTextW(g_wiz_base_url,base,2048); pGetWindowTextW(g_wiz_secret,secret,4096); pGetWindowTextW(g_wiz_default_model,defm,1024); pGetWindowTextW(g_wiz_opus_model,opus,1024); pGetWindowTextW(g_wiz_sonnet_model,sonnet,1024); pGetWindowTextW(g_wiz_haiku_model,haiku,1024); pGetWindowTextW(g_wiz_subagent_model,subagent,1024);
     if(provider==1 && !base[0]) { pMessageBoxW(g_wizard,L"请填写网关或第三方接口地址。\r\n\r\n示例：https://gateway.example.com",L"还差一步",MB_ICONWARNING); return; }
     if(provider==1 && !url_parse_basic(base,parsed_host,1024,parsed_path,4096,&parsed_port,&parsed_secure)) { pMessageBoxW(g_wizard,L"服务器地址无效。请填写以 http:// 或 https:// 开头的完整地址。",L"地址格式不正确",MB_ICONWARNING); return; }
+    if(provider==1 && g_model_gateway_protocol_state==2) { pMessageBoxW(g_wizard,L"该服务器可以列出模型，但缺少 Claude Code 必需的 Anthropic /v1/messages 接口。\r\n\r\n请改用 Anthropic Messages 兼容网关或自托管 NIM。",L"接口不兼容",MB_ICONERROR); return; }
+    if(provider==1 && g_model_gateway_protocol_state==0 && pMessageBoxW(g_wizard,L"尚未确认服务器是否兼容 Anthropic Messages。\r\n\r\n建议先点击“测试并获取模型”。仍要保存吗？",L"兼容性尚未验证",MB_YESNO|MB_ICONWARNING)!=IDYES) return;
     if(!defm[0] && !opus[0] && !sonnet[0] && !haiku[0] && !subagent[0]) { pMessageBoxW(g_wizard,L"请至少选择或填写一个模型。\r\n\r\n通常只设置“主力模型”即可。",L"还差一步",MB_ICONWARNING); return; }
     if(!save_context_metadata_controls())return;
     if(provider==1 && !secret[0]) {
         if(pMessageBoxW(g_wizard,L"尚未填写访问密钥。可以先保存模型配置，但启动时可能无法连接。\r\n\r\n仍要继续吗？",L"未填写访问密钥",MB_YESNO|MB_ICONWARNING)!=IDYES) return;
     }
     if(!wizard_target_from_scope(scope,g_import_target,4096)) return;
-    secret_name[0]=0;
+    secret_name[0]=0;g_pending_active_credential_names[0]=0;
     if(provider==1 && secret[0]) wcopy(secret_name,128,L"ANTHROPIC_AUTH_TOKEN");
     else if(provider==0 && secret[0]) wcopy(secret_name,128,L"ANTHROPIC_API_KEY");
+    if(provider==0)wcopy(g_pending_active_credential_names,512,secret_name[0]?secret_name:L"-");
+    else if(provider==1)wcopy(g_pending_active_credential_names,512,secret_name[0]?secret_name:L"-");
     effort[0]=0; if(eff==0)wcopy(effort,64,L"low"); else if(eff==1)wcopy(effort,64,L"medium"); else if(eff==3)wcopy(effort,64,L"xhigh"); else wcopy(effort,64,L"high");
     g_model_json[0]=0; wcat(g_model_json,32768,L"{\r\n");
     json_add_pair(g_model_json,32768,L"$schema",L"https://json.schemastore.org/claude-code-settings.json",&first,2);
@@ -2978,8 +3030,7 @@ static void wizard_save(void) {
     if(!write_utf8_text_file(g_model_temp,g_model_json)){pMessageBoxW(g_wizard,L"无法写入临时配置文件。",L"保存失败",MB_ICONERROR);secure_zero_w(secret,4096);secure_zero_w(g_model_json,32768);return;}
     secure_zero_w(g_model_json,32768);
     wcopy(g_extra_secret_name,128,(secret_name[0]&&secret[0])?secret_name:L""); wcopy(g_extra_secret_value,4096,(secret_name[0]&&secret[0])?secret:L"");
-    if(provider==1 && secret[0]) { wcopy(g_extra_secret2_name,128,L"GATEWAY_ACCESS_KEY"); wcopy(g_extra_secret2_value,4096,secret); }
-    else { secure_zero_w(g_extra_secret2_name,128); secure_zero_w(g_extra_secret2_value,4096); }
+    secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);
     wcopy(g_import_source,4096,g_model_temp); wcopy(g_import_mode,32,L"Merge"); g_import_delete_source=TRUE;
     append_log(L""); append_log(L"[INFO] 模型配置向导正在保存配置；主力模型将同步覆盖 model 与 ANTHROPIC_MODEL。");
     if(secret_name[0]&&secret[0]) { append_log_raw(L"[SECURE] "); append_log_raw(secret_name); append_log(L" 将保存到 Windows 凭据库，不写入 settings.json。"); }
@@ -2988,7 +3039,7 @@ static void wizard_save(void) {
     if(th) CloseHandle(th);
     else {
         DeleteFileW(g_model_temp);g_import_delete_source=FALSE;g_import_busy=0;set_busy(FALSE);
-        secure_zero_w(g_import_source,4096);secure_zero_w(g_extra_secret_name,128);secure_zero_w(g_extra_secret_value,4096);secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);
+        secure_zero_w(g_import_source,4096);secure_zero_w(g_extra_secret_name,128);secure_zero_w(g_extra_secret_value,4096);secure_zero_w(g_extra_secret2_name,128);secure_zero_w(g_extra_secret2_value,4096);secure_zero_w(g_pending_active_credential_names,512);
         pMessageBoxW(g_main,L"无法启动模型配置保存任务。",L"保存失败",MB_ICONERROR);
     }
 }
@@ -3116,7 +3167,7 @@ static LRESULT __stdcall wizard_wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM l
             int id=(int)(wp&0xFFFF), code=(int)((wp>>16)&0xFFFF);
             if(id==IDC_WIZ_PROVIDER&&code==CBN_SELCHANGE){wizard_update_provider();return 0;}
             if((id==IDC_WIZ_BASE_URL||id==IDC_WIZ_SECRET)&&code==EN_KILLFOCUS){start_model_discovery(FALSE);return 0;}
-            if((id==IDC_WIZ_BASE_URL||id==IDC_WIZ_SECRET)&&code==0x0300){g_model_count=0;return 0;}
+            if((id==IDC_WIZ_BASE_URL||id==IDC_WIZ_SECRET)&&code==0x0300){g_model_count=0;g_model_gateway_protocol_state=0;return 0;}
             if((id==IDC_WIZ_DEFAULT_MODEL||id==IDC_WIZ_OPUS_MODEL||id==IDC_WIZ_SONNET_MODEL||id==IDC_WIZ_HAIKU_MODEL||id==IDC_WIZ_SUBAGENT_MODEL)&&code==CBN_DROPDOWN){if(g_model_count==0)start_model_discovery(FALSE);return 0;}
             if((id==IDC_WIZ_DEFAULT_MODEL||id==IDC_WIZ_OPUS_MODEL||id==IDC_WIZ_SONNET_MODEL||id==IDC_WIZ_HAIKU_MODEL||id==IDC_WIZ_SUBAGENT_MODEL)&&code==CBN_SELCHANGE){int role=id==IDC_WIZ_DEFAULT_MODEL?0:id==IDC_WIZ_OPUS_MODEL?1:id==IDC_WIZ_SONNET_MODEL?2:id==IDC_WIZ_HAIKU_MODEL?3:4;apply_discovered_context_capacity(role);return 0;}
             if(id==IDC_WIZ_TEST_MODELS&&code==BN_CLICKED){start_model_discovery(TRUE);return 0;}
