@@ -1,0 +1,70 @@
+name: ADFilter Daily Build
+
+on:
+  schedule:
+    - cron: '0 16 * * *'  # Daily at 16:00 UTC
+  push:
+    branches: [main]
+    paths:
+      - 'ADFilter/**'
+      - '.github/workflows/adfilter.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Generate filter list
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate stats
+        working-directory: ./ADFilter
+        run: |
+          python build.py
+
+      - name: Commit stats.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ADFilter/stats.json ADFilter/stats.detailed.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update ADFilter stats [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: adfilter-stats
+          path: |
+            ADFilter/stats.json
+            ADFilter/stats.detailed.json
+          retention-days: 30
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/adfilter-')
+    runs-on: ubuntu-latest
+    name: Create Release
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: adfilter-stats
+          path: ./dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./dist/stats.json
+            ./dist/stats.detailed.json
+          generate_release_notes: true

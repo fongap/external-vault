@@ -1,0 +1,59 @@
+name: ClaudeCodeManager Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ClaudeCodeManager/**'
+      - '.github/workflows/claude-code-manager.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Build (Windows x64)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Zig
+        uses: mlugg/setup-zig@v2
+        with:
+          version: '0.15.2'
+
+      - name: Build
+        shell: powershell
+        working-directory: ./ClaudeCodeManager
+        run: |
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -ZigPath zig -Configuration release
+
+      - name: Verify output
+        shell: powershell
+        working-directory: ./ClaudeCodeManager
+        run: |
+          Get-Item .\dist\ClaudeCodeManager.exe | Select-Object FullName, Length, LastWriteTime
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClaudeCodeManager-windows-x64
+          path: ClaudeCodeManager/dist/ClaudeCodeManager.exe
+          retention-days: 7
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/claude-code-manager-')
+    runs-on: ubuntu-latest
+    name: Create Release
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ClaudeCodeManager-windows-x64
+          path: ./dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./dist/ClaudeCodeManager.exe
+          generate_release_notes: true

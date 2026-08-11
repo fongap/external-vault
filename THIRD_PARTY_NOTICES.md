@@ -4,7 +4,7 @@ The root [MIT License](LICENSE) applies to original source code and documentatio
 
 ## AdFilter data
 
-Files under `adfilter/` are generated from third-party filter rules. Those rules remain subject to the terms, notices, attribution requirements and copyright of their respective upstream projects. The MIT License in this repository does not replace or relicense third-party rule data.
+Files under `ADFilter/` are generated from third-party filter rules. Those rules remain subject to the terms, notices, attribution requirements and copyright of their respective upstream projects. The MIT License in this repository does not replace or relicense third-party rule data.
 
 | Upstream project | Repository | License | Usage |
 |------------------|------------|---------|-------|
@@ -17,7 +17,7 @@ Files under `adfilter/` are generated from third-party filter rules. Those rules
 | uBlock Origin Annoyances | [uBlockOrigin/uAssets/filters/annoyances](https://github.com/uBlockOrigin/uAssets/tree/master/filters/annoyances) | Various | Annoyance rules |
 | uBlock Origin Cookie | [uBlockOrigin/uAssets/filters/cookie](https://github.com/uBlockOrigin/uAssets/tree/master/filters/cookie) | Various | Cookie-related rules |
 
-See the repository README and the files under `adfilter/` for the sources used by the current build pipeline.
+See the repository README and the files under `ADFilter/` for the sources used by the current build pipeline.
 
 ## Claude Code
 
