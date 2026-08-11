@@ -1,5 +1,5 @@
 /*
- * ClaudeCodeManager 1.0 r12 - gateway compatibility and credential scoping
+ * ClaudeCodeManager 1.1 r0 - probe body fix, credential scoping, console attach
  * Copyright (c) 2026 Fongap
  * SPDX-License-Identifier: MIT
  *

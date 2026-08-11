@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.1.0 - 2026-08-11
+
+### Gateway compatibility
+
+- 探活 `/v1/messages` 现在发送合法最小请求体（`max_tokens=1` + 单字符 prompt），
+  避免 OpenAI 风格网关对空 `{}` 返回 401 误判为鉴权失败。
+- 探活状态机收紧：仅在 2xx 响应时标记为兼容；非 401/403/404/405 的状态码现在会
+  记录为 `[WARN]` 并继续读取模型列表，状态栏与日志明确区分"Messages 兼容"与仅
+  "已获取 N 个模型"。
+- 模型保存前拒绝 URL 含 `@`（userinfo），避免凭据随 settings.json 写入或被网关
+  访问日志记录。
+
+### Credential isolation
+
+- “仅配置模型”模式现在强制清空 `ActiveCredentialNames`，阻止先前网关的 bearer
+  凭据泄漏到使用官方 Claude 的会话。
+- 启动器加载凭据时若注册名在 Windows 凭据管理器中已不存在，输出 `[WARN]`
+  提示用户重新保存。
+
+### Input handling
+
+- 探活输入触发去抖：URL/密钥/下拉框焦点变化统一合并到一个 400 ms Win32 计时器，
+  避免每次按键或焦点切换就发起一次 HTTP 请求。
+- 关闭模型配置向导时取消未触发的探活计时器，避免关闭后仍发起网络请求。
+
+### Startup
+
+- 移除首次启动时静默创建桌面快捷方式（现改为显式点击主窗口按钮），不再因
+  未签名 exe 触发 SmartScreen 黄色提示。
+- `run_unified_console_launcher` 优先 `AttachConsole(ATTACH_PARENT_PROCESS)`，
+  仅在没有父终端时才分配新控制台；`FreeConsole` 只释放自己分配的终端。
+- 启动 claude.exe 时新增 `CREATE_NEW_PROCESS_GROUP`，Ctrl-C 在终端内的信号
+  现在路由到子进程而非 launcher。
+- `update_thread` 在未检测到 claude.exe 切换到安装流程前清理代理环境变量，
+  避免跨流程的代理状态泄漏。
+- 显式抑制 `WM_ERASEBKGND` 并响应 `WM_PRINTCLIENT`，减少 owner-draw 控件
+  重绘时的窗口闪烁。
+
 ## 1.0.1 - 2026-08-09
 
 ### Gateway compatibility
