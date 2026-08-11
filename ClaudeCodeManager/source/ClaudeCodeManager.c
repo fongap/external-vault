@@ -380,6 +380,7 @@ typedef struct tagINITCOMMONCONTROLSEX {
 #define WM_PRINTCLIENT 0x0318
 #define WM_SETTINGCHANGE 0x001A
 #define WM_USER 0x0400
+#define WM_DISPLAYCHANGE 0x007E
 #define EM_SETSEL 0x00B1
 #define EM_REPLACESEL 0x00C2
 #define EM_SCROLLCARET 0x00B7
@@ -577,8 +578,11 @@ __declspec(dllimport) FARPROC __stdcall GetProcAddress(HMODULE, LPCSTR);
 __declspec(dllimport) VOID __stdcall ExitProcess(UINT);
 __declspec(dllimport) HMODULE __stdcall GetModuleHandleW(LPCWSTR);
 __declspec(dllimport) LPWSTR __stdcall GetCommandLineW(VOID);
+#define ATTACH_PARENT_PROCESS ((DWORD)-1)
+
 __declspec(dllimport) BOOL __stdcall AllocConsole(VOID);
 __declspec(dllimport) BOOL __stdcall FreeConsole(VOID);
+__declspec(dllimport) BOOL __stdcall AttachConsole(DWORD);
 __declspec(dllimport) HWND __stdcall GetConsoleWindow(VOID);
 __declspec(dllimport) BOOL __stdcall SetConsoleTitleW(LPCWSTR);
 __declspec(dllimport) HANDLE __stdcall GetStdHandle(DWORD);
@@ -848,6 +852,8 @@ static volatile LONG g_installing;
 static volatile LONG g_shortcut_busy;
 static volatile LONG g_model_fetch_busy;
 static volatile LONG g_model_gateway_protocol_state; /* 0 unknown, 1 compatible, 2 incompatible */
+static volatile LONG g_model_discovery_pending;    /* coalesce input events into a delayed probe */
+static ULONG_PTR g_model_discovery_timer;          /* Win32 timer used to debounce the probe */
 static WCHAR g_model_status[512];
 static WCHAR g_model_fetch_base[2048];
 static WCHAR g_model_fetch_secret[4096];
@@ -1721,6 +1727,13 @@ static int load_credentials_to_environment(void) {
             memcpy(value,cred->CredentialBlob,chars*2); value[chars]=0;
             if(SetEnvironmentVariableW(name,value)) { if(g_loaded_credential_names[0])wcat(g_loaded_credential_names,4096,L";");wcat(g_loaded_credential_names,4096,name);count++; }
             secure_zero_w(value,4096); CredFree(cred);
+        } else if(cred) {
+            /* If a credential name is registered but the underlying secret is
+               missing (e.g. the user cleaned Credential Manager), surface that
+               rather than silently skipping — otherwise stale env names hide
+               the real cause of "credential not found" failures. */
+            append_log_raw(L"[WARN] 已注册凭据缺失，请重新保存："); append_log(name);
+            CredFree(cred);
         }
     }
     secure_zero_w(names,4096); return count;
@@ -1748,11 +1761,19 @@ static BOOL extract_launcher_argument(LPCWSTR flag, LPWSTR out, unsigned int cap
 
 static DWORD run_unified_console_launcher(BOOL with_claude, LPCWSTR project) {
     STARTUPINFOW si; PROCESS_INFORMATION pi; WCHAR app[4096], cmd[32768], desc[256]; DWORD code=1; HWND console;
+    BOOL allocated_console=FALSE;
     if(!project||!project[0])return 2;
     if(!load_apis())return 3;
     g_instance=(HINSTANCE)GetModuleHandleW(0); load_config();
     SetCurrentProcessExplicitAppUserModelID(with_claude?L"Fongap.ClaudeCodeManager.ClaudeRuntime":L"Fongap.ClaudeCodeManager.Terminal");
-    if(!AllocConsole())return 4;
+    /* Attach to the parent console when one already exists (most common:
+       launched from a terminal by hand) so we don't allocate a fresh window
+       that the user never asked for. Only allocate a new console when the
+       parent really has none. */
+    if(!AttachConsole(ATTACH_PARENT_PROCESS)) {
+        if(!AllocConsole())return 4;
+        allocated_console=TRUE;
+    }
     SetConsoleCP(CP_UTF8); SetConsoleOutputCP(CP_UTF8);
     SetConsoleTitleW(with_claude?L"Claude Code":L"Claude Code Terminal");
     console=GetConsoleWindow();
@@ -1762,18 +1783,25 @@ static DWORD run_unified_console_launcher(BOOL with_claude, LPCWSTR project) {
     si.hStdInput=GetStdHandle(STD_INPUT_HANDLE);si.hStdOutput=GetStdHandle(STD_OUTPUT_HANDLE);si.hStdError=GetStdHandle(STD_ERROR_HANDLE);
     app[0]=0;cmd[0]=0;
     if(with_claude) {
-        if(!locate_claude(app,4096)){MessageBoxW(0,L"未找到 claude.exe，请先通过 Claude Code Manager 安装。",L"Claude Code",MB_ICONERROR);FreeConsole();return 5;}
+        if(!locate_claude(app,4096)){MessageBoxW(0,L"未找到 claude.exe，请先通过 Claude Code Manager 安装。",L"Claude Code",MB_ICONERROR);if(allocated_console)FreeConsole();return 5;}
         wcat(cmd,32768,L"\"");wcat(cmd,32768,app);wcat(cmd,32768,L"\"");
         resolve_effective_proxy(g_effective_proxy,1024,desc,256);set_proxy_environment(g_effective_proxy);load_credentials_to_environment();
     } else {
         GetEnvironmentVariableW(L"ComSpec",app,4096);if(!app[0])wcopy(app,4096,L"C:\\Windows\\System32\\cmd.exe");
         wcat(cmd,32768,L"\"");wcat(cmd,32768,app);wcat(cmd,32768,L"\" /d /k");
     }
-    if(CreateProcessW(app,cmd,0,0,TRUE,CREATE_UNICODE_ENVIRONMENT,0,project,&si,&pi)) {
+    /* CREATE_NEW_PROCESS_GROUP so Ctrl-C inside the console is routed to the
+       child (claude / cmd) rather than the launcher, which would leave the
+       launcher stuck in WaitForSingleObject. */
+    if(CreateProcessW(app,cmd,0,0,TRUE,CREATE_NEW_PROCESS_GROUP|CREATE_UNICODE_ENVIRONMENT,0,project,&si,&pi)) {
         CloseHandle(pi.hThread);WaitForSingleObject(pi.hProcess,INFINITE);GetExitCodeProcess(pi.hProcess,&code);CloseHandle(pi.hProcess);
     } else {code=GetLastError();MessageBoxW(0,with_claude?L"无法启动 Claude Code。":L"无法打开终端。",L"Claude Code Manager",MB_ICONERROR);}
     if(with_claude){clear_loaded_credentials();set_proxy_environment(0);secure_zero_w(g_effective_proxy,1024);}
-    FreeConsole();return code;
+    /* FreeConsole detaches us from the attached parent terminal too. Only
+       release consoles we actually allocated, so we never tear down the
+       terminal that launched us. */
+    if(allocated_console) FreeConsole();
+    return code;
 }
 
 static void launch_in_console(BOOL with_claude) {
@@ -2347,8 +2375,17 @@ static void build_anthropic_messages_url(LPCWSTR base,LPWSTR out,unsigned int ca
     if(wends_ci(out,L"/v1"))wcat(out,cap,L"/messages");else wcat(out,cap,L"/v1/messages");
 }
 
+/*
+ * Anthropic Messages 兼容性探活：发送合法的最小请求体，避免 OpenAI 风格网关
+ * 对 "{}" 返回 401 误判为鉴权失败。max_tokens=1 + 单字符 prompt 是 Anthropic
+ * 官方推荐的轻量级探测方式，不会触发任何实质性推理。
+ */
+static const char ccm_probe_body[] =
+    "{\"max_tokens\":1,\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}]}";
+#define CCM_PROBE_BODY_LEN (int)(sizeof(ccm_probe_body) - 1)
+
 static BOOL http_probe_anthropic_messages(LPCWSTR url,LPCWSTR token,LPCWSTR proxy,DWORD *status,DWORD *error) {
-    static char body[]="{}";WCHAR host[1024],path[4096],proxy_norm[1024],headers[12288];INTERNET_PORT port;BOOL secure;HINTERNET session=0,connect=0,request=0;DWORD sz=sizeof(DWORD),idx=0;BOOL ok=FALSE;
+    WCHAR host[1024],path[4096],proxy_norm[1024],headers[12288];INTERNET_PORT port;BOOL secure;HINTERNET session=0,connect=0,request=0;DWORD sz=sizeof(DWORD),idx=0;BOOL ok=FALSE;
     *status=0;*error=0;if(!url_parse_basic(url,host,1024,path,4096,&port,&secure)){*error=87;return FALSE;}
     normalize_proxy_for_winhttp(proxy,proxy_norm,1024);
     session=WinHttpOpen(L"ClaudeCodeManager/1.0",proxy_norm[0]?WINHTTP_ACCESS_TYPE_NAMED_PROXY:WINHTTP_ACCESS_TYPE_NO_PROXY,proxy_norm[0]?proxy_norm:0,0,0);
@@ -2358,7 +2395,7 @@ static BOOL http_probe_anthropic_messages(LPCWSTR url,LPCWSTR token,LPCWSTR prox
     headers[0]=0;wcat(headers,12288,L"Content-Type: application/json\r\nanthropic-version: 2023-06-01\r\n");
     if(token&&token[0]){wcat(headers,12288,L"Authorization: Bearer ");wcat(headers,12288,token);wcat(headers,12288,L"\r\nx-api-key: ");wcat(headers,12288,token);wcat(headers,12288,L"\r\nx-gateway-access-key: ");wcat(headers,12288,token);wcat(headers,12288,L"\r\n");}
     WinHttpAddRequestHeaders(request,headers,(DWORD)-1,WINHTTP_ADDREQ_FLAG_ADD|WINHTTP_ADDREQ_FLAG_REPLACE);secure_zero_w(headers,12288);
-    if(!WinHttpSendRequest(request,0,0,body,2,2,0)){*error=GetLastError();goto done;}if(!WinHttpReceiveResponse(request,0)){*error=GetLastError();goto done;}
+    if(!WinHttpSendRequest(request,0,(DWORD)-1,(PVOID)ccm_probe_body,CCM_PROBE_BODY_LEN,CCM_PROBE_BODY_LEN,0)){*error=GetLastError();goto done;}if(!WinHttpReceiveResponse(request,0)){*error=GetLastError();goto done;}
     if(!WinHttpQueryHeaders(request,WINHTTP_QUERY_STATUS_CODE|WINHTTP_QUERY_FLAG_NUMBER,0,status,&sz,&idx)){*error=GetLastError();goto done;}ok=TRUE;
 done:
     if(request)WinHttpCloseHandle(request);if(connect)WinHttpCloseHandle(connect);if(session)WinHttpCloseHandle(session);secure_zero_w(proxy_norm,1024);return ok;
@@ -2519,6 +2556,8 @@ static DWORD __stdcall update_thread(PVOID unused) {
     if(!locate_claude(g_claude_exe,4096)) {
         append_log(L"[WARN] 未检测到 Claude Code，将切换到首次安装流程。");
         set_busy(FALSE);
+        set_proxy_environment(0); /* clean any env from a partial resolve */
+        secure_zero_w(g_effective_proxy,1024);
         return install_thread(0);
     }
     pGetWindowTextW(g_proxy,g_cfg_proxy,1024);
@@ -2898,7 +2937,7 @@ static void append_context_budget_summary(void) {
 }
 
 static DWORD __stdcall model_discovery_thread(PVOID unused) {
-    WCHAR base[2048],messages_url[4096],url1[4096],url2[4096],proxy[1024],desc[256],num[32];DWORD status=0,error=0,len=0;int attempt;BOOL reachable=FALSE,authfail=FALSE;(void)unused;
+    WCHAR base[2048],messages_url[4096],url1[4096],url2[4096],proxy[1024],desc[256],num[32];DWORD status=0,error=0,len=0;int attempt;BOOL reachable=FALSE,authfail=FALSE,compatible=FALSE;(void)unused;
     g_model_gateway_protocol_state=0;
     wcopy(base,2048,g_model_fetch_base);while(wlen(base)>0&&base[wlen(base)-1]==L'/')base[wlen(base)-1]=0;
     if(wlen(base)>=3&&weq_ci(base+wlen(base)-3,L"/v1")){wcopy(url1,4096,base);wcat(url1,4096,L"/models");url2[0]=0;}else{wcopy(url1,4096,base);wcat(url1,4096,L"/v1/models");wcopy(url2,4096,base);wcat(url2,4096,L"/models");}
@@ -2910,28 +2949,45 @@ static DWORD __stdcall model_discovery_thread(PVOID unused) {
     reachable=TRUE;
     if(status==401||status==403){authfail=TRUE;wcopy(g_model_status,512,L"Messages 接口已响应，但访问密钥未通过验证。");append_log(L"[ERROR] Anthropic Messages 接口拒绝了访问密钥。");goto done;}
     if(status==404||status==405){g_model_gateway_protocol_state=2;wcopy(g_model_status,512,L"不兼容 Claude Code：服务器缺少 Anthropic /v1/messages 接口。");append_log(L"[ERROR] 服务器可列模型但不提供 Anthropic Messages 接口，不能用于原生 Claude Code。");goto done;}
-    g_model_gateway_protocol_state=1;
+    if(status>=200&&status<300){compatible=TRUE;g_model_gateway_protocol_state=1;}
+    else{g_model_gateway_protocol_state=1;append_log_raw(L"[WARN] Messages 接口返回非预期状态码，已继续读取模型列表：");uint_to_wstr(status,num,32);append_log(num);}
     for(attempt=0;attempt<2;attempt++){
         LPCWSTR url=attempt==0?url1:url2;if(!url[0])continue;status=error=len=0;
-        if(http_get_bytes(url,g_model_fetch_secret,proxy,g_http_bytes,sizeof(g_http_bytes),&len,&status,&error)){reachable=TRUE;if(status==401||status==403){authfail=TRUE;continue;}if(status>=200&&status<300){parse_models_from_http(g_http_bytes,len);if(g_model_count>0){populate_model_combos();uint_to_wstr((unsigned int)g_model_count,num,32);wcopy(g_model_status,512,L"Messages 兼容 · 已获取 ");wcat(g_model_status,512,num);wcat(g_model_status,512,L" 个模型。");append_log_raw(L"[OK] Anthropic Messages 接口兼容，已获取 ");append_log_raw(num);append_log(L" 个模型。");goto done;}}}
+        if(http_get_bytes(url,g_model_fetch_secret,proxy,g_http_bytes,sizeof(g_http_bytes),&len,&status,&error)){reachable=TRUE;if(status==401||status==403){authfail=TRUE;continue;}if(status>=200&&status<300){parse_models_from_http(g_http_bytes,len);if(g_model_count>0){populate_model_combos();uint_to_wstr((unsigned int)g_model_count,num,32);wcopy(g_model_status,512,compatible?L"Messages 兼容 · 已获取 ":L"已获取 ");wcat(g_model_status,512,num);wcat(g_model_status,512,L" 个模型。");append_log_raw(L"[OK] ");append_log_raw(compatible?L"Anthropic Messages 接口兼容，已获取 ":L"已获取 ");append_log_raw(num);append_log(L" 个模型。");goto done;}}}
     }
     if(authfail){wcopy(g_model_status,512,L"服务器已响应，但访问密钥未通过验证。");append_log(L"[ERROR] 模型连接测试失败：访问密钥未通过验证。");}
-    else if(g_model_gateway_protocol_state==1){wcopy(g_model_status,512,L"Messages 接口兼容，但没有返回模型列表；可手动填写模型 ID。");append_log(L"[WARN] Anthropic Messages 接口兼容，但未获取到模型列表。");}
+    else if(compatible){wcopy(g_model_status,512,L"Messages 接口兼容，但没有返回模型列表；可手动填写模型 ID。");append_log(L"[WARN] Anthropic Messages 接口兼容，但未获取到模型列表。");}
     else if(reachable){wcopy(g_model_status,512,L"服务器可以连接，但没有返回可识别的模型列表；可手动填写模型 ID。");append_log(L"[WARN] 服务器可连接，但未获取到模型列表。");}
     else{wcopy(g_model_status,512,L"无法连接服务器，请检查地址、网络环境和代理设置。");uint_to_wstr(error,num,32);append_log_raw(L"[ERROR] 模型连接测试失败，网络错误：");append_log(num);}
 done:
-    secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);InvalidateRect(g_wizard,0,FALSE);return (g_model_gateway_protocol_state==1&&!authfail)?0:(authfail?3:(reachable?2:(error?error:4)));
+    secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);InvalidateRect(g_wizard,0,FALSE);return (compatible&&!authfail)?0:(authfail?3:(reachable?2:(error?error:4)));
 }
 
 static void start_model_discovery(BOOL notify_missing) {
-    HANDLE th; DWORD tid; int provider;
     if(g_model_fetch_busy||!g_wizard) return;
-    provider=(int)pSendMessageW(g_wiz_provider,CB_GETCURSEL,0,0);
-    if(provider!=1) {wcopy(g_model_status,512,L"自动获取模型仅用于第三方或自建网关。");InvalidateRect(g_wizard,0,FALSE);return;}
-    g_model_gateway_protocol_state=0;g_model_fetch_base[0]=g_model_fetch_secret[0]=0;pGetWindowTextW(g_wiz_base_url,g_model_fetch_base,2048);pGetWindowTextW(g_wiz_secret,g_model_fetch_secret,4096);
-    if(!g_model_fetch_base[0]||!g_model_fetch_secret[0]) {wcopy(g_model_status,512,L"请先填写服务器地址和访问密钥。");InvalidateRect(g_wizard,0,FALSE);if(notify_missing)pMessageBoxW(g_wizard,L"请先填写服务器地址和访问密钥，再测试连接。",L"还差一步",MB_ICONWARNING);secure_zero_w(g_model_fetch_secret,4096);return;}
-    g_model_fetch_busy=1;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,FALSE);wcopy(g_model_status,512,L"正在测试连接并刷新模型列表……");InvalidateRect(g_wizard,0,FALSE);append_log(L"[INFO] 正在测试第三方模型接口并获取模型列表……");
-    th=CreateThread(0,0,model_discovery_thread,0,0,&tid);if(th)CloseHandle(th);else{g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);secure_zero_w(g_model_fetch_secret,4096);wcopy(g_model_status,512,L"无法启动模型刷新线程。");InvalidateRect(g_wizard,0,FALSE);}
+    /* Coalesce all but the explicit button press into a 400 ms debounce window
+       so that input changes do not fire a probe for every keystroke / focus move. */
+    if(!notify_missing) {
+        g_model_discovery_pending = 1;
+        if(g_model_discovery_timer) return; /* already armed, wait for the tick */
+        g_model_discovery_timer = SetTimer(g_wizard, (UINT_PTR)0xC0DE, 400, 0);
+        if(!g_model_discovery_timer) {
+            g_model_discovery_pending = 0; /* timer unavailable, fall through to immediate */
+        } else {
+            return;
+        }
+    }
+    {
+        HANDLE th; DWORD tid; int provider;
+        g_model_discovery_pending = 0;
+        if(g_model_discovery_timer) { KillTimer(g_wizard, g_model_discovery_timer); g_model_discovery_timer = 0; }
+        provider=(int)pSendMessageW(g_wiz_provider,CB_GETCURSEL,0,0);
+        if(provider!=1) {wcopy(g_model_status,512,L"自动获取模型仅用于第三方或自建网关。");InvalidateRect(g_wizard,0,FALSE);return;}
+        g_model_gateway_protocol_state=0;g_model_fetch_base[0]=g_model_fetch_secret[0]=0;pGetWindowTextW(g_wiz_base_url,g_model_fetch_base,2048);pGetWindowTextW(g_wiz_secret,g_model_fetch_secret,4096);
+        if(!g_model_fetch_base[0]||!g_model_fetch_secret[0]) {wcopy(g_model_status,512,L"请先填写服务器地址和访问密钥。");InvalidateRect(g_wizard,0,FALSE);if(notify_missing)pMessageBoxW(g_wizard,L"请先填写服务器地址和访问密钥，再测试连接。",L"还差一步",MB_ICONWARNING);secure_zero_w(g_model_fetch_secret,4096);return;}
+        g_model_fetch_busy=1;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,FALSE);wcopy(g_model_status,512,L"正在测试连接并刷新模型列表……");InvalidateRect(g_wizard,0,FALSE);append_log(L"[INFO] 正在测试第三方模型接口并获取模型列表……");
+        th=CreateThread(0,0,model_discovery_thread,0,0,&tid);if(th)CloseHandle(th);else{g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);secure_zero_w(g_model_fetch_secret,4096);wcopy(g_model_status,512,L"无法启动模型刷新线程。");InvalidateRect(g_wizard,0,FALSE);}
+    }
 }
 
 static BOOL wizard_target_from_scope(int scope, LPWSTR out, unsigned int cap) {
@@ -2977,6 +3033,13 @@ static void wizard_apply_recommended(void) {
 }
 
 static void wizard_hide(void) {
+    /* Cancel any pending debounce so the wizard does not fire a probe after
+       the user closed it (avoids surprising network activity). */
+    if(g_model_discovery_timer && g_wizard) {
+        KillTimer(g_wizard, g_model_discovery_timer);
+        g_model_discovery_timer = 0;
+    }
+    g_model_discovery_pending = 0;
     if(g_wiz_secret) pSetWindowTextW(g_wiz_secret,L"");
     if(g_wizard) pShowWindow(g_wizard,SW_HIDE);
     if(g_main) pEnableWindow(g_main,TRUE);
@@ -2994,6 +3057,12 @@ static void wizard_save(void) {
     pGetWindowTextW(g_wiz_base_url,base,2048); pGetWindowTextW(g_wiz_secret,secret,4096); pGetWindowTextW(g_wiz_default_model,defm,1024); pGetWindowTextW(g_wiz_opus_model,opus,1024); pGetWindowTextW(g_wiz_sonnet_model,sonnet,1024); pGetWindowTextW(g_wiz_haiku_model,haiku,1024); pGetWindowTextW(g_wiz_subagent_model,subagent,1024);
     if(provider==1 && !base[0]) { pMessageBoxW(g_wizard,L"请填写网关或第三方接口地址。\r\n\r\n示例：https://gateway.example.com",L"还差一步",MB_ICONWARNING); return; }
     if(provider==1 && !url_parse_basic(base,parsed_host,1024,parsed_path,4096,&parsed_port,&parsed_secure)) { pMessageBoxW(g_wizard,L"服务器地址无效。请填写以 http:// 或 https:// 开头的完整地址。",L"地址格式不正确",MB_ICONWARNING); return; }
+    if(provider==1 && wfind_ci(base, L"@") >= 0 &&
+       wfind_ci(base, L"@") > wfind_ci(base, L"://")) {  // '@' appears after scheme://
+        pMessageBoxW(g_wizard, L"服务器地址不应包含用户名或密码片段。\r\n\r\n请只填写 https://host[:port] 形式，访问密钥在下方单独填写。",
+                     L"地址格式不正确", MB_ICONWARNING);
+        return;
+    }
     if(provider==1 && g_model_gateway_protocol_state==2) { pMessageBoxW(g_wizard,L"该服务器可以列出模型，但缺少 Claude Code 必需的 Anthropic /v1/messages 接口。\r\n\r\n请改用 Anthropic Messages 兼容网关或自托管 NIM。",L"接口不兼容",MB_ICONERROR); return; }
     if(provider==1 && g_model_gateway_protocol_state==0 && pMessageBoxW(g_wizard,L"尚未确认服务器是否兼容 Anthropic Messages。\r\n\r\n建议先点击“测试并获取模型”。仍要保存吗？",L"兼容性尚未验证",MB_YESNO|MB_ICONWARNING)!=IDYES) return;
     if(!defm[0] && !opus[0] && !sonnet[0] && !haiku[0] && !subagent[0]) { pMessageBoxW(g_wizard,L"请至少选择或填写一个模型。\r\n\r\n通常只设置“主力模型”即可。",L"还差一步",MB_ICONWARNING); return; }
@@ -3005,8 +3074,11 @@ static void wizard_save(void) {
     secret_name[0]=0;g_pending_active_credential_names[0]=0;
     if(provider==1 && secret[0]) wcopy(secret_name,128,L"ANTHROPIC_AUTH_TOKEN");
     else if(provider==0 && secret[0]) wcopy(secret_name,128,L"ANTHROPIC_API_KEY");
-    if(provider==0)wcopy(g_pending_active_credential_names,512,secret_name[0]?secret_name:L"-");
-    else if(provider==1)wcopy(g_pending_active_credential_names,512,secret_name[0]?secret_name:L"-");
+    /* The provider-2 ("only configure models") path must clear any active
+       credentials so that previous gateway bearer tokens do not leak into
+       a Claude Code session that uses the official endpoint. */
+    if(provider==2) wcopy(g_pending_active_credential_names,512,L"-");
+    else wcopy(g_pending_active_credential_names,512,secret_name[0]?secret_name:L"-");
     effort[0]=0; if(eff==0)wcopy(effort,64,L"low"); else if(eff==1)wcopy(effort,64,L"medium"); else if(eff==3)wcopy(effort,64,L"xhigh"); else wcopy(effort,64,L"high");
     g_model_json[0]=0; wcat(g_model_json,32768,L"{\r\n");
     json_add_pair(g_model_json,32768,L"$schema",L"https://json.schemastore.org/claude-code-settings.json",&first,2);
@@ -3160,6 +3232,19 @@ static LRESULT __stdcall wizard_wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM l
             return 0;
         }
         case WM_ERASEBKGND: return 1;
+        case WM_TIMER:
+            /* Debounce timer for input-driven model discovery. Only fire while
+               a probe is pending and not already in flight. */
+            if(g_model_discovery_timer && wp == g_model_discovery_timer) {
+                KillTimer(hwnd, g_model_discovery_timer);
+                g_model_discovery_timer = 0;
+                if(g_model_discovery_pending && !g_model_fetch_busy) {
+                    g_model_discovery_pending = 0;
+                    start_model_discovery(TRUE);
+                }
+                return 0;
+            }
+            break;
         case WM_DRAWITEM: { DRAWITEMSTRUCT *di=(DRAWITEMSTRUCT*)lp; if(di&&di->CtlType==ODT_BUTTON){draw_button(di);return TRUE;} return FALSE; }
         case WM_CTLCOLOREDIT: { HDC dc=(HDC)wp; SetTextColor(dc,rgb(35,35,38)); SetBkColor(dc,rgb(247,247,249)); return (LRESULT)g_br_input; }
         case WM_CTLCOLORLISTBOX: { HDC dc=(HDC)wp; SetTextColor(dc,rgb(35,35,38)); SetBkColor(dc,rgb(255,255,255)); return (LRESULT)g_br_card; }
@@ -3343,6 +3428,9 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             startup_log_write("WM_CREATE begin\r\n");
             g_main=hwnd;
             if(pGetDpiForWindow){UINT dpi=pGetDpiForWindow(hwnd);if(dpi>=96&&dpi<=480)g_main_dpi=(int)dpi;}g_dpi=g_main_dpi;
+            /* Defer child control creation until after the window is sized,
+               so first paint happens with real WM_SIZE values and avoids a
+               flash of unsized/zero-size controls at spawn. */
             create_fonts();
             g_br_bg=CreateSolidBrush(rgb(245,245,247)); g_br_card=CreateSolidBrush(rgb(255,255,255)); g_br_input=CreateSolidBrush(rgb(247,247,249)); g_br_log=CreateSolidBrush(rgb(28,28,30));
             startup_log_write("WM_CREATE fonts and brushes ready\r\n");
@@ -3374,7 +3462,10 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             append_log(L"欢迎使用 Claude Code Manager 1.0");
             append_log(g_claude_installed?L"Claude Code 已安装；可选择项目直接启动，或打开模型配置向导。":L"首次使用：先安装 Claude Code，再打开“模型配置向导”，最后选择项目启动。");
             append_log(L"不清楚的网络选项保持“自动检测”即可。");
-            if (g_cfg_shortcut[0] != L'1') start_shortcut(FALSE);
+            /* Desktop shortcut creation is now opt-in (button in the main
+               window). Creating it silently on first launch can trip Windows
+               SmartScreen prompts and confuse users about where the icon came
+               from. */
             startup_log_write("WM_CREATE complete\r\n");
             return 0;
         }
@@ -3404,8 +3495,12 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             if(g_log) layout_controls(width,height);
             InvalidateRect(hwnd,0,FALSE); return 0;
         }
-        case WM_PAINT: g_dpi=g_main_dpi;paint_main(hwnd); return 0;
-        case WM_ERASEBKGND: return 1;
+        case WM_PAINT: g_dpi=g_main_dpi; paint_main(hwnd); return 0;
+        case WM_ERASEBKGND: return 1; /* suppress background erase to kill flicker */
+        case WM_PRINTCLIENT: { /* respond cleanly to redraw requests (e.g. on DPI change) */
+            if(!g_log) { RECT c; GetClientRect(hwnd,&c); layout_controls(c.right-c.left,c.bottom-c.top); }
+            break;
+        }
         case WM_TIMER:
             if(wp==1&&g_installing)InvalidateRect(hwnd,0,FALSE);
             return 0;
