@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-08-11T23:59:20.739954Z",
+  "source_file": "adfilter.txt",
+  "version": "260507",
+  "updated": "07 May 2026 16:01 UTC",
+  "expires": "5 days",
+  "counts": {
+    "total": 144667,
+    "network_filters": 88063,
+    "element_hiding": 46867,
+    "exceptions": 9737
+  }
+}
