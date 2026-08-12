@@ -380,7 +380,9 @@ typedef struct tagINITCOMMONCONTROLSEX {
 #define WM_PRINTCLIENT 0x0318
 #define WM_SETTINGCHANGE 0x001A
 #define WM_USER 0x0400
+#define WM_APP 0x8000
 #define WM_DISPLAYCHANGE 0x007E
+#define STGM_READ 0x00000000
 #define EM_SETSEL 0x00B1
 #define EM_REPLACESEL 0x00C2
 #define EM_SCROLLCARET 0x00B7
@@ -405,6 +407,10 @@ typedef struct tagINITCOMMONCONTROLSEX {
 #define LBN_DBLCLK 2
 #define BN_CLICKED 0
 #define PBM_SETMARQUEE (WM_USER + 10)
+
+/* Custom messages for thread-to-GUI communication */
+#define WM_APP_NETWORK_TEST_COMPLETE  (WM_APP + 1)
+#define WM_APP_MODEL_DISCOVERY_COMPLETE (WM_APP + 2)
 
 #define WS_OVERLAPPED 0x00000000UL
 #define WS_CAPTION 0x00C00000UL
@@ -631,6 +637,7 @@ typedef LRESULT (__stdcall *DispatchMessageW_t)(const MSG*);
 typedef LRESULT (__stdcall *DefWindowProcW_t)(HWND,UINT,WPARAM,LPARAM);
 typedef VOID (__stdcall *PostQuitMessage_t)(int);
 typedef LRESULT (__stdcall *SendMessageW_t)(HWND,UINT,WPARAM,LPARAM);
+typedef BOOL (__stdcall *PostMessageW_t)(HWND,UINT,WPARAM,LPARAM);
 typedef BOOL (__stdcall *SetWindowTextW_t)(HWND,LPCWSTR);
 typedef int (__stdcall *GetWindowTextW_t)(HWND,LPWSTR,int);
 typedef int (__stdcall *GetWindowTextLengthW_t)(HWND);
@@ -667,6 +674,7 @@ __declspec(dllimport) BOOL __stdcall IsDialogMessageW(HWND,MSG*);
 __declspec(dllimport) LRESULT __stdcall DefWindowProcW(HWND,UINT,WPARAM,LPARAM);
 __declspec(dllimport) VOID __stdcall PostQuitMessage(int);
 __declspec(dllimport) LRESULT __stdcall SendMessageW(HWND,UINT,WPARAM,LPARAM);
+__declspec(dllimport) BOOL __stdcall PostMessageW(HWND,UINT,WPARAM,LPARAM);
 __declspec(dllimport) BOOL __stdcall SetWindowTextW(HWND,LPCWSTR);
 __declspec(dllimport) int __stdcall GetWindowTextW(HWND,LPWSTR,int);
 __declspec(dllimport) int __stdcall GetWindowTextLengthW(HWND);
@@ -766,6 +774,7 @@ static DispatchMessageW_t pDispatchMessageW;
 static DefWindowProcW_t pDefWindowProcW;
 static PostQuitMessage_t pPostQuitMessage;
 static SendMessageW_t pSendMessageW;
+static PostMessageW_t pPostMessageW;
 static SetWindowTextW_t pSetWindowTextW;
 static GetWindowTextW_t pGetWindowTextW;
 static GetWindowTextLengthW_t pGetWindowTextLengthW;
@@ -1372,6 +1381,7 @@ static BOOL load_apis(void) {
     pDefWindowProcW = DefWindowProcW;
     pPostQuitMessage = PostQuitMessage;
     pSendMessageW = SendMessageW;
+    pPostMessageW = PostMessageW;
     pSetWindowTextW = SetWindowTextW;
     pGetWindowTextW = GetWindowTextW;
     pGetWindowTextLengthW = GetWindowTextLengthW;
@@ -1644,6 +1654,29 @@ static BOOL write_url_shortcut(LPCWSTR desktop, LPCWSTR exe) {
     if(!WriteFile(h,utf8,(DWORD)(bytes-1),&wrote,0)||wrote!=(DWORD)(bytes-1)){CloseHandle(h);return FALSE;} CloseHandle(h); return TRUE;
 }
 
+static BOOL shortcut_points_to_our_exe(LPCWSTR shortcut_path) {
+    IShellLinkW *link=0;
+    IPersistFile *persist=0;
+    WCHAR target[MAX_PATH];
+    BOOL ok=FALSE;
+    HRESULT hr=CoInitializeEx(0,COINIT_APARTMENTTHREADED);
+    if(hr<0) return FALSE;
+    hr=CoCreateInstance(&CLSID_ShellLink_CCM,0,CLSCTX_INPROC_SERVER,&IID_IShellLinkW_CCM,(PVOID*)&link);
+    if(hr<0 || !link) goto done;
+    hr=link->lpVtbl->QueryInterface(link,&IID_IPersistFile_CCM,(PVOID*)&persist);
+    if(hr<0 || !persist) goto done;
+    hr=persist->lpVtbl->Load(persist,shortcut_path,STGM_READ);
+    if(hr<0) goto done;
+    hr=link->lpVtbl->GetPath(link,target,MAX_PATH,0,0);
+    if(hr<0) goto done;
+    if(weq_ci(target,g_module_path)) ok=TRUE;
+done:
+    if(persist) persist->lpVtbl->Release(persist);
+    if(link) link->lpVtbl->Release(link);
+    CoUninitialize();
+    return ok;
+}
+
 static BOOL create_desktop_shortcut(BOOL notify) {
     HRESULT hr=0;
     IShellLinkW *link=0;
@@ -1658,7 +1691,10 @@ static BOOL create_desktop_shortcut(BOOL notify) {
     if(!desktop_path_resolve(desktop,4096)) { hr=(HRESULT)0x80070003; goto done; }
     wcopy(shortcut,4096,desktop); if(shortcut[wlen(shortcut)-1]!=L'\\') wcat(shortcut,4096,L"\\"); wcat(shortcut,4096,L"ClaudeCodeManager.lnk");
     wcopy(old_shortcut,4096,desktop); if(old_shortcut[wlen(old_shortcut)-1]!=L'\\') wcat(old_shortcut,4096,L"\\"); wcat(old_shortcut,4096,L"Fongap Claude Code.lnk");
-    DeleteFileW(old_shortcut);
+    /* Only delete the old shortcut if it was created by this application */
+    if(GetFileAttributesW(old_shortcut)!=INVALID_FILE_ATTRIBUTES && shortcut_points_to_our_exe(old_shortcut)) {
+        DeleteFileW(old_shortcut);
+    }
     hr=CoInitializeEx(0,COINIT_APARTMENTTHREADED);
     if(hr>=0) com_initialized=TRUE;
     hr=CoCreateInstance(&CLSID_ShellLink_CCM,0,CLSCTX_INPROC_SERVER,&IID_IShellLinkW_CCM,(PVOID*)&link);
@@ -2067,8 +2103,8 @@ static BOOL write_utf8_text_file(LPCWSTR path,LPCWSTR text) {
     CloseHandle(h);return TRUE;
 }
 
-static void json_skip_ws(LPCWSTR text,int *pos){while(text[*pos]==L' '||text[*pos]==L'\t'||text[*pos]==L'\r'||text[*pos]==L'\n')(*pos)++;}
-static int json_new_token(CCM_JSON_TOKEN *tokens,int *count,int type,int start){int idx;if(*count>=CCM_JSON_MAX_TOKENS)return -1;idx=(*count)++;tokens[idx].type=type;tokens[idx].start=start;tokens[idx].end=-1;tokens[idx].size=0;return idx;}
+static void json_skip_ws(LPCWSTR text,int *pos){while(text[*pos]&&(text[*pos]==L' '||text[*pos]==L'\t'||text[*pos]==L'\r'||text[*pos]==L'\n'))(*pos)++;}
+static int json_new_token(CCM_JSON_TOKEN *tokens,int *count,int type,int start){int idx;if(*count>=CCM_JSON_MAX_TOKENS)return -2;idx=(*count)++;tokens[idx].type=type;tokens[idx].start=start;tokens[idx].end=-1;tokens[idx].size=0;return idx;}
 
 static int json_parse_value_native(LPCWSTR text,int *pos,CCM_JSON_TOKEN *tokens,int *count,int depth);
 
@@ -2253,9 +2289,9 @@ static DWORD __stdcall import_thread(PVOID unused) {
     int srcroot=-1,tgtroot=-1;BOOL target_exists,merge;CCM_JSON_OUT out;WCHAR temp[4096],backup[4096],tick[32];DWORD code=0;(void)unused;
     g_import_busy=1;g_import_secret_error=FALSE;set_busy(TRUE);set_status(L"正在导入 settings.json...");append_log(L"");append_log(L"========================================");append_log(L"settings.json 原生安全导入");append_log(L"========================================");
     if(!read_text_file_w(g_import_source,g_json_source_text,sizeof(g_json_source_text)/2)){append_log(L"[ERROR] 无法读取导入文件，或文件过大。");code=10;goto done;}
-    srcroot=json_parse_document_native(g_json_source_text,g_json_source_tokens,&g_json_source_count);if(srcroot<0||g_json_source_tokens[srcroot].type!=CCM_JSON_OBJECT){append_log(L"[ERROR] 导入文件不是有效的 JSON 对象。");code=11;goto done;}
+    srcroot=json_parse_document_native(g_json_source_text,g_json_source_tokens,&g_json_source_count);if(srcroot==-2||(srcroot<0&&srcroot!=-2)){append_log(srcroot==-2?L"[ERROR] 导入文件过大，JSON token 数量超限。":L"[ERROR] 导入文件不是有效的 JSON 对象。");code=11;goto done;}
     target_exists=GetFileAttributesW(g_import_target)!=INVALID_FILE_ATTRIBUTES;merge=weq_ci(g_import_mode,L"Merge");
-    if(target_exists){if(!read_text_file_w(g_import_target,g_json_target_text,sizeof(g_json_target_text)/2)){append_log(L"[ERROR] 无法读取现有目标配置。");code=12;goto done;}tgtroot=json_parse_document_native(g_json_target_text,g_json_target_tokens,&g_json_target_count);if(tgtroot<0||g_json_target_tokens[tgtroot].type!=CCM_JSON_OBJECT){append_log(L"[ERROR] 现有目标配置不是有效的 JSON 对象，未进行覆盖。");code=13;goto done;}}
+    if(target_exists){if(!read_text_file_w(g_import_target,g_json_target_text,sizeof(g_json_target_text)/2)){append_log(L"[ERROR] 无法读取现有目标配置。");code=12;goto done;}tgtroot=json_parse_document_native(g_json_target_text,g_json_target_tokens,&g_json_target_count);if(tgtroot==-2||(tgtroot<0&&tgtroot!=-2)){append_log(tgtroot==-2?L"[ERROR] 现有配置过大，JSON token 数量超限。":L"[ERROR] 现有目标配置不是有效的 JSON 对象，未进行覆盖。");code=13;goto done;}}
     if(!ensure_parent_directory_native(g_import_target)){append_log(L"[ERROR] 无法创建目标 .claude 文件夹。");code=14;goto done;}
     if(target_exists){jout_init(&out,g_json_output_text,sizeof(g_json_output_text)/2);json_write_clean(&out,g_json_target_text,g_json_target_tokens,tgtroot,0);jout_text(&out,L"\r\n");if(!out.ok){append_log(L"[ERROR] 现有配置过大，无法生成安全备份。");code=15;goto done;}wcopy(backup,4096,g_import_target);wcat(backup,4096,L".backup-");uint_to_wstr((unsigned int)GetTickCount64(),tick,32);wcat(backup,4096,tick);if(!write_utf8_text_file(backup,g_json_output_text)){append_log(L"[ERROR] 无法创建导入前备份。");code=16;goto done;}append_log_raw(L"[INFO] 已创建脱敏备份：");append_log(backup);}
     jout_init(&out,g_json_output_text,sizeof(g_json_output_text)/2);if(merge&&target_exists)json_write_merged(&out,g_json_target_text,g_json_target_tokens,tgtroot,g_json_source_text,g_json_source_tokens,srcroot,0);else json_write_clean(&out,g_json_source_text,g_json_source_tokens,srcroot,0);jout_text(&out,L"\r\n");if(!out.ok){append_log(L"[ERROR] 合并后的配置过大。");code=17;goto done;}if(g_import_secret_error){append_log(L"[ERROR] 敏感凭据未能全部保存，配置文件未写入。");code=18;goto done;}
@@ -2404,11 +2440,11 @@ done:
 static BOOL http_status_success(DWORD status){return status>=200&&status<400;}
 
 static void json_unescape_simple(LPCWSTR src, unsigned int start, unsigned int end, LPWSTR out, unsigned int cap) {
-    unsigned int i=start,o=0;while(i<end&&o+1<cap){WCHAR c=src[i++];if(c==L'\\'&&i<end){WCHAR e=src[i++];if(e==L'n')c=L'\n';else if(e==L'r')c=L'\r';else if(e==L't')c=L'\t';else c=e;}out[o++]=c;}out[o]=0;
+    unsigned int i=start,o=0;while(i<end&&o+1<cap){if(!src[i])break;WCHAR c=src[i++];if(c==L'\\'&&i<end){if(!src[i])break;WCHAR e=src[i++];if(e==L'n')c=L'\n';else if(e==L'r')c=L'\r';else if(e==L't')c=L'\t';else c=e;}out[o++]=c;}out[o]=0;
 }
 
 static BOOL json_key_match_at(LPCWSTR text,unsigned int pos,LPCWSTR key,unsigned int *value_start,unsigned int *value_end) {
-    unsigned int i=pos,k=0; if(text[i]!=L'\"')return FALSE;i++;while(key[k]&&text[i]==key[k]){i++;k++;}if(key[k]||text[i]!=L'\"')return FALSE;i++;while(text[i]==L' '||text[i]==L'\t'||text[i]==L'\r'||text[i]==L'\n')i++;if(text[i++]!=L':')return FALSE;while(text[i]==L' '||text[i]==L'\t'||text[i]==L'\r'||text[i]==L'\n')i++;if(text[i++]!=L'\"')return FALSE;*value_start=i;while(text[i]){if(text[i]==L'\\'&&text[i+1]){i+=2;continue;}if(text[i]==L'\"'){*value_end=i;return TRUE;}i++;}return FALSE;
+    unsigned int i=pos,k=0; if(!text[i])return FALSE; if(text[i]!=L'\"')return FALSE;i++;while(key[k]&&text[i]&&text[i]==key[k]){i++;k++;}if(key[k]||!text[i]||text[i]!=L'\"')return FALSE;i++;while(text[i]&&(text[i]==L' '||text[i]==L'\t'||text[i]==L'\r'||text[i]==L'\n'))i++;if(!text[i]||text[i++]!=L':')return FALSE;while(text[i]&&(text[i]==L' '||text[i]==L'\t'||text[i]==L'\r'||text[i]==L'\n'))i++;if(!text[i]||text[i++]!=L'\"')return FALSE;*value_start=i;while(text[i]){if(text[i]==L'\\'&&text[i+1]){i+=2;continue;}if(text[i]==L'\"'){*value_end=i;return TRUE;}i++;}return FALSE;
 }
 
 static BOOL json_unsigned_key_at(LPCWSTR text,unsigned int pos,unsigned int limit,LPCWSTR key,DWORD *value) {
@@ -2440,7 +2476,7 @@ static void parse_models_from_http(BYTE *bytes,DWORD len) {
     for(i=0;g_model_result_text[i];i++){
         if(json_key_match_at(g_model_result_text,i,L"id",&vs,&ve)||json_key_match_at(g_model_result_text,i,L"name",&vs,&ve)){json_unescape_simple(g_model_result_text,vs,ve,id,512);capacity=json_context_capacity_for_object(g_model_result_text,i);if(id[0])model_add_unique(id,capacity);i=ve;}
     }
-    if(g_model_count==0){i=0;while(g_model_result_text[i]&&(g_model_result_text[i]==L' '||g_model_result_text[i]==L'\r'||g_model_result_text[i]==L'\n'||g_model_result_text[i]==L'\t'))i++;if(g_model_result_text[i]==L'['){i++;while(g_model_result_text[i]){while(g_model_result_text[i]&&g_model_result_text[i]!=L'\"'&&g_model_result_text[i]!=L']')i++;if(g_model_result_text[i]==L']')break;vs=++i;while(g_model_result_text[i]){if(g_model_result_text[i]==L'\\'&&g_model_result_text[i+1]){i+=2;continue;}if(g_model_result_text[i]==L'\"')break;i++;}ve=i;json_unescape_simple(g_model_result_text,vs,ve,id,512);if(id[0])model_add_unique(id,0);if(g_model_result_text[i])i++;}}}
+    if(g_model_count==0){i=0;while(g_model_result_text[i]&&(g_model_result_text[i]==L' '||g_model_result_text[i]==L'\r'||g_model_result_text[i]==L'\n'||g_model_result_text[i]==L'\t'))i++;if(g_model_result_text[i]==L'['){i++;while(g_model_result_text[i]){while(g_model_result_text[i]&&g_model_result_text[i]!=L'\"'&&g_model_result_text[i]!=L']')i++;if(!g_model_result_text[i])break;if(g_model_result_text[i]==L']')break;vs=++i;while(g_model_result_text[i]){if(g_model_result_text[i]==L'\\'&&g_model_result_text[i+1]){i+=2;continue;}if(g_model_result_text[i]==L'\"')break;i++;}ve=i;json_unescape_simple(g_model_result_text,vs,ve,id,512);if(id[0])model_add_unique(id,0);if(g_model_result_text[i])i++;}}}
 }
 
 static DWORD __stdcall network_test_thread(PVOID unused) {
@@ -2452,7 +2488,11 @@ static DWORD __stdcall network_test_thread(PVOID unused) {
     }else{
         wcopy(g_network_status,512,L"连接失败 · ");wcat(g_network_status,512,desc);if(status){uint_to_wstr(status,errtxt,32);append_log_raw(L"[ERROR] HTTP 状态码：");append_log(errtxt);}else{uint_to_wstr(error,errtxt,32);append_log_raw(L"[ERROR] 网络错误：");append_log(errtxt);}set_status(L"网络连接失败");
     }
-    secure_zero_w(g_effective_proxy,1024);g_network_busy=0;if(g_test_network)pEnableWindow(g_test_network,TRUE);InvalidateRect(g_main,0,FALSE);return error?error:status;
+    secure_zero_w(g_effective_proxy,1024);
+    g_network_busy=0;
+    /* Post completion message to main thread for UI updates */
+    if(g_main) pPostMessageW(g_main, WM_APP_NETWORK_TEST_COMPLETE, (WPARAM)(error?error:status), 0);
+    return error?error:status;
 }
 
 static void start_network_test(void){
@@ -2960,7 +3000,13 @@ static DWORD __stdcall model_discovery_thread(PVOID unused) {
     else if(reachable){wcopy(g_model_status,512,L"服务器可以连接，但没有返回可识别的模型列表；可手动填写模型 ID。");append_log(L"[WARN] 服务器可连接，但未获取到模型列表。");}
     else{wcopy(g_model_status,512,L"无法连接服务器，请检查地址、网络环境和代理设置。");uint_to_wstr(error,num,32);append_log_raw(L"[ERROR] 模型连接测试失败，网络错误：");append_log(num);}
 done:
-    secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;if(g_wiz_test_models)pEnableWindow(g_wiz_test_models,TRUE);InvalidateRect(g_wizard,0,FALSE);return (compatible&&!authfail)?0:(authfail?3:(reachable?2:(error?error:4)));
+    secure_zero_w(g_model_fetch_secret,4096);secure_zero_w(proxy,1024);g_model_fetch_busy=0;
+    /* Post completion message to wizard thread for UI updates */
+    if(g_wizard) {
+        WPARAM wparam = (compatible && !authfail) ? 0 : (authfail ? 3 : (reachable ? 2 : (error ? error : 4)));
+        pPostMessageW(g_wizard, WM_APP_MODEL_DISCOVERY_COMPLETE, wparam, 0);
+    }
+    return (compatible&&!authfail)?0:(authfail?3:(reachable?2:(error?error:4)));
 }
 
 static void start_model_discovery(BOOL notify_missing) {
@@ -3245,6 +3291,12 @@ static LRESULT __stdcall wizard_wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM l
                 return 0;
             }
             break;
+        case WM_APP_MODEL_DISCOVERY_COMPLETE: {
+            /* Re-enable test button and repaint on GUI thread */
+            if(g_wiz_test_models) pEnableWindow(g_wiz_test_models, TRUE);
+            InvalidateRect(hwnd, 0, FALSE);
+            return 0;
+        }
         case WM_DRAWITEM: { DRAWITEMSTRUCT *di=(DRAWITEMSTRUCT*)lp; if(di&&di->CtlType==ODT_BUTTON){draw_button(di);return TRUE;} return FALSE; }
         case WM_CTLCOLOREDIT: { HDC dc=(HDC)wp; SetTextColor(dc,rgb(35,35,38)); SetBkColor(dc,rgb(247,247,249)); return (LRESULT)g_br_input; }
         case WM_CTLCOLORLISTBOX: { HDC dc=(HDC)wp; SetTextColor(dc,rgb(35,35,38)); SetBkColor(dc,rgb(255,255,255)); return (LRESULT)g_br_card; }
@@ -3504,6 +3556,12 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         case WM_TIMER:
             if(wp==1&&g_installing)InvalidateRect(hwnd,0,FALSE);
             return 0;
+        case WM_APP_NETWORK_TEST_COMPLETE: {
+            /* Re-enable test button and repaint on GUI thread */
+            if(g_test_network) pEnableWindow(g_test_network, TRUE);
+            InvalidateRect(hwnd, 0, FALSE);
+            return 0;
+        }
         case WM_MEASUREITEM: {
             MEASUREITEMSTRUCT *mi=(MEASUREITEMSTRUCT*)lp;
             g_dpi=g_main_dpi;if(mi && mi->CtlID==IDC_PROJECTS){mi->itemHeight=sc(34); return TRUE;} return FALSE;
