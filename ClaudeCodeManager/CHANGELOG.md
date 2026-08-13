@@ -1,11 +1,20 @@
 # Changelog
 
+## 1.2.1 - 2026-08-13
+
+### UI 与术语
+
+- 中文界面、提示和说明统一使用“多智能体”；首次说明写作“多智能体（Agent Teams）”，
+  底层 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` 环境变量保持不变。
+- 右侧操作区固定为三行两列：检查更新/桌面快捷、导入配置/打开配置、模型配置/多智能体。
+- 用户级 `CLAUDE.md` 托管规则同步采用“多智能体”“主智能体”“单智能体”等统一称谓。
+
 ## 1.2.0 - 2026-08-13
 
-### Agent Teams
+### 多智能体
 
-- 主窗口新增当前 Windows 用户级 `Agent Teams（全局）` 开关，同时管理
-  `~/.claude/settings.json` 实验环境变量和 `~/.claude/CLAUDE.md` 多 Agent 规则。
+- 主窗口新增当前 Windows 用户级 `多智能体` 开关，同时管理
+  `~/.claude/settings.json` 实验环境变量和 `~/.claude/CLAUDE.md` 多智能体规则。
 - settings 更新只定向修改 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`，保留其他顶层及
   `env` 字段；CLAUDE.md 只增删唯一标记托管区块。
 - 首次启用会记录目标变量的原始 JSON 值；停用时仅在当前仍为 Manager 写入的 `"1"`

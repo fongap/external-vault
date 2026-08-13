@@ -59,9 +59,9 @@ void ___chkstk_ms(unsigned long long size) {
 #endif
 #define CCM_VERSION_MAJOR  1
 #define CCM_VERSION_MINOR  2
-#define CCM_VERSION_PATCH  0
+#define CCM_VERSION_PATCH  1
 #define CCM_VERSION_TAG    ""             /* suffix tag; bump for re-releases */
-#define CCM_VERSION_STRING "1.2.0"       /* semver-ish, User-Agent friendly */
+#define CCM_VERSION_STRING "1.2.1"       /* semver-ish, User-Agent friendly */
 /* Define CCM_VERSION_HAS_TAG only when CCM_VERSION_TAG carries a real suffix.
  * Kept as a manual toggle (rather than probing the string at preprocessor time,
  * which Zig's clang rejects) so the banner stays the single source of truth
@@ -1035,11 +1035,11 @@ static const WCHAR AGENT_TEAMS_MARKER_START[] = L"<!-- ClaudeCodeManager:agent-t
 static const WCHAR AGENT_TEAMS_MARKER_END[] = L"<!-- ClaudeCodeManager:agent-teams:end -->";
 static const WCHAR AGENT_TEAMS_RULES_BLOCK[] =
 L"<!-- ClaudeCodeManager:agent-teams:start -->\r\n"
-L"## 多 Agent 工作规则\r\n\r\n"
+L"## 多智能体工作规则\r\n\r\n"
 L"### 默认工作模式\r\n\r\n"
-L"对于中等及以上复杂度、能够拆分为两个或以上相对独立工作流的任务，默认优先使用多 Agent 协作，而不是由主 Agent 单独完成全部工作。\r\n\r\n"
-L"不要因为主 Agent 自己能够完成任务，就默认采用单 Agent 模式。\r\n\r\n"
-L"### 应优先启用多 Agent 的情况\r\n\r\n"
+L"对于中等及以上复杂度、能够拆分为两个或以上相对独立工作流的任务，默认优先使用多智能体协作，而不是由主智能体单独完成全部工作。\r\n\r\n"
+L"不要因为主智能体自己能够完成任务，就默认采用单智能体模式。\r\n\r\n"
+L"### 应优先启用多智能体的情况\r\n\r\n"
 L"包括但不限于：\r\n\r\n"
 L"- 涉及多个模块或多个文件的功能开发\r\n"
 L"- Bug 原因不明确，需要并行验证不同假设\r\n"
@@ -1065,15 +1065,15 @@ L"4. **Reviewer**\r\n"
 L"   - 独立检查实现\r\n"
 L"   - 查找遗漏、回归风险和不必要复杂度\r\n"
 L"   - 不重复 Implementer 的工作\r\n\r\n"
-L"主 Agent / Team Lead 负责：\r\n"
+L"主智能体 / Team Lead 负责：\r\n"
 L"- 拆解任务\r\n"
 L"- 指定各 Agent 的边界\r\n"
 L"- 避免多人同时修改同一文件\r\n"
 L"- 汇总结果\r\n"
 L"- 处理冲突\r\n"
 L"- 完成最终验证\r\n\r\n"
-L"### 单 Agent 例外\r\n\r\n"
-L"以下情况可以直接由主 Agent 完成，不需要为了形式而创建多个 Agent：\r\n\r\n"
+L"### 单智能体例外\r\n\r\n"
+L"以下情况可以直接由主智能体完成，不需要为了形式而创建多个智能体：\r\n\r\n"
 L"- 仅修改一个很小且明确的位置\r\n"
 L"- 简单配置或文字修改\r\n"
 L"- 明显无法并行的强顺序任务\r\n"
@@ -1085,15 +1085,15 @@ L"在开始较大任务前，先判断：\r\n\r\n"
 L"1. 能否拆成独立工作流？\r\n"
 L"2. 是否值得并行？\r\n"
 L"3. 哪些工作可以交给独立 Agent？\r\n"
-L"4. 哪些修改必须由主 Agent 最后统一完成？\r\n\r\n"
-L"满足并行条件时，直接组建 Agent Team 或委派 Subagent，不需要等待用户再次要求。\r\n\r\n"
+L"4. 哪些修改必须由主智能体最后统一完成？\r\n\r\n"
+L"满足并行条件时，直接组建多智能体团队或委派 Subagent，不需要等待用户再次要求。\r\n\r\n"
 L"### 协作约束\r\n\r\n"
 L"- 每个 Agent 必须有明确任务边界和预期产出。\r\n"
 L"- 避免两个 Agent 无目的地重复阅读同一批文件。\r\n"
 L"- 避免多个 Agent 同时修改同一文件。\r\n"
 L"- 探索、研究、测试、Review 优先并行。\r\n"
 L"- 核心修改存在冲突风险时，由一个 Agent 实施，其余 Agent 提供分析和验证。\r\n"
-L"- Agent 返回结果后，Lead 必须自行核验，不能直接假定结果正确。\r\n"
+L"- 智能体返回结果后，Lead 必须自行核验，不能直接假定结果正确。\r\n"
 L"- 最终交付前必须完成测试或等效验证。\r\n"
 L"<!-- ClaudeCodeManager:agent-teams:end -->";
 static const WCHAR CURRENT_FOLDER_ITEM[] = L"当前文件夹（Claude 默认）";
@@ -1767,7 +1767,7 @@ static void update_claude_state(void) {
         wcopy(g_claude_path_display, 4096, profile);
         wcat(g_claude_path_display, 4096, L"\\.local\\bin\\claude.exe");
     }
-    if (g_install) pSetWindowTextW(g_install, g_claude_installed ? L"检查并更新" : L"安装 Claude Code");
+    if (g_install) pSetWindowTextW(g_install,L"检查更新");
     if (g_main) InvalidateRect(g_main, 0, FALSE);
 }
 
@@ -2658,34 +2658,34 @@ static BOOL agent_global_full_state(void) {
 static void update_agent_teams_button(void) {
     BOOL owned=FALSE;WCHAR original[4096];
     if(!g_agent_teams)return;original[0]=0;agent_registry_load(&owned,original,4096);
-    pSetWindowTextW(g_agent_teams,(owned||agent_global_full_state())?L"停用 Agent Teams":L"Agent Teams（全局）");
+    pSetWindowTextW(g_agent_teams,(owned||agent_global_full_state())?L"停用多智能体":L"多智能体");
 }
 
 static void manage_global_agent_teams(void) {
     WCHAR settings[4096],md[4096],original[4096],captured[4096];BOOL owned=FALSE,enable,settings_exists,md_exists,external=FALSE,registry_changed=FALSE;int code;
-    if(!agent_global_paths(settings,4096,md,4096)){pMessageBoxW(g_main,L"无法确定当前用户目录。",L"Agent Teams",MB_ICONERROR);return;}
-    if(!agent_registry_load(&owned,original,4096)){pMessageBoxW(g_main,L"Manager 的 Agent Teams 状态记录已损坏，未修改任何文件。",L"Agent Teams",MB_ICONERROR);return;}
+    if(!agent_global_paths(settings,4096,md,4096)){pMessageBoxW(g_main,L"无法确定当前用户目录。",L"多智能体",MB_ICONERROR);return;}
+    if(!agent_registry_load(&owned,original,4096)){pMessageBoxW(g_main,L"Manager 的多智能体状态记录已损坏，未修改任何文件。",L"多智能体",MB_ICONERROR);return;}
     enable=!(owned||agent_global_full_state());
     if(enable){
-        if(pMessageBoxW(g_main,L"将为当前 Windows 用户全局启用实验性 Agent Teams，并写入多 Agent 工作规则。\r\n\r\n适用于 Claude Code CLI 与 Claude Desktop 本地 Code 会话；不覆盖云端、WSL 或 SSH。功能需要 Claude Code 2.1.32+，会明显增加 Token 用量。\r\n\r\n是否继续？",L"启用 Agent Teams",MB_YESNO|MB_ICONWARNING)!=IDYES)return;
-    }else if(pMessageBoxW(g_main,L"将移除 ClaudeCodeManager 托管的多 Agent 规则，并恢复启用前的环境变量值。\r\n\r\n是否继续？",L"停用 Agent Teams",MB_YESNO|MB_ICONQUESTION)!=IDYES)return;
+        if(pMessageBoxW(g_main,L"将为当前 Windows 用户全局启用实验性多智能体（Agent Teams），并写入多智能体工作规则。\r\n\r\n适用于 Claude Code CLI 与 Claude Desktop 本地 Code 会话；不覆盖云端、WSL 或 SSH。功能需要 Claude Code 2.1.32+，会明显增加 Token 用量。\r\n\r\n是否继续？",L"启用多智能体",MB_YESNO|MB_ICONWARNING)!=IDYES)return;
+    }else if(pMessageBoxW(g_main,L"将移除 ClaudeCodeManager 托管的多智能体规则，并恢复启用前的环境变量值。\r\n\r\n是否继续？",L"停用多智能体",MB_YESNO|MB_ICONQUESTION)!=IDYES)return;
     settings_exists=GetFileAttributesW(settings)!=INVALID_FILE_ATTRIBUTES;md_exists=GetFileAttributesW(md)!=INVALID_FILE_ATTRIBUTES;
-    if(settings_exists){if(!read_text_file_w_strict(settings,g_json_source_text,sizeof(g_json_source_text)/2)){pMessageBoxW(g_main,L"settings.json 不是受支持的 UTF-8/UTF-16LE 文本或文件过大，未修改。",L"Agent Teams",MB_ICONERROR);return;}}else wcopy(g_json_source_text,sizeof(g_json_source_text)/2,L"{}");
-    if(md_exists){if(!read_text_file_w_strict(md,g_agent_md_old,sizeof(g_agent_md_old)/2)){pMessageBoxW(g_main,L"CLAUDE.md 不是有效 UTF-8/UTF-16LE 文本或文件过大，未修改。",L"Agent Teams",MB_ICONERROR);return;}}else g_agent_md_old[0]=0;
-    captured[0]=0;if(!agent_settings_transform(g_json_source_text,enable,owned,original,g_agent_settings_new,sizeof(g_agent_settings_new)/2,captured,4096,&external)||!agent_rules_transform(g_agent_md_old,enable,g_agent_md_new,sizeof(g_agent_md_new)/2)){pMessageBoxW(g_main,L"配置无效、存在重复键或托管标记已损坏，未修改任何文件。",L"Agent Teams",MB_ICONERROR);return;}
+    if(settings_exists){if(!read_text_file_w_strict(settings,g_json_source_text,sizeof(g_json_source_text)/2)){pMessageBoxW(g_main,L"settings.json 不是受支持的 UTF-8/UTF-16LE 文本或文件过大，未修改。",L"多智能体",MB_ICONERROR);return;}}else wcopy(g_json_source_text,sizeof(g_json_source_text)/2,L"{}");
+    if(md_exists){if(!read_text_file_w_strict(md,g_agent_md_old,sizeof(g_agent_md_old)/2)){pMessageBoxW(g_main,L"CLAUDE.md 不是有效 UTF-8/UTF-16LE 文本或文件过大，未修改。",L"多智能体",MB_ICONERROR);return;}}else g_agent_md_old[0]=0;
+    captured[0]=0;if(!agent_settings_transform(g_json_source_text,enable,owned,original,g_agent_settings_new,sizeof(g_agent_settings_new)/2,captured,4096,&external)||!agent_rules_transform(g_agent_md_old,enable,g_agent_md_new,sizeof(g_agent_md_new)/2)){pMessageBoxW(g_main,L"配置无效、存在重复键或托管标记已损坏，未修改任何文件。",L"多智能体",MB_ICONERROR);return;}
     if(enable&&!owned){
-        if(!agent_registry_store(TRUE,captured)){pMessageBoxW(g_main,L"无法保存启用前状态，未修改任何文件。",L"Agent Teams",MB_ICONERROR);return;}registry_changed=TRUE;
+        if(!agent_registry_store(TRUE,captured)){pMessageBoxW(g_main,L"无法保存启用前状态，未修改任何文件。",L"多智能体",MB_ICONERROR);return;}registry_changed=TRUE;
     }else if(!enable&&!owned){
         /* The flag predated Manager ownership. Never remove or rewrite it;
            disabling in this state only removes the Manager rules block. */
         wcopy(g_agent_settings_new,sizeof(g_agent_settings_new)/2,g_json_source_text);
     }
-    set_busy(TRUE);set_status(enable?L"正在启用 Agent Teams…":L"正在停用 Agent Teams…");code=agent_commit_files(settings,g_json_source_text,settings_exists,g_agent_settings_new,md,g_agent_md_old,md_exists,g_agent_md_new);
-    if(code!=0){if(registry_changed)agent_registry_store(FALSE,L"");set_busy(FALSE);set_status(L"Agent Teams 配置失败");pMessageBoxW(g_main,code==27?L"写入失败，且 settings.json 自动回滚失败。请使用 backup-agent-teams 备份手动恢复。":L"写入失败，已保留原配置或完成自动回滚。",L"Agent Teams",MB_ICONERROR);return;}
-    if(!enable&&owned&&!agent_registry_store(FALSE,L"")){set_busy(FALSE);set_status(L"文件已更新，但状态记录清理失败");pMessageBoxW(g_main,L"文件已更新，但 Manager 状态记录清理失败。",L"Agent Teams",MB_ICONWARNING);update_agent_teams_button();return;}
-    set_busy(FALSE);update_agent_teams_button();set_status(enable?L"Agent Teams 已全局启用":L"Agent Teams 托管配置已停用");
-    if(external)pMessageBoxW(g_main,L"检测到环境变量已被其他工具或用户修改；已保留当前值，只移除了 Manager 托管规则。",L"Agent Teams",MB_ICONWARNING);
-    else pMessageBoxW(g_main,enable?L"已启用。建议新建或重启 Claude Code 会话后使用。":L"已停用 Manager 托管的 Agent Teams 配置。",L"Agent Teams",MB_ICONINFORMATION);
+    set_busy(TRUE);set_status(enable?L"正在启用多智能体…":L"正在停用多智能体…");code=agent_commit_files(settings,g_json_source_text,settings_exists,g_agent_settings_new,md,g_agent_md_old,md_exists,g_agent_md_new);
+    if(code!=0){if(registry_changed)agent_registry_store(FALSE,L"");set_busy(FALSE);set_status(L"多智能体配置失败");pMessageBoxW(g_main,code==27?L"写入失败，且 settings.json 自动回滚失败。请使用 backup-agent-teams 备份手动恢复。":L"写入失败，已保留原配置或完成自动回滚。",L"多智能体",MB_ICONERROR);return;}
+    if(!enable&&owned&&!agent_registry_store(FALSE,L"")){set_busy(FALSE);set_status(L"文件已更新，但状态记录清理失败");pMessageBoxW(g_main,L"文件已更新，但 Manager 状态记录清理失败。",L"多智能体",MB_ICONWARNING);update_agent_teams_button();return;}
+    set_busy(FALSE);update_agent_teams_button();set_status(enable?L"多智能体已全局启用":L"多智能体托管配置已停用");
+    if(external)pMessageBoxW(g_main,L"检测到环境变量已被其他工具或用户修改；已保留当前值，只移除了 Manager 托管规则。",L"多智能体",MB_ICONWARNING);
+    else pMessageBoxW(g_main,enable?L"已启用。建议新建或重启 Claude Code 会话后使用。":L"已停用 Manager 托管的多智能体配置。",L"多智能体",MB_ICONINFORMATION);
 }
 
 static BOOL choose_settings_target(LPWSTR out,unsigned int cap,BOOL importing) {
@@ -3880,7 +3880,7 @@ static void layout_controls(int width, int height) {
     int primary_w=(left_btn_area-btn_gap*2)*46/100;
     int secondary_w=(left_btn_area-btn_gap*2-primary_w)/2;
     int right_inner_w=rightw-inner*2,test_w=sc(92),network_gap=sc(8),network_w=right_inner_w-test_w-network_gap;
-    int pair_w=(right_inner_w-sc(10))/2,third_w=(right_inner_w-sc(16))/3;
+    int pair_w=(right_inner_w-sc(10))/2;
     g_client_w=width;g_client_h=height;
 
     /* Left card */
@@ -3903,12 +3903,12 @@ static void layout_controls(int width, int height) {
     {RECT combo_rect;int combo_h=sc(24);if(GetWindowRect(g_network_mode,&combo_rect)){int actual=(int)(combo_rect.bottom-combo_rect.top);if(actual>=sc(20)&&actual<=sc(32))combo_h=actual;}pMoveWindow(g_test_network,rx+inner+network_w+network_gap,top+sc(114),test_w,combo_h,TRUE);}
     pMoveWindow(g_proxy,rx+sc(32),top+sc(177),rightw-sc(64),sc(20),TRUE);
     pMoveWindow(g_url,rx+sc(32),top+sc(229),rightw-sc(64),sc(20),TRUE);
-    pMoveWindow(g_install,rx+inner,top+sc(262),right_inner_w,sc(36),TRUE);
+    pMoveWindow(g_install,rx+inner,top+sc(262),pair_w,sc(36),TRUE);
+    pMoveWindow(g_shortcut,rx+inner+pair_w+sc(10),top+sc(262),right_inner_w-pair_w-sc(10),sc(36),TRUE);
     pMoveWindow(g_import_settings,rx+inner,top+sc(304),pair_w,sc(32),TRUE);
     pMoveWindow(g_open_settings,rx+inner+pair_w+sc(10),top+sc(304),right_inner_w-pair_w-sc(10),sc(32),TRUE);
-    pMoveWindow(g_model_wizard,rx+inner,top+sc(340),third_w,sc(32),TRUE);
-    pMoveWindow(g_agent_teams,rx+inner+third_w+sc(8),top+sc(340),third_w,sc(32),TRUE);
-    pMoveWindow(g_shortcut,rx+inner+(third_w+sc(8))*2,top+sc(340),right_inner_w-third_w*2-sc(16),sc(32),TRUE);
+    pMoveWindow(g_model_wizard,rx+inner,top+sc(340),pair_w,sc(32),TRUE);
+    pMoveWindow(g_agent_teams,rx+inner+pair_w+sc(10),top+sc(340),right_inner_w-pair_w-sc(10),sc(32),TRUE);
 
     pMoveWindow(g_fongap_link,width-m-sc(220),logy+sc(7),sc(198),sc(28),TRUE);
     pMoveWindow(g_log,m+sc(22),logy+sc(40),width-m*2-sc(44),logh-sc(52),TRUE);
@@ -4037,12 +4037,12 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             g_test_network=create_control(0,L"BUTTON",L"检测连接",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_TEST_NETWORK);
             g_proxy=create_control(0,L"EDIT",g_cfg_proxy,WS_TABSTOP|ES_AUTOHSCROLL,0,0,0,0,IDC_PROXY);
             g_url=create_control(0,L"EDIT",g_cfg_url,WS_TABSTOP|ES_AUTOHSCROLL,0,0,0,0,IDC_URL);
-            g_install=create_control(0,L"BUTTON",L"安装 Claude Code",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_INSTALL);
-            g_import_settings=create_control(0,L"BUTTON",L"导入配置…",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_IMPORT_SETTINGS);
-            g_open_settings=create_control(0,L"BUTTON",L"打开配置…",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_OPEN_SETTINGS);
-            g_model_wizard=create_control(0,L"BUTTON",L"模型配置…",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_MODEL_WIZARD);
-            g_agent_teams=create_control(0,L"BUTTON",L"Agent Teams",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_AGENT_TEAMS);
-            g_shortcut=create_control(0,L"BUTTON",L"创建桌面快捷方式",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_SHORTCUT);
+            g_install=create_control(0,L"BUTTON",L"检查更新",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_INSTALL);
+            g_import_settings=create_control(0,L"BUTTON",L"导入配置",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_IMPORT_SETTINGS);
+            g_open_settings=create_control(0,L"BUTTON",L"打开配置",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_OPEN_SETTINGS);
+            g_model_wizard=create_control(0,L"BUTTON",L"模型配置",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_MODEL_WIZARD);
+            g_agent_teams=create_control(0,L"BUTTON",L"多智能体",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_AGENT_TEAMS);
+            g_shortcut=create_control(0,L"BUTTON",L"桌面快捷",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_SHORTCUT);
             g_fongap_link=create_control(0,L"BUTTON",L"Fongap Studio · www.fongap.com",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_FONGAP_LINK);
             g_log=create_control(0,L"EDIT",L"",WS_VSCROLL|ES_MULTILINE|ES_AUTOVSCROLL|ES_READONLY,0,0,0,0,IDC_LOG);
             startup_log_write("WM_CREATE controls created\r\n");
