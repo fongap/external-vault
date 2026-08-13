@@ -1,0 +1,14 @@
+# Local Codex / Claude settings
+.claude/
+
+# Reproducible build and release outputs
+build/
+dist/
+release/
+assets/*.res
+
+# Local diagnostic helpers
+build2.ps1
+enum.ps1
+watch-long.ps1
+

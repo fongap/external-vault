@@ -32,11 +32,11 @@ Manager 负责：
 `/v1/messages`；只有 `/v1/chat/completions` 和 `/v1/models` 的 OpenAI 风格
 接口不能直接使用。
 
-“测试并获取模型”会先发送不触发推理的空 JSON 请求检查 Messages 路由：
+“测试并获取模型”会先发送不触发推理的最小请求检查 Messages 路由：
 
-- 400/422 等参数错误表示路由存在，可继续读取模型列表。
+- 2xx / 400 / 422 表示路由存在，视为兼容，可继续读取模型列表。
 - 401/403 表示凭据未通过验证。
-- 404/405 表示缺少 Anthropic Messages 协议，Manager 会阻止保存。
+- 404/405 表示缺少 Anthropic Messages 协议；若已成功获取模型列表则允许保存，否则阻止保存。
 
 NVIDIA `https://integrate.api.nvidia.com/v1` 免费托管端点目前公开的是 OpenAI
 Chat Completions，不能直接作为 Claude Code 的 `ANTHROPIC_BASE_URL`。较新的
@@ -93,8 +93,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -ZigPath zig
 
 ## 测试
 
-主程序采用 C11 严格警告构建。上下文容量解析测试位于
-`tests/context_capacity_parser_test.c`，覆盖数值与字符串形式的常见网关字段。
+主程序采用 C11 严格警告构建。`tests/context_capacity_parser_test.c` 覆盖上下文容量、
+Messages URL 和探活 JSON；`tests/gateway_probe_integration_test.c` 配合
+`tests/mock_gateway.py` 验证 V1.0 三认证头、真实模型 ID 和单认证头回退。
 
 ## UI 设计原则
 

@@ -44,6 +44,18 @@ try {
         "-o", $output
     )
     & $ZigPath @arguments
+    if ($LASTEXITCODE -eq 0) {
+        return
+    }
+
+    # Fallback: zig 0.16's lld-link no longer bundles chkstk for windows-gnu target.
+    # Provide clang_rt.builtins (contains __chkstk_ms) explicitly via lld-link.
+    $builtinsLib = Join-Path $env:USERPROFILE "scoop\apps\llvm\current\lib\clang\22\lib\windows\clang_rt.builtins-x86_64.lib"
+    if (-not (Test-Path $builtinsLib)) {
+        throw "C compilation or link failed ($LASTEXITCODE). clang_rt.builtins not found at $builtinsLib"
+    }
+    Write-Host "Link fallback: adding $builtinsLib for __chkstk_ms"
+    & $ZigPath @arguments $builtinsLib
     if ($LASTEXITCODE -ne 0) { throw "C compilation or link failed ($LASTEXITCODE)." }
 } finally {
     Pop-Location

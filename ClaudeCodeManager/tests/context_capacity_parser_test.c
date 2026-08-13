@@ -18,5 +18,12 @@ void mainCRTStartup(void) {
     build_anthropic_messages_url(L"https://gateway.example/",url,256);
     if(!weq_ci(url,L"https://gateway.example/v1/messages"))ExitProcess(14);
     if(!is_unsupported_manager_field_native(L"CLAUDE_CODE_MAX_CONTEXT_TOKENS"))ExitProcess(15);
+    build_probe_body(L"claude-sonnet-4\"test");
+    if(ccm_probe_body_len<=0)ExitProcess(16);
+    {
+        static const char expected[]="{\"model\":\"claude-sonnet-4\\\"test\",\"max_tokens\":1,\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}]}";
+        unsigned int i=0;while(expected[i]&&ccm_probe_body[i]==expected[i])i++;
+        if(expected[i]||ccm_probe_body[i])ExitProcess(17);
+    }
     ExitProcess(0);
 }

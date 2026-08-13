@@ -1,16 +1,25 @@
 # Changelog
 
-## 1.1.0 - 2026-08-11
+## 1.1.2 - 2026-08-13
 
 ### Gateway compatibility
 
-- 探活 `/v1/messages` 现在发送合法最小请求体（`max_tokens=1` + 单字符 prompt），
-  避免 OpenAI 风格网关对空 `{}` 返回 401 误判为鉴权失败。
-- 探活状态机收紧：仅在 2xx 响应时标记为兼容；非 401/403/404/405 的状态码现在会
-  记录为 `[WARN]` 并继续读取模型列表，状态栏与日志明确区分"Messages 兼容"与仅
-  "已获取 N 个模型"。
+- 修复 V1.1 探活顺序回归：恢复 V1.0 先读取 `/v1/models` 的行为，再使用返回的
+  真实模型 ID 探测 `/v1/messages`，避免缺失 `model` 时的 401/403 阻断模型发现。
+- 恢复模型列表 GET 的 V1.0 三认证头兼容性；Messages POST 先发送组合头，若收到
+  401/403，再依次回退 Bearer、`x-api-key` 和 `x-gateway-access-key` 单头认证。
+- 探活 `/v1/messages` 使用合法最小请求体（真实 `model` + `max_tokens=1` + 单字符
+  prompt）；没有手填或发现模型时才回退 `"default"`。
+- 2xx、400 和 422 均确认 Messages 路由存在；404/405 标记为协议不兼容，其他响应
+  明确显示为“模型列表可用但 Messages 兼容性未确认”，不再把预检失败误报成密钥失效。
 - 模型保存前拒绝 URL 含 `@`（userinfo），避免凭据随 settings.json 写入或被网关
   访问日志记录。
+
+### Build
+
+- 收敛版本号、超时、provider 索引与代理提示等到 `CCM_*` 常量块，单点修改即可
+  影响窗口标题、快捷方式描述、关于对话框与启动横幅；版本横幅不再携带空的
+  `-r0` 后缀。
 
 ### Credential isolation
 

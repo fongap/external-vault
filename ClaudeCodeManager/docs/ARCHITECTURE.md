@@ -18,10 +18,12 @@ The launcher deliberately stays outside the model request path. This keeps the
 configuration surface aligned with the public Claude Code CLI and avoids a second
 session, authentication or context-management implementation.
 
-Before accepting a third-party gateway, the Manager probes the Anthropic
-`/v1/messages` route with an empty invalid payload. This confirms protocol routing
-without performing model inference. A working `/v1/models` endpoint alone is not
-treated as Claude Code compatibility.
+For a third-party gateway, the Manager first fetches `/v1/models` using the broad
+authentication-header compatibility of V1.0. It then probes Anthropic
+`/v1/messages` with a minimal valid payload containing a real discovered or
+user-supplied model ID. The combined authentication headers are tried first;
+401/403 responses fall back to each header independently. A working model-list
+endpoint is reported separately from confirmed Claude Code Messages compatibility.
 
 ## Settings boundary
 
