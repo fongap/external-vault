@@ -58,10 +58,10 @@ void ___chkstk_ms(unsigned long long size) {
 }
 #endif
 #define CCM_VERSION_MAJOR  1
-#define CCM_VERSION_MINOR  1
-#define CCM_VERSION_PATCH  2
+#define CCM_VERSION_MINOR  2
+#define CCM_VERSION_PATCH  0
 #define CCM_VERSION_TAG    ""             /* suffix tag; bump for re-releases */
-#define CCM_VERSION_STRING "1.1.2"       /* semver-ish, User-Agent friendly */
+#define CCM_VERSION_STRING "1.2.0"       /* semver-ish, User-Agent friendly */
 /* Define CCM_VERSION_HAS_TAG only when CCM_VERSION_TAG carries a real suffix.
  * Kept as a manual toggle (rather than probing the string at preprocessor time,
  * which Zig's clang rejects) so the banner stays the single source of truth
@@ -638,6 +638,7 @@ typedef struct tagINITCOMMONCONTROLSEX {
 #define IDC_OPEN_SETTINGS 1018
 #define IDC_MODEL_WIZARD 1019
 #define IDC_FONGAP_LINK 1020
+#define IDC_AGENT_TEAMS 1021
 
 #define IDC_WIZ_SCOPE 2001
 #define IDC_WIZ_PROVIDER 2002
@@ -900,6 +901,7 @@ static HWND g_test_network;
 static HWND g_import_settings;
 static HWND g_open_settings;
 static HWND g_model_wizard;
+static HWND g_agent_teams;
 static HWND g_fongap_link;
 static HWND g_wizard;
 static HWND g_wiz_scope;
@@ -963,6 +965,9 @@ typedef struct _CCM_JSON_TOKEN { int type; int start; int end; int size; } CCM_J
 static WCHAR g_json_source_text[262144];
 static WCHAR g_json_target_text[262144];
 static WCHAR g_json_output_text[524288];
+static WCHAR g_agent_settings_new[262144];
+static WCHAR g_agent_md_old[262144];
+static WCHAR g_agent_md_new[262144];
 static BYTE g_json_io_bytes[1048576];
 static CCM_JSON_TOKEN g_json_source_tokens[CCM_JSON_MAX_TOKENS];
 static CCM_JSON_TOKEN g_json_target_tokens[CCM_JSON_MAX_TOKENS];
@@ -1025,6 +1030,72 @@ static HANDLE g_startup_log = INVALID_HANDLE_VALUE;
 static const WCHAR CLASS_NAME[] = L"ClaudeCodeManagerV1";
 static const WCHAR WIZARD_CLASS_NAME[] = L"ClaudeCodeManagerModelWizardV1";
 static const WCHAR REG_KEY[] = L"Software\\Fongap\\ClaudeCodeManager";
+static const WCHAR AGENT_TEAMS_ENV_NAME[] = L"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS";
+static const WCHAR AGENT_TEAMS_MARKER_START[] = L"<!-- ClaudeCodeManager:agent-teams:start -->";
+static const WCHAR AGENT_TEAMS_MARKER_END[] = L"<!-- ClaudeCodeManager:agent-teams:end -->";
+static const WCHAR AGENT_TEAMS_RULES_BLOCK[] =
+L"<!-- ClaudeCodeManager:agent-teams:start -->\r\n"
+L"## 多 Agent 工作规则\r\n\r\n"
+L"### 默认工作模式\r\n\r\n"
+L"对于中等及以上复杂度、能够拆分为两个或以上相对独立工作流的任务，默认优先使用多 Agent 协作，而不是由主 Agent 单独完成全部工作。\r\n\r\n"
+L"不要因为主 Agent 自己能够完成任务，就默认采用单 Agent 模式。\r\n\r\n"
+L"### 应优先启用多 Agent 的情况\r\n\r\n"
+L"包括但不限于：\r\n\r\n"
+L"- 涉及多个模块或多个文件的功能开发\r\n"
+L"- Bug 原因不明确，需要并行验证不同假设\r\n"
+L"- 需要同时进行代码探索、实现、测试或 Review\r\n"
+L"- 涉及架构设计、重构或影响范围较大的修改\r\n"
+L"- 存在两个或以上可以独立推进的子任务\r\n"
+L"- 需要从不同角度验证方案或交叉检查结果\r\n"
+L"- 长时间任务预计可通过并行工作明显缩短完成时间\r\n\r\n"
+L"### 默认分工\r\n\r\n"
+L"根据任务实际情况，从以下角色中选择 2～4 个并行工作：\r\n\r\n"
+L"1. **Explorer**\r\n"
+L"   - 阅读代码库\r\n"
+L"   - 查找调用关系、依赖和影响范围\r\n"
+L"   - 不进行大规模修改\r\n\r\n"
+L"2. **Implementer**\r\n"
+L"   - 根据方案实施核心代码修改\r\n"
+L"   - 负责主要功能实现\r\n\r\n"
+L"3. **Tester / Debugger**\r\n"
+L"   - 运行测试\r\n"
+L"   - 验证边界条件\r\n"
+L"   - 独立排查失败原因\r\n\r\n"
+L"4. **Reviewer**\r\n"
+L"   - 独立检查实现\r\n"
+L"   - 查找遗漏、回归风险和不必要复杂度\r\n"
+L"   - 不重复 Implementer 的工作\r\n\r\n"
+L"主 Agent / Team Lead 负责：\r\n"
+L"- 拆解任务\r\n"
+L"- 指定各 Agent 的边界\r\n"
+L"- 避免多人同时修改同一文件\r\n"
+L"- 汇总结果\r\n"
+L"- 处理冲突\r\n"
+L"- 完成最终验证\r\n\r\n"
+L"### 单 Agent 例外\r\n\r\n"
+L"以下情况可以直接由主 Agent 完成，不需要为了形式而创建多个 Agent：\r\n\r\n"
+L"- 仅修改一个很小且明确的位置\r\n"
+L"- 简单配置或文字修改\r\n"
+L"- 明显无法并行的强顺序任务\r\n"
+L"- 创建多个 Agent 的协调成本高于任务本身\r\n"
+L"- 多个 Agent 必然同时修改同一小块代码\r\n\r\n"
+L"### 并行优先原则\r\n\r\n"
+L"如果两个任务之间没有依赖关系，应并行执行，不要串行等待。\r\n\r\n"
+L"在开始较大任务前，先判断：\r\n\r\n"
+L"1. 能否拆成独立工作流？\r\n"
+L"2. 是否值得并行？\r\n"
+L"3. 哪些工作可以交给独立 Agent？\r\n"
+L"4. 哪些修改必须由主 Agent 最后统一完成？\r\n\r\n"
+L"满足并行条件时，直接组建 Agent Team 或委派 Subagent，不需要等待用户再次要求。\r\n\r\n"
+L"### 协作约束\r\n\r\n"
+L"- 每个 Agent 必须有明确任务边界和预期产出。\r\n"
+L"- 避免两个 Agent 无目的地重复阅读同一批文件。\r\n"
+L"- 避免多个 Agent 同时修改同一文件。\r\n"
+L"- 探索、研究、测试、Review 优先并行。\r\n"
+L"- 核心修改存在冲突风险时，由一个 Agent 实施，其余 Agent 提供分析和验证。\r\n"
+L"- Agent 返回结果后，Lead 必须自行核验，不能直接假定结果正确。\r\n"
+L"- 最终交付前必须完成测试或等效验证。\r\n"
+L"<!-- ClaudeCodeManager:agent-teams:end -->";
 static const WCHAR CURRENT_FOLDER_ITEM[] = L"当前文件夹（Claude 默认）";
 static const LPCWSTR MODEL_ROLE_LABELS[MODEL_ROLE_COUNT]={L"主力",L"高阶 · Opus",L"通用 · Sonnet",L"快速 · Haiku",L"分工 · Subagent"};
 static const LPCWSTR MODEL_META_VALUE_NAMES[MODEL_ROLE_COUNT]={L"ContextMetaMain",L"ContextMetaOpus",L"ContextMetaSonnet",L"ContextMetaHaiku",L"ContextMetaSubagent"};
@@ -1241,7 +1312,7 @@ static void create_wizard_fonts(void) {
 }
 
 static void apply_main_control_fonts(void) {
-    HWND controls[] = {g_workspace,g_browse,g_projects,g_refresh,g_launch,g_terminal,g_folder,g_network_mode,g_test_network,g_proxy,g_url,g_install,g_import_settings,g_open_settings,g_model_wizard,g_shortcut,g_log};
+    HWND controls[] = {g_workspace,g_browse,g_projects,g_refresh,g_launch,g_terminal,g_folder,g_network_mode,g_test_network,g_proxy,g_url,g_install,g_import_settings,g_open_settings,g_model_wizard,g_agent_teams,g_shortcut,g_log};
     unsigned int i;
     for(i=0;i<sizeof(controls)/sizeof(controls[0]);i++) if(controls[i]) pSendMessageW(controls[i],WM_SETFONT,(WPARAM)((controls[i]==g_log)?g_font_mono:g_font_body),TRUE);
     if(g_network_mode){pSendMessageW(g_network_mode,CB_SETITEMHEIGHT,(WPARAM)-1,sc(20));pSendMessageW(g_network_mode,CB_SETITEMHEIGHT,0,sc(22));}
@@ -1445,6 +1516,7 @@ static void set_busy(BOOL busy) {
     if(g_import_settings) pEnableWindow(g_import_settings,!busy);
     if(g_open_settings) pEnableWindow(g_open_settings,!busy);
     if(g_model_wizard) pEnableWindow(g_model_wizard,!busy);
+    if(g_agent_teams) pEnableWindow(g_agent_teams,!busy);
     if(g_shortcut) pEnableWindow(g_shortcut,!busy);
     if(!busy) update_network_controls();
     if (busy) {
@@ -2175,6 +2247,25 @@ static BOOL read_text_file_w(LPCWSTR path, LPWSTR out, unsigned int cap) {
     if(chars<=0)return FALSE; out[chars]=0; return TRUE;
 }
 
+static BOOL decoded_text_valid(LPCWSTR text,int chars) {
+    int i;for(i=0;i<chars;i++){
+        WORD c=(WORD)text[i];if(c==0)return FALSE;
+        if(c>=0xD800&&c<=0xDBFF){if(i+1>=chars||(WORD)text[i+1]<0xDC00||(WORD)text[i+1]>0xDFFF)return FALSE;i++;}
+        else if(c>=0xDC00&&c<=0xDFFF)return FALSE;
+    }return TRUE;
+}
+
+static BOOL read_text_file_w_strict(LPCWSTR path, LPWSTR out, unsigned int cap) {
+    HANDLE h;DWORD got=0,total=0;int chars;unsigned int i,start=0;
+    if(!out||cap<2)return FALSE;out[0]=0;
+    h=CreateFileW(path,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,0,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,0);if(h==INVALID_HANDLE_VALUE)return FALSE;
+    while(total+4<sizeof(g_json_io_bytes)){DWORD take=(DWORD)(sizeof(g_json_io_bytes)-total-4);if(take>32768)take=32768;if(!ReadFile(h,g_json_io_bytes+total,take,&got,0)||!got)break;total+=got;}
+    CloseHandle(h);if(total+4>=sizeof(g_json_io_bytes))return FALSE;if(total==0){out[0]=0;return TRUE;}
+    if(total>=2&&g_json_io_bytes[0]==0xFF&&g_json_io_bytes[1]==0xFE){start=2;if((total-start)&1)return FALSE;chars=(int)((total-start)/2);if(chars>=(int)cap)return FALSE;for(i=0;i<(unsigned int)chars;i++)out[i]=(WCHAR)(g_json_io_bytes[start+i*2]|((WORD)g_json_io_bytes[start+i*2+1]<<8));if(!decoded_text_valid(out,chars))return FALSE;out[chars]=0;return TRUE;}
+    if(total>=2&&g_json_io_bytes[0]==0xFE&&g_json_io_bytes[1]==0xFF)return FALSE;if(total>=3&&g_json_io_bytes[0]==0xEF&&g_json_io_bytes[1]==0xBB&&g_json_io_bytes[2]==0xBF)start=3;
+    chars=MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,(LPCSTR)(g_json_io_bytes+start),(int)(total-start),out,(int)cap-1);if(chars<=0||!decoded_text_valid(out,chars))return FALSE;out[chars]=0;return TRUE;
+}
+
 static BOOL write_utf8_text_file(LPCWSTR path,LPCWSTR text) {
     HANDLE h; DWORD wrote=0,total=0; int bytes;
     bytes=WideCharToMultiByte(CP_UTF8,0,text,-1,(LPSTR)g_json_io_bytes,(int)sizeof(g_json_io_bytes),0,0);
@@ -2183,6 +2274,14 @@ static BOOL write_utf8_text_file(LPCWSTR path,LPCWSTR text) {
     h=CreateFileW(path,GENERIC_WRITE,FILE_SHARE_READ,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
     if(h==INVALID_HANDLE_VALUE)return FALSE;
     while(total<(DWORD)bytes){DWORD chunk=(DWORD)bytes-total;if(!WriteFile(h,g_json_io_bytes+total,chunk,&wrote,0)||!wrote){CloseHandle(h);return FALSE;}total+=wrote;}
+    CloseHandle(h);return TRUE;
+}
+
+static BOOL write_utf8_text_file_new(LPCWSTR path,LPCWSTR text) {
+    HANDLE h;DWORD wrote=0,total=0;int bytes;
+    bytes=WideCharToMultiByte(CP_UTF8,0,text,-1,(LPSTR)g_json_io_bytes,(int)sizeof(g_json_io_bytes),0,0);if(bytes<=0||bytes>(int)sizeof(g_json_io_bytes))return FALSE;bytes--;
+    h=CreateFileW(path,GENERIC_WRITE,FILE_SHARE_READ,0,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,0);if(h==INVALID_HANDLE_VALUE)return FALSE;
+    while(total<(DWORD)bytes){DWORD chunk=(DWORD)bytes-total;if(!WriteFile(h,g_json_io_bytes+total,chunk,&wrote,0)||!wrote){CloseHandle(h);DeleteFileW(path);return FALSE;}total+=wrote;}
     CloseHandle(h);return TRUE;
 }
 
@@ -2355,7 +2454,239 @@ static void json_write_merged(CCM_JSON_OUT *o,LPCWSTR oldtext,CCM_JSON_TOKEN *ol
     if(written){jout_text(o,L"\r\n");jout_indent(o,depth);}jout_char(o,L'}');
 }
 
+typedef struct _CCM_AGENT_SETTINGS_INFO {
+    int root;
+    int env;
+    int target;
+    int env_count;
+    int target_count;
+    BOOL target_is_one;
+} CCM_AGENT_SETTINGS_INFO;
+
+static BOOL agent_token_is_string_one(LPCWSTR text,CCM_JSON_TOKEN *token) {
+    WCHAR value[8];
+    value[0]=0;
+    return token && token->type==CCM_JSON_STRING && json_decode_string_token(text,token,value,8) && weq(value,L"1");
+}
+
+static BOOL agent_settings_inspect(LPCWSTR text,CCM_JSON_TOKEN *tokens,int *token_count,CCM_AGENT_SETTINGS_INFO *info) {
+    int i,j;
+    WCHAR key[256];
+    memset(info,0,sizeof(*info));info->env=-1;info->target=-1;
+    info->root=json_parse_document_native(text,tokens,token_count);
+    if(info->root<0 || tokens[info->root].type!=CCM_JSON_OBJECT)return FALSE;
+    j=info->root+1;
+    for(i=0;i<tokens[info->root].size;i++){
+        int k=j,v=k+1;key[0]=0;
+        if(!json_decode_string_token(text,&tokens[k],key,256))return FALSE;
+        if(weq(key,L"env")){info->env_count++;info->env=v;}
+        j=json_token_after(tokens,v);
+    }
+    if(info->env_count>1)return FALSE;
+    if(info->env>=0){
+        if(tokens[info->env].type!=CCM_JSON_OBJECT)return FALSE;
+        j=info->env+1;
+        for(i=0;i<tokens[info->env].size;i++){
+            int k=j,v=k+1;key[0]=0;
+            if(!json_decode_string_token(text,&tokens[k],key,256))return FALSE;
+            if(weq(key,AGENT_TEAMS_ENV_NAME)){info->target_count++;info->target=v;}
+            j=json_token_after(tokens,v);
+        }
+        if(info->target_count>1)return FALSE;
+    }
+    if(info->target>=0)info->target_is_one=agent_token_is_string_one(text,&tokens[info->target]);
+    return TRUE;
+}
+
+static void agent_write_env(CCM_JSON_OUT *out,LPCWSTR text,CCM_JSON_TOKEN *tokens,int env_idx,BOOL enable,BOOL restore_original,LPCWSTR original_json) {
+    int i,j=env_idx+1,written=0;
+    WCHAR key[256];
+    jout_char(out,L'{');
+    for(i=0;i<tokens[env_idx].size;i++){
+        int k=j,v=k+1;key[0]=0;json_decode_string_token(text,&tokens[k],key,256);
+        if(weq(key,AGENT_TEAMS_ENV_NAME)){
+            if(enable || restore_original){
+                if(written)jout_char(out,L',');jout_text(out,L"\r\n    \"");jout_text(out,AGENT_TEAMS_ENV_NAME);jout_text(out,L"\": ");
+                if(enable)jout_text(out,L"\"1\"");else jout_text(out,original_json);
+                written++;
+            }
+        }else{
+            if(written)jout_char(out,L',');jout_text(out,L"\r\n    ");jout_raw(out,text,tokens[k].start,tokens[k].end);jout_text(out,L": ");jout_raw(out,text,tokens[v].start,tokens[v].end);written++;
+        }
+        j=json_token_after(tokens,v);
+    }
+    if(enable){
+        BOOL found=FALSE;j=env_idx+1;
+        for(i=0;i<tokens[env_idx].size;i++){int k=j,v=k+1;key[0]=0;json_decode_string_token(text,&tokens[k],key,256);if(weq(key,AGENT_TEAMS_ENV_NAME))found=TRUE;j=json_token_after(tokens,v);}
+        if(!found){if(written)jout_char(out,L',');jout_text(out,L"\r\n    \"");jout_text(out,AGENT_TEAMS_ENV_NAME);jout_text(out,L"\": \"1\"");written++;}
+    }
+    if(written)jout_text(out,L"\r\n  ");jout_char(out,L'}');
+}
+
+/* Pure settings transformation used by both the UI transaction and isolated tests.
+   original_json is either the value captured before the first Manager enable or
+   the sentinel "@absent". External edits after enable are deliberately preserved. */
+static BOOL agent_settings_transform(LPCWSTR input,BOOL enable,BOOL manager_owned,LPCWSTR original_json,LPWSTR output,unsigned int cap,LPWSTR captured_original,unsigned int captured_cap,BOOL *external_edit) {
+    CCM_AGENT_SETTINGS_INFO info;CCM_JSON_OUT out;int i,j,written=0;BOOL needs_change=FALSE,restore=FALSE;WCHAR key[256];
+    if(external_edit)*external_edit=FALSE;if(captured_original&&captured_cap)captured_original[0]=0;
+    if(!input||!input[0])return FALSE;
+    if(!agent_settings_inspect(input,g_json_source_tokens,&g_json_source_count,&info))return FALSE;
+    if(enable){
+        if(!manager_owned&&captured_original&&captured_cap){
+            if(info.target<0)wcopy(captured_original,captured_cap,L"@absent");
+            else {
+                unsigned int n=(unsigned int)(g_json_source_tokens[info.target].end-g_json_source_tokens[info.target].start);
+                if(n+1>captured_cap)return FALSE;wcopy_range(captured_original,captured_cap,input,(unsigned int)g_json_source_tokens[info.target].start,(unsigned int)g_json_source_tokens[info.target].end);
+            }
+        }
+        needs_change=!info.target_is_one;
+    }else if(manager_owned){
+        if(info.target<0 || !info.target_is_one){if(external_edit)*external_edit=TRUE;needs_change=FALSE;}
+        else if(original_json&&weq(original_json,L"@absent")){needs_change=TRUE;restore=FALSE;}
+        else if(original_json&&original_json[0]){
+            int original_count=0,original_root=json_parse_document_native(original_json,g_json_target_tokens,&original_count);
+            if(original_root<0 || json_token_after(g_json_target_tokens,original_root)!=original_count)return FALSE;
+            if(weq(original_json,L"\"1\""))needs_change=FALSE;else {needs_change=TRUE;restore=TRUE;}
+        }else return FALSE;
+    }
+    if(!needs_change){wcopy(output,cap,input);return wlen(input)<cap;}
+    jout_init(&out,output,cap);jout_char(&out,L'{');j=info.root+1;
+    for(i=0;i<g_json_source_tokens[info.root].size;i++){
+        int k=j,v=k+1;key[0]=0;json_decode_string_token(input,&g_json_source_tokens[k],key,256);
+        if(written)jout_char(&out,L',');jout_text(&out,L"\r\n  ");
+        jout_raw(&out,input,g_json_source_tokens[k].start,g_json_source_tokens[k].end);jout_text(&out,L": ");
+        if(weq(key,L"env"))agent_write_env(&out,input,g_json_source_tokens,v,enable,restore,original_json);
+        else jout_raw(&out,input,g_json_source_tokens[v].start,g_json_source_tokens[v].end);
+        written++;j=json_token_after(g_json_source_tokens,v);
+    }
+    if(info.env<0&&enable){if(written)jout_char(&out,L',');jout_text(&out,L"\r\n  \"env\": {\r\n    \"");jout_text(&out,AGENT_TEAMS_ENV_NAME);jout_text(&out,L"\": \"1\"\r\n  }");written++;}
+    if(written)jout_text(&out,L"\r\n");jout_char(&out,L'}');jout_text(&out,L"\r\n");
+    return out.ok;
+}
+
+static int wfind_exact_from(LPCWSTR text,LPCWSTR needle,int from) {
+    int i,j,n=(int)wlen(needle);if(!text||!needle||!needle[0])return -1;
+    for(i=from;text[i];i++){for(j=0;j<n&&text[i+j]==needle[j];j++){/* compare */}if(j==n)return i;}return -1;
+}
+
+static BOOL agent_rules_transform(LPCWSTR input,BOOL enable,LPWSTR output,unsigned int cap) {
+    int s1,s2,e1,e2,remove_start,remove_end,block_end;unsigned int pos=0,i,n;
+    if(!input)input=L"";s1=wfind_exact_from(input,AGENT_TEAMS_MARKER_START,0);e1=wfind_exact_from(input,AGENT_TEAMS_MARKER_END,0);
+    s2=s1<0?-1:wfind_exact_from(input,AGENT_TEAMS_MARKER_START,s1+1);e2=e1<0?-1:wfind_exact_from(input,AGENT_TEAMS_MARKER_END,e1+1);
+    if((s1<0)!=(e1<0)||s2>=0||e2>=0||(s1>=0&&s1>e1))return FALSE;
+    if(s1<0){
+        if(!enable){wcopy(output,cap,input);return wlen(input)<cap;}
+        n=wlen(input);if(n+wlen(AGENT_TEAMS_RULES_BLOCK)+5>=cap)return FALSE;wcopy(output,cap,input);
+        if(n)wcat(output,cap,L"\r\n");
+        wcat(output,cap,AGENT_TEAMS_RULES_BLOCK);wcat(output,cap,L"\r\n");return TRUE;
+    }
+    block_end=e1+(int)wlen(AGENT_TEAMS_MARKER_END);
+    if(enable){
+        if((unsigned int)s1+wlen(AGENT_TEAMS_RULES_BLOCK)+wlen(input+block_end)+1>=cap)return FALSE;
+        for(i=0;i<(unsigned int)s1;i++)output[pos++]=input[i];for(i=0;AGENT_TEAMS_RULES_BLOCK[i];i++)output[pos++]=AGENT_TEAMS_RULES_BLOCK[i];for(i=(unsigned int)block_end;input[i];i++)output[pos++]=input[i];output[pos]=0;return TRUE;
+    }
+    remove_start=s1;if(remove_start>=2&&input[remove_start-2]==L'\r'&&input[remove_start-1]==L'\n')remove_start-=2;
+    remove_end=block_end;if(input[remove_end]==L'\r'&&input[remove_end+1]==L'\n')remove_end+=2;else if(input[remove_end]==L'\n')remove_end++;
+    if((unsigned int)remove_start+wlen(input+remove_end)+1>=cap)return FALSE;
+    for(i=0;i<(unsigned int)remove_start;i++)output[pos++]=input[i];for(i=(unsigned int)remove_end;input[i];i++)output[pos++]=input[i];output[pos]=0;return TRUE;
+}
+
 static BOOL ensure_parent_directory_native(LPCWSTR target){WCHAR dir[4096];int i;DWORD err;wcopy(dir,4096,target);i=(int)wlen(dir)-1;while(i>=0&&dir[i]!=L'\\')i--;if(i<=0)return FALSE;dir[i]=0;err=(DWORD)SHCreateDirectoryExW(g_main,dir,0);return err==0||err==ERROR_ALREADY_EXISTS||GetFileAttributesW(dir)!=INVALID_FILE_ATTRIBUTES;}
+
+static BOOL agent_registry_load(BOOL *owned,LPWSTR original,unsigned int cap) {
+    HKEY key=0;WCHAR managed[16];managed[0]=0;original[0]=0;*owned=FALSE;
+    if(pRegOpenKeyExW(HKEY_CURRENT_USER,REG_KEY,0,KEY_READ,&key)!=ERROR_SUCCESS)return TRUE;
+    reg_read_string(key,L"AgentTeamsManaged",managed,16);reg_read_string(key,L"AgentTeamsOriginalJson",original,cap);pRegCloseKey(key);
+    *owned=weq(managed,L"1");if(*owned&&!original[0])return FALSE;return TRUE;
+}
+
+static BOOL agent_registry_store(BOOL owned,LPCWSTR original) {
+    HKEY key=0;DWORD disp=0,bytes;LONG ok1,ok2;LPCWSTR managed=owned?L"1":L"-";if(!original)original=L"";
+    if(pRegCreateKeyExW(HKEY_CURRENT_USER,REG_KEY,0,0,0,KEY_READ|KEY_WRITE,0,&key,&disp)!=ERROR_SUCCESS)return FALSE;
+    if(owned){
+        /* Original is the prepare record; Managed=1 is the commit marker. */
+        bytes=(wlen(original)+1)*2;ok1=pRegSetValueExW(key,L"AgentTeamsOriginalJson",0,REG_SZ,(const BYTE*)original,bytes);
+        bytes=(wlen(managed)+1)*2;ok2=ok1==ERROR_SUCCESS?pRegSetValueExW(key,L"AgentTeamsManaged",0,REG_SZ,(const BYTE*)managed,bytes):1;
+    }else{
+        /* Clearing ownership first is fail-safe: a later cleanup failure can
+           leave stale metadata but can never claim or overwrite user config. */
+        bytes=(wlen(managed)+1)*2;ok1=pRegSetValueExW(key,L"AgentTeamsManaged",0,REG_SZ,(const BYTE*)managed,bytes);
+        bytes=(wlen(original)+1)*2;ok2=ok1==ERROR_SUCCESS?pRegSetValueExW(key,L"AgentTeamsOriginalJson",0,REG_SZ,(const BYTE*)original,bytes):1;
+    }pRegCloseKey(key);
+    return ok1==ERROR_SUCCESS&&ok2==ERROR_SUCCESS;
+}
+
+static void agent_unique_suffix(LPWSTR out,unsigned int cap) {
+    WCHAR n[32];out[0]=0;wcat(out,cap,L"-");uint_to_wstr(GetCurrentProcessId(),n,32);wcat(out,cap,n);wcat(out,cap,L"-");uint_to_wstr((unsigned int)GetTickCount64(),n,32);wcat(out,cap,n);
+}
+
+static BOOL agent_restore_file(LPCWSTR target,BOOL existed,LPCWSTR backup) {
+    if(existed)return backup&&backup[0]&&CopyFileW(backup,target,FALSE);return DeleteFileW(target)||GetFileAttributesW(target)==INVALID_FILE_ATTRIBUTES;
+}
+
+/* Two-target compensating transaction. Both outputs are prepared and both
+   temporary files are durable before the first target is replaced. */
+static int agent_commit_files(LPCWSTR settings_path,LPCWSTR settings_old,BOOL settings_existed,LPCWSTR settings_new,LPCWSTR md_path,LPCWSTR md_old,BOOL md_existed,LPCWSTR md_new) {
+    BOOL settings_change=!weq(settings_old,settings_new),md_change=!weq(md_old,md_new),settings_replaced=FALSE;
+    WCHAR suffix[96],settings_tmp[4096],md_tmp[4096],settings_backup[4096],md_backup[4096];
+    suffix[0]=settings_tmp[0]=md_tmp[0]=settings_backup[0]=md_backup[0]=0;if(!settings_change&&!md_change)return 0;
+    if(!ensure_parent_directory_native(settings_path)||!ensure_parent_directory_native(md_path))return 20;agent_unique_suffix(suffix,96);
+    if(settings_change&&settings_existed){wcopy(settings_backup,4096,settings_path);wcat(settings_backup,4096,L".backup-agent-teams");wcat(settings_backup,4096,suffix);if(!CopyFileW(settings_path,settings_backup,TRUE))return 21;}
+    if(md_change&&md_existed){wcopy(md_backup,4096,md_path);wcat(md_backup,4096,L".backup-agent-teams");wcat(md_backup,4096,suffix);if(!CopyFileW(md_path,md_backup,TRUE))return 22;}
+    if(settings_change){wcopy(settings_tmp,4096,settings_path);wcat(settings_tmp,4096,L".ccm-agent-teams");wcat(settings_tmp,4096,suffix);wcat(settings_tmp,4096,L".tmp");if(!write_utf8_text_file_new(settings_tmp,settings_new))return 23;}
+    if(md_change){wcopy(md_tmp,4096,md_path);wcat(md_tmp,4096,L".ccm-agent-teams");wcat(md_tmp,4096,suffix);wcat(md_tmp,4096,L".tmp");if(!write_utf8_text_file_new(md_tmp,md_new)){if(settings_tmp[0])DeleteFileW(settings_tmp);return 24;}}
+    if(settings_change){if(!MoveFileExW(settings_tmp,settings_path,MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)){DeleteFileW(settings_tmp);if(md_tmp[0])DeleteFileW(md_tmp);return 25;}settings_replaced=TRUE;}
+    if(md_change&&!MoveFileExW(md_tmp,md_path,MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)){
+        DeleteFileW(md_tmp);if(settings_replaced&&!agent_restore_file(settings_path,settings_existed,settings_backup))return 27;return 26;
+    }
+    return 0;
+}
+
+static BOOL agent_global_paths(LPWSTR settings,unsigned int scap,LPWSTR md,unsigned int mcap) {
+    WCHAR profile[4096];profile[0]=0;GetEnvironmentVariableW(L"USERPROFILE",profile,4096);if(!profile[0])return FALSE;
+    wcopy(settings,scap,profile);wcat(settings,scap,L"\\.claude\\settings.json");wcopy(md,mcap,profile);wcat(md,mcap,L"\\.claude\\CLAUDE.md");return TRUE;
+}
+
+static BOOL agent_global_full_state(void) {
+    WCHAR settings[4096],md[4096];CCM_AGENT_SETTINGS_INFO info;int start,end;
+    if(!agent_global_paths(settings,4096,md,4096)||GetFileAttributesW(settings)==INVALID_FILE_ATTRIBUTES||GetFileAttributesW(md)==INVALID_FILE_ATTRIBUTES)return FALSE;
+    if(!read_text_file_w_strict(settings,g_json_source_text,sizeof(g_json_source_text)/2)||!agent_settings_inspect(g_json_source_text,g_json_source_tokens,&g_json_source_count,&info)||!info.target_is_one)return FALSE;
+    if(!read_text_file_w_strict(md,g_agent_md_old,sizeof(g_agent_md_old)/2))return FALSE;start=wfind_exact_from(g_agent_md_old,AGENT_TEAMS_MARKER_START,0);end=wfind_exact_from(g_agent_md_old,AGENT_TEAMS_MARKER_END,0);
+    return start>=0&&end>start&&wfind_exact_from(g_agent_md_old,AGENT_TEAMS_MARKER_START,start+1)<0&&wfind_exact_from(g_agent_md_old,AGENT_TEAMS_MARKER_END,end+1)<0;
+}
+
+static void update_agent_teams_button(void) {
+    BOOL owned=FALSE;WCHAR original[4096];
+    if(!g_agent_teams)return;original[0]=0;agent_registry_load(&owned,original,4096);
+    pSetWindowTextW(g_agent_teams,(owned||agent_global_full_state())?L"停用 Agent Teams":L"Agent Teams（全局）");
+}
+
+static void manage_global_agent_teams(void) {
+    WCHAR settings[4096],md[4096],original[4096],captured[4096];BOOL owned=FALSE,enable,settings_exists,md_exists,external=FALSE,registry_changed=FALSE;int code;
+    if(!agent_global_paths(settings,4096,md,4096)){pMessageBoxW(g_main,L"无法确定当前用户目录。",L"Agent Teams",MB_ICONERROR);return;}
+    if(!agent_registry_load(&owned,original,4096)){pMessageBoxW(g_main,L"Manager 的 Agent Teams 状态记录已损坏，未修改任何文件。",L"Agent Teams",MB_ICONERROR);return;}
+    enable=!(owned||agent_global_full_state());
+    if(enable){
+        if(pMessageBoxW(g_main,L"将为当前 Windows 用户全局启用实验性 Agent Teams，并写入多 Agent 工作规则。\r\n\r\n适用于 Claude Code CLI 与 Claude Desktop 本地 Code 会话；不覆盖云端、WSL 或 SSH。功能需要 Claude Code 2.1.32+，会明显增加 Token 用量。\r\n\r\n是否继续？",L"启用 Agent Teams",MB_YESNO|MB_ICONWARNING)!=IDYES)return;
+    }else if(pMessageBoxW(g_main,L"将移除 ClaudeCodeManager 托管的多 Agent 规则，并恢复启用前的环境变量值。\r\n\r\n是否继续？",L"停用 Agent Teams",MB_YESNO|MB_ICONQUESTION)!=IDYES)return;
+    settings_exists=GetFileAttributesW(settings)!=INVALID_FILE_ATTRIBUTES;md_exists=GetFileAttributesW(md)!=INVALID_FILE_ATTRIBUTES;
+    if(settings_exists){if(!read_text_file_w_strict(settings,g_json_source_text,sizeof(g_json_source_text)/2)){pMessageBoxW(g_main,L"settings.json 不是受支持的 UTF-8/UTF-16LE 文本或文件过大，未修改。",L"Agent Teams",MB_ICONERROR);return;}}else wcopy(g_json_source_text,sizeof(g_json_source_text)/2,L"{}");
+    if(md_exists){if(!read_text_file_w_strict(md,g_agent_md_old,sizeof(g_agent_md_old)/2)){pMessageBoxW(g_main,L"CLAUDE.md 不是有效 UTF-8/UTF-16LE 文本或文件过大，未修改。",L"Agent Teams",MB_ICONERROR);return;}}else g_agent_md_old[0]=0;
+    captured[0]=0;if(!agent_settings_transform(g_json_source_text,enable,owned,original,g_agent_settings_new,sizeof(g_agent_settings_new)/2,captured,4096,&external)||!agent_rules_transform(g_agent_md_old,enable,g_agent_md_new,sizeof(g_agent_md_new)/2)){pMessageBoxW(g_main,L"配置无效、存在重复键或托管标记已损坏，未修改任何文件。",L"Agent Teams",MB_ICONERROR);return;}
+    if(enable&&!owned){
+        if(!agent_registry_store(TRUE,captured)){pMessageBoxW(g_main,L"无法保存启用前状态，未修改任何文件。",L"Agent Teams",MB_ICONERROR);return;}registry_changed=TRUE;
+    }else if(!enable&&!owned){
+        /* The flag predated Manager ownership. Never remove or rewrite it;
+           disabling in this state only removes the Manager rules block. */
+        wcopy(g_agent_settings_new,sizeof(g_agent_settings_new)/2,g_json_source_text);
+    }
+    set_busy(TRUE);set_status(enable?L"正在启用 Agent Teams…":L"正在停用 Agent Teams…");code=agent_commit_files(settings,g_json_source_text,settings_exists,g_agent_settings_new,md,g_agent_md_old,md_exists,g_agent_md_new);
+    if(code!=0){if(registry_changed)agent_registry_store(FALSE,L"");set_busy(FALSE);set_status(L"Agent Teams 配置失败");pMessageBoxW(g_main,code==27?L"写入失败，且 settings.json 自动回滚失败。请使用 backup-agent-teams 备份手动恢复。":L"写入失败，已保留原配置或完成自动回滚。",L"Agent Teams",MB_ICONERROR);return;}
+    if(!enable&&owned&&!agent_registry_store(FALSE,L"")){set_busy(FALSE);set_status(L"文件已更新，但状态记录清理失败");pMessageBoxW(g_main,L"文件已更新，但 Manager 状态记录清理失败。",L"Agent Teams",MB_ICONWARNING);update_agent_teams_button();return;}
+    set_busy(FALSE);update_agent_teams_button();set_status(enable?L"Agent Teams 已全局启用":L"Agent Teams 托管配置已停用");
+    if(external)pMessageBoxW(g_main,L"检测到环境变量已被其他工具或用户修改；已保留当前值，只移除了 Manager 托管规则。",L"Agent Teams",MB_ICONWARNING);
+    else pMessageBoxW(g_main,enable?L"已启用。建议新建或重启 Claude Code 会话后使用。":L"已停用 Manager 托管的 Agent Teams 配置。",L"Agent Teams",MB_ICONINFORMATION);
+}
 
 static BOOL choose_settings_target(LPWSTR out,unsigned int cap,BOOL importing) {
     int r;WCHAR project[4096],profile[4096];LPCWSTR title=importing?L"选择导入位置":L"选择要打开的配置";
@@ -3549,7 +3880,7 @@ static void layout_controls(int width, int height) {
     int primary_w=(left_btn_area-btn_gap*2)*46/100;
     int secondary_w=(left_btn_area-btn_gap*2-primary_w)/2;
     int right_inner_w=rightw-inner*2,test_w=sc(92),network_gap=sc(8),network_w=right_inner_w-test_w-network_gap;
-    int pair_w=(right_inner_w-sc(10))/2;
+    int pair_w=(right_inner_w-sc(10))/2,third_w=(right_inner_w-sc(16))/3;
     g_client_w=width;g_client_h=height;
 
     /* Left card */
@@ -3575,8 +3906,9 @@ static void layout_controls(int width, int height) {
     pMoveWindow(g_install,rx+inner,top+sc(262),right_inner_w,sc(36),TRUE);
     pMoveWindow(g_import_settings,rx+inner,top+sc(304),pair_w,sc(32),TRUE);
     pMoveWindow(g_open_settings,rx+inner+pair_w+sc(10),top+sc(304),right_inner_w-pair_w-sc(10),sc(32),TRUE);
-    pMoveWindow(g_model_wizard,rx+inner,top+sc(340),pair_w,sc(32),TRUE);
-    pMoveWindow(g_shortcut,rx+inner+pair_w+sc(10),top+sc(340),right_inner_w-pair_w-sc(10),sc(32),TRUE);
+    pMoveWindow(g_model_wizard,rx+inner,top+sc(340),third_w,sc(32),TRUE);
+    pMoveWindow(g_agent_teams,rx+inner+third_w+sc(8),top+sc(340),third_w,sc(32),TRUE);
+    pMoveWindow(g_shortcut,rx+inner+(third_w+sc(8))*2,top+sc(340),right_inner_w-third_w*2-sc(16),sc(32),TRUE);
 
     pMoveWindow(g_fongap_link,width-m-sc(220),logy+sc(7),sc(198),sc(28),TRUE);
     pMoveWindow(g_log,m+sc(22),logy+sc(40),width-m*2-sc(44),logh-sc(52),TRUE);
@@ -3709,6 +4041,7 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             g_import_settings=create_control(0,L"BUTTON",L"导入配置…",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_IMPORT_SETTINGS);
             g_open_settings=create_control(0,L"BUTTON",L"打开配置…",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_OPEN_SETTINGS);
             g_model_wizard=create_control(0,L"BUTTON",L"模型配置…",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_MODEL_WIZARD);
+            g_agent_teams=create_control(0,L"BUTTON",L"Agent Teams",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_AGENT_TEAMS);
             g_shortcut=create_control(0,L"BUTTON",L"创建桌面快捷方式",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_SHORTCUT);
             g_fongap_link=create_control(0,L"BUTTON",L"Fongap Studio · www.fongap.com",WS_TABSTOP|BS_OWNERDRAW,0,0,0,0,IDC_FONGAP_LINK);
             g_log=create_control(0,L"EDIT",L"",WS_VSCROLL|ES_MULTILINE|ES_AUTOVSCROLL|ES_READONLY,0,0,0,0,IDC_LOG);
@@ -3716,7 +4049,7 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             apply_main_control_fonts();apply_main_edit_margins();
             pSendMessageW(g_log,EM_SETLIMITTEXT,2097152,0);
             update_claude_state(); startup_log_write("WM_CREATE Claude state checked\r\n"); set_status(L"就绪"); refresh_projects(); startup_log_write("WM_CREATE projects refreshed\r\n");
-            update_network_controls(); set_phase(0,0,L"");
+            update_network_controls();update_agent_teams_button();set_phase(0,0,L"");
             append_log(L"欢迎使用 " CCM_VERSION_BANNER);
             if(g_claude_installed){
                 append_log(L"Claude Code 已就绪 — 选择项目启动，或打开模型配置调整设置");
@@ -3809,6 +4142,7 @@ static LRESULT __stdcall wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             else if(id==IDC_IMPORT_SETTINGS && code==BN_CLICKED) start_import_settings();
             else if(id==IDC_OPEN_SETTINGS && code==BN_CLICKED) open_settings_file();
             else if(id==IDC_MODEL_WIZARD && code==BN_CLICKED) show_model_wizard();
+            else if(id==IDC_AGENT_TEAMS && code==BN_CLICKED) manage_global_agent_teams();
             else if(id==IDC_FONGAP_LINK && code==BN_CLICKED) pShellExecuteW(g_main,L"open",L"https://www.fongap.com",0,0,SW_SHOWNORMAL);
             else if(id==IDC_NETWORK_MODE && code==CBN_SELCHANGE){network_mode_name(network_mode_index(),g_cfg_network_mode,32);update_network_controls();save_config();}
             else if(id==IDC_PROJECTS && code==LBN_DBLCLK){save_config();launch_in_console(TRUE);}

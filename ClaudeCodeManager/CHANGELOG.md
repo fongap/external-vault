@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.0 - 2026-08-13
+
+### Agent Teams
+
+- 主窗口新增当前 Windows 用户级 `Agent Teams（全局）` 开关，同时管理
+  `~/.claude/settings.json` 实验环境变量和 `~/.claude/CLAUDE.md` 多 Agent 规则。
+- settings 更新只定向修改 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`，保留其他顶层及
+  `env` 字段；CLAUDE.md 只增删唯一标记托管区块。
+- 首次启用会记录目标变量的原始 JSON 值；停用时仅在当前仍为 Manager 写入的 `"1"`
+  时恢复。检测到外部改写会保留用户值并警告。
+- 两个配置文件写前保留原始备份，使用 PID/时钟唯一临时文件与原子替换；第二阶段
+  失败时自动补偿回滚第一阶段。
+- 非法 JSON、重复目标键、重复/缺失/倒序托管标记、无效 UTF-8 以及超大配置全部
+  fail closed，不覆盖用户文件。
+- 成功写入后配置统一规范化为无 BOM UTF-8；JSON 格式可能重排，但未知字段和
+  CLAUDE.md 托管标记外的文本内容会保留。
+
 ## 1.1.2 - 2026-08-13
 
 ### Gateway compatibility

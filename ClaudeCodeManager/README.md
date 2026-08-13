@@ -15,6 +15,7 @@ Manager 负责：
 - Windows 凭据管理器中的敏感凭据
 - `ANTHROPIC_BASE_URL`、模型名和代理环境变量注入
 - 安装、`claude update`、必要日志与故障诊断入口
+- 当前 Windows 用户级 Agent Teams 实验开关与多 Agent 工作规则托管
 - AppUserModelID、控制台标题、窗口/任务栏/快捷方式图标
 
 原生 Claude Code 负责：
@@ -69,6 +70,23 @@ Claude Code 没有公开的逐模型 `contextWindow` CLI 参数，因此 Manager
 HKCU\Software\Fongap\ClaudeCodeManager
 ```
 
+## Agent Teams 全局管理
+
+主窗口的 `Agent Teams（全局）` 按钮会同步管理两个用户级配置：
+
+- `%USERPROFILE%\.claude\settings.json` 中的
+  `env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"`。
+- `%USERPROFILE%\.claude\CLAUDE.md` 中带 ClaudeCodeManager 起止标记的多 Agent
+  工作规则托管区块。
+
+写入前会创建原文件备份，使用唯一临时文件原子替换并统一输出为无 BOM UTF-8；第二个文件写入失败时会补偿
+回滚第一个文件。重复启停不会产生重复键或区块。若用户在启用后自行修改目标环境
+变量，停用操作会保留用户的新值。
+
+“全局”指当前 Windows 用户的 Claude Code CLI 与 Claude Desktop 本地 Code 会话，
+不包括云端、WSL、SSH 或其他用户。Agent Teams 需要 Claude Code 2.1.32+，属于实验
+功能且会增加 Token 用量；`CLAUDE.md` 是行为指导而非强制策略。建议配置后新建会话。
+
 ## 原生启动器与图标
 
 轻量启动器入口为：
@@ -95,7 +113,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -ZigPath zig
 
 主程序采用 C11 严格警告构建。`tests/context_capacity_parser_test.c` 覆盖上下文容量、
 Messages URL 和探活 JSON；`tests/gateway_probe_integration_test.c` 配合
-`tests/mock_gateway.py` 验证 V1.0 三认证头、真实模型 ID 和单认证头回退。
+`tests/mock_gateway.py` 验证 V1.0 三认证头、真实模型 ID 和单认证头回退；
+`tests/agent_teams_config_test.c` 覆盖全局开关的保留式合并、幂等、ownership 与托管
+标记损坏时的 fail-closed 行为。
 
 ## UI 设计原则
 
@@ -113,3 +133,5 @@ MIT，参见仓库根目录 [LICENSE](../LICENSE)。
 
 - [Claude Code model configuration](https://code.claude.com/docs/en/model-config)
 - [Claude Code settings](https://code.claude.com/docs/en/settings)
+- [Claude Code agent teams](https://code.claude.com/docs/en/agent-teams)
+- [Claude Code memory / CLAUDE.md](https://code.claude.com/docs/en/memory)
