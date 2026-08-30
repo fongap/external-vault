@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+SecurePigeon/src/build/
+SecurePigeon/src/dist/
+SecurePigeon/src/*.spec
