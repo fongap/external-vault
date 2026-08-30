@@ -26,6 +26,7 @@ from activation import (
 )
 from pigeon_store import (
     MailboxError,
+    fingerprint,
     initialize_store,
     load_public_key,
     new_rsa_keypair,
@@ -407,7 +408,7 @@ class DeploymentProgress:
         script = (
             "$p=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('"
             f"{base64.b64encode(str(self.path).encode('utf-16le')).decode('ascii')}"
-            "'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=440;$DH=195;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object System.Windows.Forms.Form;$f.Text='安全信鸽 · 正在部署';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.BackColor=[Drawing.Color]::White;$f.FormBorderStyle='FixedDialog';$f.ControlBox=$false;$title=New-Object System.Windows.Forms.Label;$title.Text='正在创建安全信鸽 U 盘';$title.Location=New-Object Drawing.Point(28,24);$title.Size=New-Object Drawing.Size(384,24);$title.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$title.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($title);$l=New-Object System.Windows.Forms.Label;$l.Location=New-Object Drawing.Point(28,56);$l.Size=New-Object Drawing.Size(384,40);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($l);$track=New-Object System.Windows.Forms.Panel;$track.Size=New-Object Drawing.Size(384,4);$track.Location=New-Object Drawing.Point(28,110);$track.BackColor=[Drawing.ColorTranslator]::FromHtml('#F0F0F0');$f.Controls.Add($track);$fill=New-Object System.Windows.Forms.Label;$fill.Size=New-Object Drawing.Size(0,4);$fill.Location=New-Object Drawing.Point(0,0);$fill.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$track.Controls.Add($fill);$n=New-Object System.Windows.Forms.Label;$n.Text='请勿拔出 U 盘或关闭电脑';$n.Location=New-Object Drawing.Point(28,126);$n.Size=New-Object Drawing.Size(384,20);$n.ForeColor=[Drawing.ColorTranslator]::FromHtml('#AEAEB2');$n.Font=New-Object Drawing.Font('Microsoft YaHei UI',8);$f.Controls.Add($n);$t=New-Object System.Windows.Forms.Timer;$t.Interval=250;$t.Add_Tick({if(Test-Path -LiteralPath $p){$v=(Get-Content -LiteralPath $p -Raw -Encoding UTF8).Split([char]9);if($v.Length -ge 3){$pct=[Math]::Max(0,[Math]::Min(100,[int]$v[1]));$fill.Size=New-Object Drawing.Size([Math]::Floor(384*$pct/100),4);$l.Text=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($v[2]));if($v[0] -ne 'RUN'){$fill.BackColor=[Drawing.ColorTranslator]::FromHtml('#34C759');$t.Stop();$f.Close()}}}});$f.Add_Shown({$t.Start()});[void]$f.ShowDialog()"
+            "'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=440;$DH=195;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object System.Windows.Forms.Form;$f.Text='安全信鸽 · 正在部署';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.BackColor=[Drawing.Color]::White;$f.FormBorderStyle='FixedDialog';$f.ControlBox=$false;$title=New-Object System.Windows.Forms.Label;$title.Text='正在创建安全信鸽 U 盘';$title.Location=New-Object Drawing.Point(28,24);$title.Size=New-Object Drawing.Size(384,24);$title.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$title.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($title);$l=New-Object System.Windows.Forms.Label;$l.Location=New-Object Drawing.Point(28,56);$l.Size=New-Object Drawing.Size(384,40);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($l);$track=New-Object System.Windows.Forms.Panel;$track.Size=New-Object Drawing.Size(384,4);$track.Location=New-Object Drawing.Point(28,110);$track.BackColor=[Drawing.ColorTranslator]::FromHtml('#F0F0F0');$f.Controls.Add($track);$fill=New-Object System.Windows.Forms.Label;$fill.Size=New-Object Drawing.Size(0,4);$fill.Location=New-Object Drawing.Point(0,0);$fill.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$track.Controls.Add($fill);$n=New-Object System.Windows.Forms.Label;$n.Text='请勿拔出 U 盘或关闭电脑';$n.Location=New-Object Drawing.Point(28,126);$n.Size=New-Object Drawing.Size(384,20);$n.ForeColor=[Drawing.ColorTranslator]::FromHtml('#AEAEB2');$n.Font=New-Object Drawing.Font('Microsoft YaHei UI',8);$f.Controls.Add($n);$t=New-Object System.Windows.Forms.Timer;$t.Interval=250;$t.Add_Tick({if(Test-Path -LiteralPath $p){$v=([IO.File]::ReadAllText($p)).Split([char]9);if($v.Length -ge 3){$pct=[Math]::Max(0,[Math]::Min(100,[int]$v[1]));$fill.Size=New-Object Drawing.Size([Math]::Floor(384*$pct/100),4);$l.Text=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($v[2]));if($v[0] -ne 'RUN'){$fill.BackColor=[Drawing.ColorTranslator]::FromHtml('#34C759');$t.Stop();$f.Close()}}}});$f.Add_Shown({$t.Start()});[void]$f.ShowDialog()"
         )
         self._ps_script = _ps_product_script(script)
         self.process = subprocess.Popen(
@@ -609,7 +610,11 @@ def main() -> int:
         device_id = get_device_id(root)
 
         activation_code = generate_activation_code(device_id, master_key)
-        deploy_license(root, master_key, code_hash(activation_code))
+        deploy_license(
+            root, master_key, activation_code,
+            fingerprint(load_public_key(public_path)),
+            fingerprint(temporary_private_key.public_key()),
+        )
 
         master_key_path = author_kit / f'激活主密钥-{device_id}.txt'
         master_key_path.write_text(

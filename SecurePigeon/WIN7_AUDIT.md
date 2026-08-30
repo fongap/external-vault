@@ -126,6 +126,13 @@ deploy_license(root, master_key, code_hash(activation_code))
 deploy_license(root, master_key, activation_code)
 ```
 
+> **2026-08-30 更新：原始 `initialize_usb.py`（745 行）已找到并放入 `src/`，
+> 上述补丁已应用完毕**（连同修复 #3 的公钥指纹、修复 #4 的 Win7 `-Raw` 修复），
+> 并通过端到端冒烟测试：部署流程产出的 PLF3 license（180 字节）指纹与盘上
+> 公钥一致、激活闭环通过。`src/` 现已包含全部 7 个源文件，`build_win7.bat`
+> 的 4 个构建目标均可直接执行。`code_hash` 导入保留（赋码工具 GUI 导入
+> 密钥文件的正则仍引用说明文档格式，无影响）。
+
 赋码工具（`activation_tool.py`）与 `generate_activation_code` 算法**不变**，激活码本身格式不变；收件箱（`inbox.py`）调用的所有函数签名不变，无需改动。
 
 **测试覆盖**（`src/test_activation_fix.py`）：部署→验证→激活闭环、错误码拒绝、旧式伪造拒绝、跨盘克隆拒绝（原盘仍有效）、重格后失效、裸 SHA256 掩码不再能还原主密钥、旧格式默认拒绝/显式开启后可用、试用日期单一时间基准、tag 篡改检测。
