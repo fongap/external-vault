@@ -1,0 +1,59 @@
+name: AgentDock Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'AgentDock/**'
+      - '.github/workflows/agentdock.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Build (Windows x64)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Zig
+        uses: mlugg/setup-zig@v2
+        with:
+          version: '0.15.2'
+
+      - name: Build
+        shell: powershell
+        working-directory: ./AgentDock
+        run: |
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -ZigPath zig -Configuration release
+
+      - name: Verify output
+        shell: powershell
+        working-directory: ./AgentDock
+        run: |
+          Get-Item .\dist\AgentDock.exe | Select-Object FullName, Length, LastWriteTime
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AgentDock-windows-x64
+          path: AgentDock/dist/AgentDock.exe
+          retention-days: 7
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/agentdock-')
+    runs-on: ubuntu-latest
+    name: Create Release
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: AgentDock-windows-x64
+          path: ./dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./dist/AgentDock.exe
+          generate_release_notes: true

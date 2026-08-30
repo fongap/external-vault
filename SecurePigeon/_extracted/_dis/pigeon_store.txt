@@ -1,0 +1,2387 @@
+
+======================================================================
+CODE: <module>  qual=<module>  args=()
+======================================================================
+CONSTS: ["'Encrypted append-only storage for Secure Pigeon version 2.'", '0', "('annotations',)", 'None', "('Callable',)", "('dataclass',)", "('Path',)", "('hashes', 'serialization')", "('padding', 'rsa')", "('AESGCM',)", "b'PIGEON02'", '2', '4096', "'<8sI32s32sQ'", "b'MSG3'", "'<4sQHHIIQ8s'", '1048576', "b'pigeon-v2-author'", "b'pigeon-v2-temporary'", "'MailboxError'", 'True', "('frozen',)", "'StoreInfo'", 'False', "('temporary', 'progress')", "('public_key', 'rsa.RSAPublicKey', 'return', 'bytes')", "('path', 'Path', 'return', 'rsa.RSAPublicKey')", "('path', 'Path', 'password', 'str', 'return', 'rsa.RSAPrivateKey')", "('return', 'rsa.RSAPrivateKey')", "('private_path', 'Path', 'public_path', 'Path', 'password', 'str', 'return', 'None')", "('private_key', 'rsa.RSAPrivateKey', 'return', 'bytes')", "('capacity', 'int', 'return', 'int')", "('path', 'Path', 'return', 'tuple[bytes, bytes, int]')", '(None, None)', "('path', 'Path', 'author_public_key', 'rsa.RSAPublicKey | None', 'temporary_public_key', 'rsa.RSAPublicKey | None', 'return', 'StoreInfo')", "('return', 'None')", '(None,)', "('path', 'Path', 'author_public_key', 'rsa.RSAPublicKey', 'temporary_public_key', 'rsa.RSAPublicKey', 'capacity', 'int', 'progress', 'Callable[[int, int], None] | None', 'return', 'None')", "('author_len', 'int', 'temporary_len', 'int', 'meta_len', 'int', 'file_size', 'int', 'chunk_size', 'int', 'return', 'int')", "('store_path', 'Path', 'author_public_key', 'rsa.RSAPublicKey', 'temporary_public_key', 'rsa.RSAPublicKey', 'source', 'Path', 'used_hint', 'int | None', 'return', 'tuple[int, int, int]')", "('destination', 'Path', 'safe_name', 'str', 'return', 'Path')", "('store_path', 'Path', 'private_key', 'rsa.RSAPrivateKey', 'destination', 'Path', 'temporary', 'bool', 'return', 'tuple[list[Path], int]')"]
+  0           0 RESUME                   0
+
+  1           2 LOAD_CONST               0 ('Encrypted append-only storage for Secure Pigeon version 2.')
+              4 STORE_NAME               0 (__doc__)
+
+  2           6 LOAD_CONST               1 (0)
+              8 LOAD_CONST               2 (('annotations',))
+             10 IMPORT_NAME              1 (__future__)
+             12 IMPORT_FROM              2 (annotations)
+             14 STORE_NAME               2 (annotations)
+             16 POP_TOP
+
+  4          18 LOAD_CONST               1 (0)
+             20 LOAD_CONST               3 (None)
+             22 IMPORT_NAME              3 (ctypes)
+             24 STORE_NAME               3 (ctypes)
+
+  5          26 LOAD_CONST               1 (0)
+             28 LOAD_CONST               3 (None)
+             30 IMPORT_NAME              4 (ctypes.wintypes)
+             32 STORE_NAME               3 (ctypes)
+
+  6          34 LOAD_CONST               1 (0)
+             36 LOAD_CONST               3 (None)
+             38 IMPORT_NAME              5 (hashlib)
+             40 STORE_NAME               5 (hashlib)
+
+  7          42 LOAD_CONST               1 (0)
+             44 LOAD_CONST               3 (None)
+             46 IMPORT_NAME              6 (json)
+             48 STORE_NAME               6 (json)
+
+  8          50 LOAD_CONST               1 (0)
+             52 LOAD_CONST               3 (None)
+             54 IMPORT_NAME              7 (os)
+             56 STORE_NAME               7 (os)
+
+  9          58 LOAD_CONST               1 (0)
+             60 LOAD_CONST               3 (None)
+             62 IMPORT_NAME              8 (struct)
+             64 STORE_NAME               8 (struct)
+
+ 10          66 LOAD_CONST               1 (0)
+             68 LOAD_CONST               3 (None)
+             70 IMPORT_NAME              9 (sys)
+             72 STORE_NAME               9 (sys)
+
+ 11          74 LOAD_CONST               1 (0)
+             76 LOAD_CONST               3 (None)
+             78 IMPORT_NAME             10 (time)
+             80 STORE_NAME              10 (time)
+
+ 12          82 LOAD_CONST               1 (0)
+             84 LOAD_CONST               4 (('Callable',))
+             86 IMPORT_NAME             11 (collections.abc)
+             88 IMPORT_FROM             12 (Callable)
+             90 STORE_NAME              12 (Callable)
+             92 POP_TOP
+
+ 13          94 LOAD_CONST               1 (0)
+             96 LOAD_CONST               5 (('dataclass',))
+             98 IMPORT_NAME             13 (dataclasses)
+            100 IMPORT_FROM             14 (dataclass)
+            102 STORE_NAME              14 (dataclass)
+            104 POP_TOP
+
+ 14         106 LOAD_CONST               1 (0)
+            108 LOAD_CONST               6 (('Path',))
+            110 IMPORT_NAME             15 (pathlib)
+            112 IMPORT_FROM             16 (Path)
+            114 STORE_NAME              16 (Path)
+            116 POP_TOP
+
+ 16         118 LOAD_CONST               1 (0)
+            120 LOAD_CONST               7 (('hashes', 'serialization'))
+            122 IMPORT_NAME             17 (cryptography.hazmat.primitives)
+            124 IMPORT_FROM             18 (hashes)
+            126 STORE_NAME              18 (hashes)
+            128 IMPORT_FROM             19 (serialization)
+            130 STORE_NAME              19 (serialization)
+            132 POP_TOP
+
+ 17         134 LOAD_CONST               1 (0)
+            136 LOAD_CONST               8 (('padding', 'rsa'))
+            138 IMPORT_NAME             20 (cryptography.hazmat.primitives.asymmetric)
+            140 IMPORT_FROM             21 (padding)
+            142 STORE_NAME              21 (padding)
+            144 IMPORT_FROM             22 (rsa)
+            146 STORE_NAME              22 (rsa)
+            148 POP_TOP
+
+ 18         150 LOAD_CONST               1 (0)
+            152 LOAD_CONST               9 (('AESGCM',))
+            154 IMPORT_NAME             23 (cryptography.hazmat.primitives.ciphers.aead)
+            156 IMPORT_FROM             24 (AESGCM)
+            158 STORE_NAME              24 (AESGCM)
+            160 POP_TOP
+
+ 20         162 LOAD_CONST              10 (b'PIGEON02')
+            164 STORE_NAME              25 (MAGIC)
+
+ 21         166 LOAD_CONST              11 (2)
+            168 STORE_NAME              26 (VERSION)
+
+ 22         170 LOAD_CONST              12 (4096)
+            172 STORE_NAME              27 (HEADER_SIZE)
+
+ 23         174 LOAD_CONST              13 ('<8sI32s32sQ')
+            176 STORE_NAME              28 (HEADER_FMT)
+
+ 24         178 LOAD_CONST              14 (b'MSG3')
+            180 STORE_NAME              29 (RECORD_MAGIC)
+
+ 25         182 LOAD_CONST              15 ('<4sQHHIIQ8s')
+            184 STORE_NAME              30 (RECORD_FMT)
+
+ 26         186 PUSH_NULL
+            188 LOAD_NAME                8 (struct)
+            190 LOAD_ATTR               62 (calcsize)
+            210 LOAD_NAME               30 (RECORD_FMT)
+            212 CALL                     1
+            220 STORE_NAME              32 (RECORD_SIZE)
+
+ 27         222 LOAD_CONST              16 (1048576)
+            224 STORE_NAME              33 (CHUNK_SIZE)
+
+ 28         226 LOAD_CONST              17 (b'pigeon-v2-author')
+            228 STORE_NAME              34 (AUTHOR_LABEL)
+
+ 29         230 LOAD_CONST              18 (b'pigeon-v2-temporary')
+            232 STORE_NAME              35 (TEMPORARY_LABEL)
+
+ 32         234 PUSH_NULL
+            236 LOAD_BUILD_CLASS
+            238 LOAD_CONST              19 (<code object MailboxError at 0x000001ADA40C2C10, file "pigeon_store.py", line 32>)
+            240 MAKE_FUNCTION            0
+            242 LOAD_CONST              20 ('MailboxError')
+            244 LOAD_NAME               36 (RuntimeError)
+            246 CALL                     3
+            254 STORE_NAME              37 (MailboxError)
+
+ 36         256 PUSH_NULL
+            258 LOAD_NAME               14 (dataclass)
+            260 LOAD_CONST              21 (True)
+            262 KW_NAMES                22 (('frozen',))
+            264 CALL                     1
+
+ 37         272 PUSH_NULL
+            274 LOAD_BUILD_CLASS
+            276 LOAD_CONST              23 (<code object StoreInfo at 0x000001ADA40E0030, file "pigeon_store.py", line 36>)
+            278 MAKE_FUNCTION            0
+            280 LOAD_CONST              24 ('StoreInfo')
+            282 CALL                     2
+
+ 36         290 CALL                     0
+
+ 37         298 STORE_NAME              38 (StoreInfo)
+
+ 45         300 LOAD_CONST              42 (('public_key', 'rsa.RSAPublicKey', 'return', 'bytes'))
+            302 LOAD_CONST              25 (<code object fingerprint at 0x000001ADA40A33C0, file "pigeon_store.py", line 45>)
+            304 MAKE_FUNCTION            4 (annotations)
+            306 STORE_NAME              39 (fingerprint)
+
+ 50         308 LOAD_CONST              43 (('path', 'Path', 'return', 'rsa.RSAPublicKey'))
+            310 LOAD_CONST              26 (<code object load_public_key at 0x000001ADA3DF3310, file "pigeon_store.py", line 50>)
+            312 MAKE_FUNCTION            4 (annotations)
+            314 STORE_NAME              40 (load_public_key)
+
+ 57         316 LOAD_CONST              44 (('path', 'Path', 'password', 'str', 'return', 'rsa.RSAPrivateKey'))
+            318 LOAD_CONST              27 (<code object load_private_key at 0x000001ADA3E313B0, file "pigeon_store.py", line 57>)
+            320 MAKE_FUNCTION            4 (annotations)
+            322 STORE_NAME              41 (load_private_key)
+
+ 64         324 LOAD_CONST              45 (('return', 'rsa.RSAPrivateKey'))
+            326 LOAD_CONST              28 (<code object new_rsa_keypair at 0x000001ADA40AA3D0, file "pigeon_store.py", line 64>)
+            328 MAKE_FUNCTION            4 (annotations)
+            330 STORE_NAME              42 (new_rsa_keypair)
+
+ 68         332 LOAD_CONST              46 (('private_path', 'Path', 'public_path', 'Path', 'password', 'str', 'return', 'None'))
+            334 LOAD_CONST              29 (<code object write_author_keypair at 0x000001ADA41C6300, file "pigeon_store.py", line 68>)
+            336 MAKE_FUNCTION            4 (annotations)
+            338 STORE_NAME              43 (write_author_keypair)
+
+ 83         340 LOAD_CONST              47 (('private_key', 'rsa.RSAPrivateKey', 'return', 'bytes'))
+            342 LOAD_CONST              30 (<code object private_key_pem at 0x000001ADA3FF3B20, file "pigeon_store.py", line 83>)
+            344 MAKE_FUNCTION            4 (annotations)
+            346 STORE_NAME              44 (private_key_pem)
+
+ 89         348 LOAD_CONST              48 (('capacity', 'int', 'return', 'int'))
+            350 LOAD_CONST              31 (<code object _record_end at 0x000001ADA3F02900, file "pigeon_store.py", line 89>)
+            352 MAKE_FUNCTION            4 (annotations)
+            354 STORE_NAME              45 (_record_end)
+
+109         356 LOAD_CONST              49 (('path', 'Path', 'return', 'tuple[bytes, bytes, int]'))
+            358 LOAD_CONST              32 (<code object _read_header at 0x000001ADA3F4FC10, file "pigeon_store.py", line 109>)
+            360 MAKE_FUNCTION            4 (annotations)
+            362 STORE_NAME              46 (_read_header)
+
+132         364 NOP
+
+133         366 NOP
+
+130         368 LOAD_CONST              50 ((None, None))
+
+131         370 NOP
+
+130         372 NOP
+
+132         374 NOP
+
+130         376 NOP
+
+133         378 NOP
+
+130         380 NOP
+
+134         382 NOP
+
+130         384 LOAD_CONST              51 (('path', 'Path', 'author_public_key', 'rsa.RSAPublicKey | None', 'temporary_public_key', 'rsa.RSAPublicKey | None', 'return', 'StoreInfo'))
+            386 LOAD_CONST              33 (<code object inspect_store at 0x000001ADA41C1AB0, file "pigeon_store.py", line 130>)
+            388 MAKE_FUNCTION            5 (defaults, annotations)
+            390 STORE_NAME              47 (inspect_store)
+
+157         392 LOAD_CONST              52 (('return', 'None'))
+            394 LOAD_CONST              34 (<code object _make_sparse at 0x000001ADA3F686A0, file "pigeon_store.py", line 157>)
+            396 MAKE_FUNCTION            4 (annotations)
+            398 STORE_NAME              48 (_make_sparse)
+
+181         400 NOP
+
+176         402 LOAD_CONST              53 ((None,))
+
+177         404 NOP
+
+176         406 NOP
+
+178         408 NOP
+
+176         410 NOP
+
+179         412 NOP
+
+176         414 NOP
+
+180         416 NOP
+
+176         418 NOP
+
+181         420 NOP
+
+176         422 NOP
+
+182         424 NOP
+
+176         426 LOAD_CONST              54 (('path', 'Path', 'author_public_key', 'rsa.RSAPublicKey', 'temporary_public_key', 'rsa.RSAPublicKey', 'capacity', 'int', 'progress', 'Callable[[int, int], None] | None', 'return', 'None'))
+            428 LOAD_CONST              35 (<code object initialize_store at 0x000001ADA3EFCE90, file "pigeon_store.py", line 176>)
+            430 MAKE_FUNCTION            5 (defaults, annotations)
+            432 STORE_NAME              49 (initialize_store)
+
+217         434 LOAD_CONST              55 (('author_len', 'int', 'temporary_len', 'int', 'meta_len', 'int', 'file_size', 'int', 'chunk_size', 'int', 'return', 'int'))
+            436 LOAD_CONST              36 (<code object _record_length at 0x000001ADA40DDAC0, file "pigeon_store.py", line 217>)
+            438 MAKE_FUNCTION            4 (annotations)
+            440 STORE_NAME              50 (_record_length)
+
+222         442 LOAD_CONST              50 ((None, None))
+            444 LOAD_CONST              56 (('store_path', 'Path', 'author_public_key', 'rsa.RSAPublicKey', 'temporary_public_key', 'rsa.RSAPublicKey', 'source', 'Path', 'used_hint', 'int | None', 'return', 'tuple[int, int, int]'))
+            446 LOAD_CONST              37 (<code object append_file at 0x000001ADA41EBD30, file "pigeon_store.py", line 222>)
+            448 MAKE_FUNCTION            5 (defaults, annotations)
+            450 STORE_NAME              51 (append_file)
+
+308         452 LOAD_CONST              57 (('destination', 'Path', 'safe_name', 'str', 'return', 'Path'))
+            454 LOAD_CONST              38 (<code object _next_output_name at 0x000001ADA40A36E0, file "pigeon_store.py", line 308>)
+            456 MAKE_FUNCTION            4 (annotations)
+            458 STORE_NAME              52 (_next_output_name)
+
+318         460 LOAD_CONST              39 (False)
+            462 LOAD_CONST               3 (None)
+            464 LOAD_CONST              40 (('temporary', 'progress'))
+            466 BUILD_CONST_KEY_MAP      2
+            468 LOAD_CONST              58 (('store_path', 'Path', 'private_key', 'rsa.RSAPrivateKey', 'destination', 'Path', 'temporary', 'bool', 'return', 'tuple[list[Path], int]'))
+            470 LOAD_CONST              41 (<code object extract_all at 0x000001ADA42AB040, file "pigeon_store.py", line 318>)
+            472 MAKE_FUNCTION            6 (kwdefaults, annotations)
+            474 STORE_NAME              53 (extract_all)
+            476 RETURN_CONST             3 (None)
+
+======================================================================
+CODE: MailboxError  qual=MailboxError  args=()
+======================================================================
+CONSTS: ["'MailboxError'", 'None']
+ 32           0 RESUME                   0
+              2 LOAD_NAME                0 (__name__)
+              4 STORE_NAME               1 (__module__)
+              6 LOAD_CONST               0 ('MailboxError')
+              8 STORE_NAME               2 (__qualname__)
+
+ 33          10 RETURN_CONST             1 (None)
+
+======================================================================
+CODE: StoreInfo  qual=StoreInfo  args=()
+======================================================================
+CONSTS: ["'StoreInfo'", "'Path'", "'path'", "'int'", "'capacity'", "'used'", "'str'", "'author_fingerprint'", "'temporary_fingerprint'", 'None']
+ 36           0 RESUME                   0
+              2 LOAD_NAME                0 (__name__)
+              4 STORE_NAME               1 (__module__)
+              6 LOAD_CONST               0 ('StoreInfo')
+              8 STORE_NAME               2 (__qualname__)
+             10 SETUP_ANNOTATIONS
+
+ 38          12 LOAD_CONST               1 ('Path')
+             14 LOAD_NAME                3 (__annotations__)
+             16 LOAD_CONST               2 ('path')
+             18 STORE_SUBSCR
+
+ 39          22 LOAD_CONST               3 ('int')
+             24 LOAD_NAME                3 (__annotations__)
+             26 LOAD_CONST               4 ('capacity')
+             28 STORE_SUBSCR
+
+ 40          32 LOAD_CONST               3 ('int')
+             34 LOAD_NAME                3 (__annotations__)
+             36 LOAD_CONST               5 ('used')
+             38 STORE_SUBSCR
+
+ 41          42 LOAD_CONST               6 ('str')
+             44 LOAD_NAME                3 (__annotations__)
+             46 LOAD_CONST               7 ('author_fingerprint')
+             48 STORE_SUBSCR
+
+ 42          52 LOAD_CONST               6 ('str')
+             54 LOAD_NAME                3 (__annotations__)
+             56 LOAD_CONST               8 ('temporary_fingerprint')
+             58 STORE_SUBSCR
+             62 RETURN_CONST             9 (None)
+
+======================================================================
+CODE: fingerprint  qual=fingerprint  args=('public_key',)
+======================================================================
+CONSTS: ['None']
+ 45           0 RESUME                   0
+
+ 46           2 LOAD_FAST                0 (public_key)
+              4 LOAD_ATTR                1 (NULL|self + public_bytes)
+             24 LOAD_GLOBAL              2 (serialization)
+             34 LOAD_ATTR                4 (Encoding)
+             54 LOAD_ATTR                6 (DER)
+             74 LOAD_GLOBAL              2 (serialization)
+             84 LOAD_ATTR                8 (PublicFormat)
+            104 LOAD_ATTR               10 (SubjectPublicKeyInfo)
+            124 CALL                     2
+            132 STORE_FAST               1 (wire)
+
+ 47         134 LOAD_GLOBAL             13 (NULL + hashlib)
+            144 LOAD_ATTR               14 (sha256)
+            164 LOAD_FAST                1 (wire)
+            166 CALL                     1
+            174 LOAD_ATTR               17 (NULL|self + digest)
+            194 CALL                     0
+            202 RETURN_VALUE
+
+======================================================================
+CODE: load_public_key  qual=load_public_key  args=('path',)
+======================================================================
+CONSTS: ['None', "'RSA public key required.'"]
+ 50           0 RESUME                   0
+
+ 51           2 LOAD_GLOBAL              1 (NULL + serialization)
+             12 LOAD_ATTR                2 (load_pem_public_key)
+             32 LOAD_FAST                0 (path)
+             34 LOAD_ATTR                5 (NULL|self + read_bytes)
+             54 CALL                     0
+             62 CALL                     1
+             70 STORE_FAST               1 (key)
+
+ 52          72 LOAD_GLOBAL              7 (NULL + isinstance)
+             82 LOAD_FAST                1 (key)
+             84 LOAD_GLOBAL              8 (rsa)
+             94 LOAD_ATTR               10 (RSAPublicKey)
+            114 CALL                     2
+            122 POP_JUMP_IF_TRUE        11 (to 146)
+
+ 53         124 LOAD_GLOBAL             13 (NULL + MailboxError)
+            134 LOAD_CONST               1 ('RSA public key required.')
+            136 CALL                     1
+            144 RAISE_VARARGS            1
+
+ 54     >>  146 LOAD_FAST                1 (key)
+            148 RETURN_VALUE
+
+======================================================================
+CODE: load_private_key  qual=load_private_key  args=('path', 'password')
+======================================================================
+CONSTS: ['None', "'utf-8'", "'RSA private key required.'"]
+ 57           0 RESUME                   0
+
+ 58           2 LOAD_GLOBAL              1 (NULL + serialization)
+             12 LOAD_ATTR                2 (load_pem_private_key)
+             32 LOAD_FAST                0 (path)
+             34 LOAD_ATTR                5 (NULL|self + read_bytes)
+             54 CALL                     0
+             62 LOAD_FAST                1 (password)
+             64 LOAD_ATTR                7 (NULL|self + encode)
+             84 LOAD_CONST               1 ('utf-8')
+             86 CALL                     1
+             94 CALL                     2
+            102 STORE_FAST               2 (key)
+
+ 59         104 LOAD_GLOBAL              9 (NULL + isinstance)
+            114 LOAD_FAST                2 (key)
+            116 LOAD_GLOBAL             10 (rsa)
+            126 LOAD_ATTR               12 (RSAPrivateKey)
+            146 CALL                     2
+            154 POP_JUMP_IF_TRUE        11 (to 178)
+
+ 60         156 LOAD_GLOBAL             15 (NULL + MailboxError)
+            166 LOAD_CONST               2 ('RSA private key required.')
+            168 CALL                     1
+            176 RAISE_VARARGS            1
+
+ 61     >>  178 LOAD_FAST                2 (key)
+            180 RETURN_VALUE
+
+======================================================================
+CODE: new_rsa_keypair  qual=new_rsa_keypair  args=()
+======================================================================
+CONSTS: ['None', '65537', '3072', "('public_exponent', 'key_size')"]
+ 64           0 RESUME                   0
+
+ 65           2 LOAD_GLOBAL              1 (NULL + rsa)
+             12 LOAD_ATTR                2 (generate_private_key)
+             32 LOAD_CONST               1 (65537)
+             34 LOAD_CONST               2 (3072)
+             36 KW_NAMES                 3 (('public_exponent', 'key_size'))
+             38 CALL                     2
+             46 RETURN_VALUE
+
+======================================================================
+CODE: write_author_keypair  qual=write_author_keypair  args=('private_path', 'public_path', 'password')
+======================================================================
+CONSTS: ['None', '10', "'Private-key password must contain at least 10 characters.'", "'utf-8'"]
+ 68           0 RESUME                   0
+
+ 69           2 LOAD_GLOBAL              1 (NULL + len)
+             12 LOAD_FAST                2 (password)
+             14 CALL                     1
+             22 LOAD_CONST               1 (10)
+             24 COMPARE_OP               2 (<)
+             28 POP_JUMP_IF_FALSE       11 (to 52)
+
+ 70          30 LOAD_GLOBAL              3 (NULL + MailboxError)
+             40 LOAD_CONST               2 ('Private-key password must contain at least 10 characters.')
+             42 CALL                     1
+             50 RAISE_VARARGS            1
+
+ 71     >>   52 LOAD_GLOBAL              5 (NULL + new_rsa_keypair)
+             62 CALL                     0
+             70 STORE_FAST               3 (private_key)
+
+ 72          72 LOAD_FAST                0 (private_path)
+             74 LOAD_ATTR                7 (NULL|self + write_bytes)
+
+ 73          94 LOAD_FAST                3 (private_key)
+             96 LOAD_ATTR                9 (NULL|self + private_bytes)
+
+ 74         116 LOAD_GLOBAL             10 (serialization)
+            126 LOAD_ATTR               12 (Encoding)
+            146 LOAD_ATTR               14 (PEM)
+            166 LOAD_GLOBAL             10 (serialization)
+            176 LOAD_ATTR               16 (PrivateFormat)
+            196 LOAD_ATTR               18 (PKCS8)
+
+ 75         216 LOAD_GLOBAL             11 (NULL + serialization)
+            226 LOAD_ATTR               20 (BestAvailableEncryption)
+            246 LOAD_FAST                2 (password)
+            248 LOAD_ATTR               23 (NULL|self + encode)
+            268 LOAD_CONST               3 ('utf-8')
+            270 CALL                     1
+            278 CALL                     1
+
+ 73         286 CALL                     3
+
+ 72         294 CALL                     1
+            302 POP_TOP
+
+ 78         304 LOAD_FAST                1 (public_path)
+            306 LOAD_ATTR                7 (NULL|self + write_bytes)
+
+ 79         326 LOAD_FAST                3 (private_key)
+            328 LOAD_ATTR               25 (NULL|self + public_key)
+            348 CALL                     0
+            356 LOAD_ATTR               27 (NULL|self + public_bytes)
+            376 LOAD_GLOBAL             10 (serialization)
+            386 LOAD_ATTR               12 (Encoding)
+            406 LOAD_ATTR               14 (PEM)
+            426 LOAD_GLOBAL             10 (serialization)
+            436 LOAD_ATTR               28 (PublicFormat)
+            456 LOAD_ATTR               30 (SubjectPublicKeyInfo)
+            476 CALL                     2
+
+ 78         484 CALL                     1
+            492 POP_TOP
+            494 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: private_key_pem  qual=private_key_pem  args=('private_key',)
+======================================================================
+CONSTS: ['None']
+ 83           0 RESUME                   0
+
+ 84           2 LOAD_FAST                0 (private_key)
+              4 LOAD_ATTR                1 (NULL|self + private_bytes)
+
+ 85          24 LOAD_GLOBAL              2 (serialization)
+             34 LOAD_ATTR                4 (Encoding)
+             54 LOAD_ATTR                6 (PEM)
+             74 LOAD_GLOBAL              2 (serialization)
+             84 LOAD_ATTR                8 (PrivateFormat)
+            104 LOAD_ATTR               10 (PKCS8)
+            124 LOAD_GLOBAL              3 (NULL + serialization)
+            134 LOAD_ATTR               12 (NoEncryption)
+            154 CALL                     0
+
+ 84         162 CALL                     3
+            170 RETURN_VALUE
+
+======================================================================
+CODE: _record_end  qual=_record_end  args=('handle', 'capacity')
+======================================================================
+CONSTS: ['None', "b'\\x00'", '256', '16', '4096']
+ 89           0 RESUME                   0
+
+ 90           2 LOAD_GLOBAL              0 (HEADER_SIZE)
+             12 STORE_FAST               2 (pos)
+
+ 91          14 LOAD_FAST                2 (pos)
+             16 LOAD_GLOBAL              2 (RECORD_SIZE)
+             26 BINARY_OP                0 (+)
+             30 LOAD_FAST                1 (capacity)
+             32 COMPARE_OP              26 (<=)
+             36 POP_JUMP_IF_FALSE      170 (to 378)
+
+ 92     >>   38 LOAD_FAST                0 (handle)
+             40 LOAD_ATTR                5 (NULL|self + seek)
+             60 LOAD_FAST                2 (pos)
+             62 CALL                     1
+             70 POP_TOP
+
+ 93          72 LOAD_FAST                0 (handle)
+             74 LOAD_ATTR                7 (NULL|self + read)
+             94 LOAD_GLOBAL              2 (RECORD_SIZE)
+            104 CALL                     1
+            112 STORE_FAST               3 (raw)
+
+ 94         114 LOAD_FAST                3 (raw)
+            116 LOAD_CONST               1 (b'\x00')
+            118 LOAD_GLOBAL              2 (RECORD_SIZE)
+            128 BINARY_OP                5 (*)
+            132 COMPARE_OP              40 (==)
+            136 POP_JUMP_IF_FALSE        3 (to 144)
+
+ 95         138 NOP
+
+106         140 LOAD_FAST                2 (pos)
+            142 RETURN_VALUE
+
+ 96     >>  144 NOP
+
+ 97         146 LOAD_GLOBAL              9 (NULL + struct)
+            156 LOAD_ATTR               10 (unpack)
+            176 LOAD_GLOBAL             12 (RECORD_FMT)
+            186 LOAD_FAST                3 (raw)
+            188 CALL                     2
+            196 UNPACK_SEQUENCE          8
+            200 STORE_FAST               4 (marker)
+            202 STORE_FAST               5 (total)
+            204 STORE_FAST               6 (author_len)
+            206 STORE_FAST               7 (temporary_len)
+            208 STORE_FAST               8 (meta_len)
+            210 STORE_FAST               9 (chunk_size)
+            212 STORE_FAST              10 (plain_size)
+            214 STORE_FAST              11 (nonce_prefix)
+
+100         216 LOAD_GLOBAL              2 (RECORD_SIZE)
+            226 LOAD_FAST                6 (author_len)
+            228 BINARY_OP                0 (+)
+            232 LOAD_FAST                7 (temporary_len)
+            234 BINARY_OP                0 (+)
+            238 LOAD_FAST                8 (meta_len)
+            240 BINARY_OP                0 (+)
+            244 STORE_FAST              12 (minimum)
+
+101         246 LOAD_FAST                4 (marker)
+            248 LOAD_GLOBAL             16 (RECORD_MAGIC)
+            258 COMPARE_OP              55 (!=)
+            262 POP_JUMP_IF_TRUE        13 (to 290)
+            264 LOAD_FAST                5 (total)
+            266 LOAD_FAST               12 (minimum)
+            268 COMPARE_OP               2 (<)
+            272 POP_JUMP_IF_TRUE         8 (to 290)
+            274 LOAD_FAST                2 (pos)
+            276 LOAD_FAST                5 (total)
+            278 BINARY_OP                0 (+)
+            282 LOAD_FAST                1 (capacity)
+            284 COMPARE_OP              68 (>)
+            288 POP_JUMP_IF_FALSE        3 (to 296)
+
+102     >>  290 NOP
+
+106         292 LOAD_FAST                2 (pos)
+            294 RETURN_VALUE
+
+103     >>  296 LOAD_FAST                6 (author_len)
+            298 LOAD_CONST               2 (256)
+            300 COMPARE_OP               2 (<)
+            304 POP_JUMP_IF_TRUE        15 (to 336)
+            306 LOAD_FAST                7 (temporary_len)
+            308 LOAD_CONST               2 (256)
+            310 COMPARE_OP               2 (<)
+            314 POP_JUMP_IF_TRUE        10 (to 336)
+            316 LOAD_FAST                8 (meta_len)
+            318 LOAD_CONST               3 (16)
+            320 COMPARE_OP               2 (<)
+            324 POP_JUMP_IF_TRUE         5 (to 336)
+            326 LOAD_FAST                9 (chunk_size)
+            328 LOAD_CONST               4 (4096)
+            330 COMPARE_OP               2 (<)
+            334 POP_JUMP_IF_FALSE        3 (to 342)
+
+104     >>  336 NOP
+
+106         338 LOAD_FAST                2 (pos)
+            340 RETURN_VALUE
+
+105     >>  342 LOAD_FAST                2 (pos)
+            344 LOAD_FAST                5 (total)
+            346 BINARY_OP               13 (+=)
+            350 STORE_FAST               2 (pos)
+
+ 91         352 LOAD_FAST                2 (pos)
+            354 LOAD_GLOBAL              2 (RECORD_SIZE)
+            364 BINARY_OP                0 (+)
+            368 LOAD_FAST                1 (capacity)
+            370 COMPARE_OP              26 (<=)
+            374 POP_JUMP_IF_FALSE        1 (to 378)
+            376 JUMP_BACKWARD          170 (to 38)
+
+106     >>  378 LOAD_FAST                2 (pos)
+            380 RETURN_VALUE
+        >>  382 PUSH_EXC_INFO
+
+ 98         384 LOAD_GLOBAL              8 (struct)
+            394 LOAD_ATTR               14 (error)
+            414 CHECK_EXC_MATCH
+            416 POP_JUMP_IF_FALSE        4 (to 426)
+            418 POP_TOP
+
+ 99         420 POP_EXCEPT
+
+106         422 LOAD_FAST                2 (pos)
+            424 RETURN_VALUE
+
+ 98     >>  426 RERAISE                  0
+        >>  428 COPY                     3
+            430 POP_EXCEPT
+            432 RERAISE                  1
+ExceptionTable:
+  146 to 214 -> 382 [0]
+  382 to 418 -> 428 [1] lasti
+  426 to 426 -> 428 [1] lasti
+
+======================================================================
+CODE: _read_header  qual=_read_header  args=('path',)
+======================================================================
+CONSTS: ["'只读 4 KiB 文件仓头，返回 ``(author_fp, temporary_fp, capacity)``。\\n    不扫描记录区——用于已知 ``used``（由调用方维护的 used_hint）的快路径，\\n    避免投递多文件时每次都全仓线性扫定位尾（见 ``append_file`` 的 used_hint）。\\n    头格式/魔数/版本/容量一致性在这里校验；指纹校验留给调", "'rb'", 'None', "'Invalid mailbox format.'", "'Mailbox header magic mismatch: expected '", "', got '", "'.'", "'Mailbox version mismatch: expected '", "'Mailbox size mismatch: header says '", "' bytes, file is '", "' bytes.'"]
+109           0 RESUME                   0
+
+115           2 LOAD_FAST                0 (path)
+              4 LOAD_ATTR                1 (NULL|self + open)
+             24 LOAD_CONST               1 ('rb')
+             26 CALL                     1
+             34 BEFORE_WITH
+             36 STORE_FAST               1 (handle)
+
+116          38 LOAD_FAST                1 (handle)
+             40 LOAD_ATTR                3 (NULL|self + read)
+             60 LOAD_GLOBAL              5 (NULL + struct)
+             70 LOAD_ATTR                6 (calcsize)
+             90 LOAD_GLOBAL              8 (HEADER_FMT)
+            100 CALL                     1
+            108 CALL                     1
+            116 STORE_FAST               2 (raw)
+
+115         118 LOAD_CONST               2 (None)
+            120 LOAD_CONST               2 (None)
+            122 LOAD_CONST               2 (None)
+            124 CALL                     2
+            132 POP_TOP
+
+117     >>  134 NOP
+
+118         136 LOAD_GLOBAL              5 (NULL + struct)
+            146 LOAD_ATTR               10 (unpack)
+            166 LOAD_GLOBAL              8 (HEADER_FMT)
+            176 LOAD_FAST_CHECK          2 (raw)
+            178 CALL                     2
+            186 UNPACK_SEQUENCE          5
+            190 STORE_FAST               3 (magic)
+            192 STORE_FAST               4 (version)
+            194 STORE_FAST               5 (author_fp)
+            196 STORE_FAST               6 (temporary_fp)
+            198 STORE_FAST               7 (capacity)
+
+121         200 LOAD_FAST                3 (magic)
+            202 LOAD_GLOBAL             16 (MAGIC)
+            212 COMPARE_OP              55 (!=)
+            216 POP_JUMP_IF_FALSE       22 (to 262)
+
+122         218 LOAD_GLOBAL             15 (NULL + MailboxError)
+            228 LOAD_CONST               4 ('Mailbox header magic mismatch: expected ')
+            230 LOAD_GLOBAL             16 (MAGIC)
+            240 FORMAT_VALUE             2 (repr)
+            242 LOAD_CONST               5 (', got ')
+            244 LOAD_FAST                3 (magic)
+            246 FORMAT_VALUE             2 (repr)
+            248 LOAD_CONST               6 ('.')
+            250 BUILD_STRING             5
+            252 CALL                     1
+            260 RAISE_VARARGS            1
+
+123     >>  262 LOAD_FAST                4 (version)
+            264 LOAD_GLOBAL             18 (VERSION)
+            274 COMPARE_OP              55 (!=)
+            278 POP_JUMP_IF_FALSE       22 (to 324)
+
+124         280 LOAD_GLOBAL             15 (NULL + MailboxError)
+            290 LOAD_CONST               7 ('Mailbox version mismatch: expected ')
+            292 LOAD_GLOBAL             18 (VERSION)
+            302 FORMAT_VALUE             0
+            304 LOAD_CONST               5 (', got ')
+            306 LOAD_FAST                4 (version)
+            308 FORMAT_VALUE             0
+            310 LOAD_CONST               6 ('.')
+            312 BUILD_STRING             5
+            314 CALL                     1
+            322 RAISE_VARARGS            1
+
+125     >>  324 LOAD_FAST                7 (capacity)
+            326 LOAD_FAST                0 (path)
+            328 LOAD_ATTR               21 (NULL|self + stat)
+            348 CALL                     0
+            356 LOAD_ATTR               22 (st_size)
+            376 COMPARE_OP              55 (!=)
+            380 POP_JUMP_IF_FALSE       42 (to 466)
+
+126         382 LOAD_GLOBAL             15 (NULL + MailboxError)
+            392 LOAD_CONST               8 ('Mailbox size mismatch: header says ')
+            394 LOAD_FAST                7 (capacity)
+            396 FORMAT_VALUE             0
+            398 LOAD_CONST               9 (' bytes, file is ')
+            400 LOAD_FAST                0 (path)
+            402 LOAD_ATTR               21 (NULL|self + stat)
+            422 CALL                     0
+            430 LOAD_ATTR               22 (st_size)
+            450 FORMAT_VALUE             0
+            452 LOAD_CONST              10 (' bytes.')
+            454 BUILD_STRING             5
+            456 CALL                     1
+            464 RAISE_VARARGS            1
+
+127     >>  466 LOAD_FAST                5 (author_fp)
+            468 LOAD_FAST                6 (temporary_fp)
+            470 LOAD_FAST                7 (capacity)
+            472 BUILD_TUPLE              3
+            474 RETURN_VALUE
+
+115     >>  476 PUSH_EXC_INFO
+            478 WITH_EXCEPT_START
+            480 POP_JUMP_IF_TRUE         1 (to 484)
+            482 RERAISE                  2
+        >>  484 POP_TOP
+            486 POP_EXCEPT
+            488 POP_TOP
+            490 POP_TOP
+            492 JUMP_BACKWARD          180 (to 134)
+        >>  494 COPY                     3
+            496 POP_EXCEPT
+            498 RERAISE                  1
+        >>  500 PUSH_EXC_INFO
+
+119         502 LOAD_GLOBAL              4 (struct)
+            512 LOAD_ATTR               12 (error)
+            532 CHECK_EXC_MATCH
+            534 POP_JUMP_IF_FALSE       17 (to 570)
+            536 STORE_FAST               8 (exc)
+
+120         538 LOAD_GLOBAL             15 (NULL + MailboxError)
+            548 LOAD_CONST               3 ('Invalid mailbox format.')
+            550 CALL                     1
+            558 LOAD_FAST                8 (exc)
+            560 RAISE_VARARGS            2
+        >>  562 LOAD_CONST               2 (None)
+            564 STORE_FAST               8 (exc)
+            566 DELETE_FAST              8 (exc)
+            568 RERAISE                  1
+
+119     >>  570 RERAISE                  0
+        >>  572 COPY                     3
+            574 POP_EXCEPT
+            576 RERAISE                  1
+ExceptionTable:
+  36 to 116 -> 476 [1] lasti
+  136 to 198 -> 500 [0]
+  476 to 484 -> 494 [3] lasti
+  500 to 536 -> 572 [1] lasti
+  538 to 560 -> 562 [1] lasti
+  562 to 570 -> 572 [1] lasti
+
+======================================================================
+CODE: inspect_store  qual=inspect_store  args=('path', 'author_public_key', 'temporary_public_key')
+======================================================================
+CONSTS: ['None', "'Mailbox store was not found.'", "'rb'", "'Invalid mailbox format.'", "'Mailbox header magic mismatch: expected '", "', got '", "'.'", "'Mailbox version mismatch: expected '", "'Mailbox size mismatch: header says '", "' bytes, file is '", "' bytes.'", "'Author public key does not match this mailbox.'", "'Temporary-access public key does not match this mailbox.'", '16']
+130           0 RESUME                   0
+
+135           2 LOAD_FAST                0 (path)
+              4 LOAD_ATTR                1 (NULL|self + exists)
+             24 CALL                     0
+             32 POP_JUMP_IF_TRUE        11 (to 56)
+
+136          34 LOAD_GLOBAL              3 (NULL + MailboxError)
+             44 LOAD_CONST               1 ('Mailbox store was not found.')
+             46 CALL                     1
+             54 RAISE_VARARGS            1
+
+137     >>   56 LOAD_FAST                0 (path)
+             58 LOAD_ATTR                5 (NULL|self + open)
+             78 LOAD_CONST               2 ('rb')
+             80 CALL                     1
+             88 BEFORE_WITH
+             90 STORE_FAST               3 (handle)
+
+138          92 LOAD_FAST                3 (handle)
+             94 LOAD_ATTR                7 (NULL|self + read)
+            114 LOAD_GLOBAL              9 (NULL + struct)
+            124 LOAD_ATTR               10 (calcsize)
+            144 LOAD_GLOBAL             12 (HEADER_FMT)
+            154 CALL                     1
+            162 CALL                     1
+            170 STORE_FAST               4 (raw)
+
+139         172 NOP
+
+140         174 LOAD_GLOBAL              9 (NULL + struct)
+            184 LOAD_ATTR               14 (unpack)
+            204 LOAD_GLOBAL             12 (HEADER_FMT)
+            214 LOAD_FAST                4 (raw)
+            216 CALL                     2
+            224 UNPACK_SEQUENCE          5
+            228 STORE_FAST               5 (magic)
+            230 STORE_FAST               6 (version)
+            232 STORE_FAST               7 (author_fp)
+            234 STORE_FAST               8 (temporary_fp)
+            236 STORE_FAST               9 (capacity)
+
+143         238 LOAD_FAST                5 (magic)
+            240 LOAD_GLOBAL             18 (MAGIC)
+            250 COMPARE_OP              55 (!=)
+            254 POP_JUMP_IF_FALSE       22 (to 300)
+
+144         256 LOAD_GLOBAL              3 (NULL + MailboxError)
+            266 LOAD_CONST               4 ('Mailbox header magic mismatch: expected ')
+            268 LOAD_GLOBAL             18 (MAGIC)
+            278 FORMAT_VALUE             2 (repr)
+            280 LOAD_CONST               5 (', got ')
+            282 LOAD_FAST                5 (magic)
+            284 FORMAT_VALUE             2 (repr)
+            286 LOAD_CONST               6 ('.')
+            288 BUILD_STRING             5
+            290 CALL                     1
+            298 RAISE_VARARGS            1
+
+145     >>  300 LOAD_FAST                6 (version)
+            302 LOAD_GLOBAL             20 (VERSION)
+            312 COMPARE_OP              55 (!=)
+            316 POP_JUMP_IF_FALSE       22 (to 362)
+
+146         318 LOAD_GLOBAL              3 (NULL + MailboxError)
+            328 LOAD_CONST               7 ('Mailbox version mismatch: expected ')
+            330 LOAD_GLOBAL             20 (VERSION)
+            340 FORMAT_VALUE             0
+            342 LOAD_CONST               5 (', got ')
+            344 LOAD_FAST                6 (version)
+            346 FORMAT_VALUE             0
+            348 LOAD_CONST               6 ('.')
+            350 BUILD_STRING             5
+            352 CALL                     1
+            360 RAISE_VARARGS            1
+
+147     >>  362 LOAD_FAST                9 (capacity)
+            364 LOAD_FAST                0 (path)
+            366 LOAD_ATTR               23 (NULL|self + stat)
+            386 CALL                     0
+            394 LOAD_ATTR               24 (st_size)
+            414 COMPARE_OP              55 (!=)
+            418 POP_JUMP_IF_FALSE       42 (to 504)
+
+148         420 LOAD_GLOBAL              3 (NULL + MailboxError)
+            430 LOAD_CONST               8 ('Mailbox size mismatch: header says ')
+            432 LOAD_FAST                9 (capacity)
+            434 FORMAT_VALUE             0
+            436 LOAD_CONST               9 (' bytes, file is ')
+            438 LOAD_FAST                0 (path)
+            440 LOAD_ATTR               23 (NULL|self + stat)
+            460 CALL                     0
+            468 LOAD_ATTR               24 (st_size)
+            488 FORMAT_VALUE             0
+            490 LOAD_CONST              10 (' bytes.')
+            492 BUILD_STRING             5
+            494 CALL                     1
+            502 RAISE_VARARGS            1
+
+149     >>  504 LOAD_FAST                1 (author_public_key)
+            506 POP_JUMP_IF_NONE        25 (to 558)
+            508 LOAD_FAST                7 (author_fp)
+            510 LOAD_GLOBAL             27 (NULL + fingerprint)
+            520 LOAD_FAST                1 (author_public_key)
+            522 CALL                     1
+            530 COMPARE_OP              55 (!=)
+            534 POP_JUMP_IF_FALSE       11 (to 558)
+
+150         536 LOAD_GLOBAL              3 (NULL + MailboxError)
+            546 LOAD_CONST              11 ('Author public key does not match this mailbox.')
+            548 CALL                     1
+            556 RAISE_VARARGS            1
+
+151     >>  558 LOAD_FAST                2 (temporary_public_key)
+            560 POP_JUMP_IF_NONE        25 (to 612)
+            562 LOAD_FAST                8 (temporary_fp)
+            564 LOAD_GLOBAL             27 (NULL + fingerprint)
+            574 LOAD_FAST                2 (temporary_public_key)
+            576 CALL                     1
+            584 COMPARE_OP              55 (!=)
+            588 POP_JUMP_IF_FALSE       11 (to 612)
+
+152         590 LOAD_GLOBAL              3 (NULL + MailboxError)
+            600 LOAD_CONST              12 ('Temporary-access public key does not match this mailbox.')
+            602 CALL                     1
+            610 RAISE_VARARGS            1
+
+153     >>  612 LOAD_GLOBAL             29 (NULL + _record_end)
+            622 LOAD_FAST                3 (handle)
+            624 LOAD_FAST                9 (capacity)
+            626 CALL                     2
+            634 STORE_FAST              11 (used)
+
+137         636 LOAD_CONST               0 (None)
+            638 LOAD_CONST               0 (None)
+            640 LOAD_CONST               0 (None)
+            642 CALL                     2
+            650 POP_TOP
+
+154     >>  652 LOAD_GLOBAL             31 (NULL + StoreInfo)
+            662 LOAD_FAST                0 (path)
+            664 LOAD_FAST_CHECK          9 (capacity)
+            666 LOAD_FAST_CHECK         11 (used)
+            668 LOAD_FAST_CHECK          7 (author_fp)
+            670 LOAD_ATTR               33 (NULL|self + hex)
+            690 CALL                     0
+            698 LOAD_CONST               0 (None)
+            700 LOAD_CONST              13 (16)
+            702 BINARY_SLICE
+            704 LOAD_FAST_CHECK          8 (temporary_fp)
+            706 LOAD_ATTR               33 (NULL|self + hex)
+            726 CALL                     0
+            734 LOAD_CONST               0 (None)
+            736 LOAD_CONST              13 (16)
+            738 BINARY_SLICE
+            740 CALL                     5
+            748 RETURN_VALUE
+        >>  750 PUSH_EXC_INFO
+
+141         752 LOAD_GLOBAL              8 (struct)
+            762 LOAD_ATTR               16 (error)
+            782 CHECK_EXC_MATCH
+            784 POP_JUMP_IF_FALSE       17 (to 820)
+            786 STORE_FAST              10 (exc)
+
+142         788 LOAD_GLOBAL              3 (NULL + MailboxError)
+            798 LOAD_CONST               3 ('Invalid mailbox format.')
+            800 CALL                     1
+            808 LOAD_FAST               10 (exc)
+            810 RAISE_VARARGS            2
+        >>  812 LOAD_CONST               0 (None)
+            814 STORE_FAST              10 (exc)
+            816 DELETE_FAST             10 (exc)
+            818 RERAISE                  1
+
+141     >>  820 RERAISE                  0
+        >>  822 COPY                     3
+            824 POP_EXCEPT
+            826 RERAISE                  1
+
+137     >>  828 PUSH_EXC_INFO
+            830 WITH_EXCEPT_START
+            832 POP_JUMP_IF_TRUE         1 (to 836)
+            834 RERAISE                  2
+        >>  836 POP_TOP
+            838 POP_EXCEPT
+            840 POP_TOP
+            842 POP_TOP
+            844 JUMP_BACKWARD           97 (to 652)
+        >>  846 COPY                     3
+            848 POP_EXCEPT
+            850 RERAISE                  1
+ExceptionTable:
+  90 to 170 -> 828 [1] lasti
+  174 to 236 -> 750 [1]
+  238 to 634 -> 828 [1] lasti
+  750 to 786 -> 822 [2] lasti
+  788 to 810 -> 812 [2] lasti
+  812 to 820 -> 822 [2] lasti
+  822 to 826 -> 828 [1] lasti
+  828 to 836 -> 846 [3] lasti
+
+======================================================================
+CODE: _make_sparse  qual=_make_sparse  args=('handle',)
+======================================================================
+CONSTS: ["'Mark an open file handle as an NTFS sparse file so zero-filled regions\\n    occupy no disk blocks.  Reads of sparse regions still return zeros on\\n    Windows, so ``_record_end`` scanning is unaffect", "'win32'", 'None', '0', '590020', "'kernel32'", 'True', "('use_last_error',)"]
+157           0 RESUME                   0
+
+161           2 LOAD_GLOBAL              0 (sys)
+             12 LOAD_ATTR                2 (platform)
+             32 LOAD_CONST               1 ('win32')
+             34 COMPARE_OP              55 (!=)
+             38 POP_JUMP_IF_FALSE        1 (to 42)
+
+162          40 RETURN_CONST             2 (None)
+
+163     >>   42 LOAD_CONST               3 (0)
+             44 LOAD_CONST               2 (None)
+             46 IMPORT_NAME              2 (msvcrt)
+             48 STORE_FAST               1 (_msvcrt)
+
+164          50 LOAD_CONST               4 (590020)
+             52 STORE_FAST               2 (FSCTL_SET_SPARSE)
+
+165          54 LOAD_GLOBAL              7 (NULL + ctypes)
+             64 LOAD_ATTR                8 (WinDLL)
+             84 LOAD_CONST               5 ('kernel32')
+             86 LOAD_CONST               6 (True)
+             88 KW_NAMES                 7 (('use_last_error',))
+             90 CALL                     2
+             98 STORE_FAST               3 (kernel32)
+
+166         100 LOAD_FAST                1 (_msvcrt)
+            102 LOAD_ATTR               11 (NULL|self + get_osfhandle)
+            122 LOAD_FAST                0 (handle)
+            124 LOAD_ATTR               13 (NULL|self + fileno)
+            144 CALL                     0
+            152 CALL                     1
+            160 STORE_FAST               4 (raw_handle)
+
+167         162 LOAD_GLOBAL              6 (ctypes)
+            172 LOAD_ATTR               14 (wintypes)
+            192 LOAD_ATTR               17 (NULL|self + DWORD)
+            212 CALL                     0
+            220 STORE_FAST               5 (result)
+
+168         222 LOAD_FAST                3 (kernel32)
+            224 LOAD_ATTR               19 (NULL|self + DeviceIoControl)
+
+169         244 LOAD_GLOBAL              6 (ctypes)
+            254 LOAD_ATTR               14 (wintypes)
+            274 LOAD_ATTR               21 (NULL|self + HANDLE)
+            294 LOAD_FAST                4 (raw_handle)
+            296 CALL                     1
+
+170         304 LOAD_FAST                2 (FSCTL_SET_SPARSE)
+
+171         306 LOAD_CONST               2 (None)
+            308 LOAD_CONST               3 (0)
+            310 LOAD_CONST               2 (None)
+            312 LOAD_CONST               3 (0)
+
+172         314 LOAD_GLOBAL              7 (NULL + ctypes)
+            324 LOAD_ATTR               22 (byref)
+            344 LOAD_FAST                5 (result)
+            346 CALL                     1
+            354 LOAD_CONST               2 (None)
+
+168         356 CALL                     8
+            364 POP_TOP
+            366 RETURN_CONST             2 (None)
+
+======================================================================
+CODE: initialize_store  qual=initialize_store  args=('path', 'author_public_key', 'temporary_public_key', 'capacity', 'progress')
+======================================================================
+CONSTS: ['None', '1048576', "'At least 2 MB of free space is required.'", "'w+b'", "b'\\x00'", "'win32'", '1', '4194304', '0', '67108864']
+176           0 RESUME                   0
+
+183           2 LOAD_FAST                3 (capacity)
+              4 LOAD_GLOBAL              0 (HEADER_SIZE)
+             14 LOAD_CONST               1 (1048576)
+             16 BINARY_OP                0 (+)
+             20 COMPARE_OP              26 (<=)
+             24 POP_JUMP_IF_FALSE       11 (to 48)
+
+184          26 LOAD_GLOBAL              3 (NULL + MailboxError)
+             36 LOAD_CONST               2 ('At least 2 MB of free space is required.')
+             38 CALL                     1
+             46 RAISE_VARARGS            1
+
+185     >>   48 LOAD_FAST                3 (capacity)
+             50 LOAD_GLOBAL              0 (HEADER_SIZE)
+             60 BINARY_OP               10 (-)
+             64 STORE_FAST               5 (total_data)
+
+186          66 LOAD_FAST                0 (path)
+             68 LOAD_ATTR                5 (NULL|self + open)
+             88 LOAD_CONST               3 ('w+b')
+             90 CALL                     1
+             98 BEFORE_WITH
+            100 STORE_FAST               6 (handle)
+
+187         102 LOAD_FAST                6 (handle)
+            104 LOAD_ATTR                7 (NULL|self + write)
+            124 LOAD_GLOBAL              9 (NULL + struct)
+            134 LOAD_ATTR               10 (pack)
+            154 LOAD_GLOBAL             12 (HEADER_FMT)
+            164 LOAD_GLOBAL             14 (MAGIC)
+            174 LOAD_GLOBAL             16 (VERSION)
+            184 LOAD_GLOBAL             19 (NULL + fingerprint)
+            194 LOAD_FAST                1 (author_public_key)
+            196 CALL                     1
+            204 LOAD_GLOBAL             19 (NULL + fingerprint)
+            214 LOAD_FAST                2 (temporary_public_key)
+            216 CALL                     1
+            224 LOAD_FAST                3 (capacity)
+            226 CALL                     6
+            234 CALL                     1
+            242 POP_TOP
+
+188         244 LOAD_FAST                6 (handle)
+            246 LOAD_ATTR                7 (NULL|self + write)
+            266 LOAD_CONST               4 (b'\x00')
+            268 LOAD_GLOBAL              0 (HEADER_SIZE)
+            278 LOAD_FAST                6 (handle)
+            280 LOAD_ATTR               21 (NULL|self + tell)
+            300 CALL                     0
+            308 BINARY_OP               10 (-)
+            312 BINARY_OP                5 (*)
+            316 CALL                     1
+            324 POP_TOP
+
+190         326 LOAD_GLOBAL             22 (sys)
+            336 LOAD_ATTR               24 (platform)
+            356 LOAD_CONST               5 ('win32')
+            358 COMPARE_OP              40 (==)
+            362 POP_JUMP_IF_FALSE       60 (to 484)
+
+194         364 LOAD_GLOBAL             27 (NULL + _make_sparse)
+            374 LOAD_FAST                6 (handle)
+            376 CALL                     1
+            384 POP_TOP
+
+195         386 LOAD_FAST                6 (handle)
+            388 LOAD_ATTR               29 (NULL|self + seek)
+            408 LOAD_FAST                3 (capacity)
+            410 LOAD_CONST               6 (1)
+            412 BINARY_OP               10 (-)
+            416 CALL                     1
+            424 POP_TOP
+
+196         426 LOAD_FAST                6 (handle)
+            428 LOAD_ATTR                7 (NULL|self + write)
+            448 LOAD_CONST               4 (b'\x00')
+            450 CALL                     1
+            458 POP_TOP
+
+197         460 LOAD_FAST                4 (progress)
+            462 POP_JUMP_IF_NONE       100 (to 664)
+
+198         464 PUSH_NULL
+            466 LOAD_FAST                4 (progress)
+            468 LOAD_FAST                5 (total_data)
+            470 LOAD_FAST                5 (total_data)
+            472 CALL                     2
+            480 POP_TOP
+            482 JUMP_FORWARD            90 (to 664)
+
+200     >>  484 LOAD_FAST                5 (total_data)
+            486 STORE_FAST               7 (remaining)
+
+201         488 LOAD_CONST               4 (b'\x00')
+            490 LOAD_CONST               7 (4194304)
+            492 BINARY_OP                5 (*)
+            496 STORE_FAST               8 (zeros)
+
+202         498 LOAD_CONST               8 (0)
+            500 STORE_FAST               9 (written)
+
+203         502 LOAD_CONST               9 (67108864)
+            504 STORE_FAST              10 (next_report)
+
+204         506 LOAD_FAST                7 (remaining)
+            508 POP_JUMP_IF_FALSE       77 (to 664)
+
+205     >>  510 LOAD_GLOBAL             31 (NULL + min)
+            520 LOAD_FAST                7 (remaining)
+            522 LOAD_GLOBAL             33 (NULL + len)
+            532 LOAD_FAST                8 (zeros)
+            534 CALL                     1
+            542 CALL                     2
+            550 STORE_FAST              11 (amount)
+
+206         552 LOAD_FAST                6 (handle)
+            554 LOAD_ATTR                7 (NULL|self + write)
+            574 LOAD_FAST                8 (zeros)
+            576 LOAD_CONST               0 (None)
+            578 LOAD_FAST               11 (amount)
+            580 BINARY_SLICE
+            582 CALL                     1
+            590 POP_TOP
+
+207         592 LOAD_FAST                7 (remaining)
+            594 LOAD_FAST               11 (amount)
+            596 BINARY_OP               23 (-=)
+            600 STORE_FAST               7 (remaining)
+
+208         602 LOAD_FAST                9 (written)
+            604 LOAD_FAST               11 (amount)
+            606 BINARY_OP               13 (+=)
+            610 STORE_FAST               9 (written)
+
+209         612 LOAD_FAST                4 (progress)
+            614 POP_JUMP_IF_NONE        21 (to 658)
+            616 LOAD_FAST                9 (written)
+            618 LOAD_FAST               10 (next_report)
+            620 COMPARE_OP              92 (>=)
+            624 POP_JUMP_IF_TRUE         2 (to 630)
+            626 LOAD_FAST                7 (remaining)
+            628 POP_JUMP_IF_TRUE        14 (to 658)
+
+210     >>  630 PUSH_NULL
+            632 LOAD_FAST                4 (progress)
+            634 LOAD_FAST                9 (written)
+            636 LOAD_FAST                5 (total_data)
+            638 CALL                     2
+            646 POP_TOP
+
+211         648 LOAD_FAST               10 (next_report)
+            650 LOAD_CONST               9 (67108864)
+            652 BINARY_OP               13 (+=)
+            656 STORE_FAST              10 (next_report)
+
+204     >>  658 LOAD_FAST                7 (remaining)
+            660 POP_JUMP_IF_FALSE        1 (to 664)
+            662 JUMP_BACKWARD           77 (to 510)
+
+213     >>  664 LOAD_FAST                6 (handle)
+            666 LOAD_ATTR               35 (NULL|self + flush)
+            686 CALL                     0
+            694 POP_TOP
+
+214         696 LOAD_GLOBAL             37 (NULL + os)
+            706 LOAD_ATTR               38 (fsync)
+            726 LOAD_FAST                6 (handle)
+            728 LOAD_ATTR               41 (NULL|self + fileno)
+            748 CALL                     0
+            756 CALL                     1
+            764 POP_TOP
+
+186         766 LOAD_CONST               0 (None)
+            768 LOAD_CONST               0 (None)
+            770 LOAD_CONST               0 (None)
+            772 CALL                     2
+            780 POP_TOP
+            782 RETURN_CONST             0 (None)
+        >>  784 PUSH_EXC_INFO
+            786 WITH_EXCEPT_START
+            788 POP_JUMP_IF_TRUE         1 (to 792)
+            790 RERAISE                  2
+        >>  792 POP_TOP
+            794 POP_EXCEPT
+            796 POP_TOP
+            798 POP_TOP
+            800 RETURN_CONST             0 (None)
+        >>  802 COPY                     3
+            804 POP_EXCEPT
+            806 RERAISE                  1
+ExceptionTable:
+  100 to 660 -> 784 [1] lasti
+  664 to 764 -> 784 [1] lasti
+  784 to 792 -> 802 [3] lasti
+
+======================================================================
+CODE: _record_length  qual=_record_length  args=('author_len', 'temporary_len', 'meta_len', 'file_size', 'chunk_size')
+======================================================================
+CONSTS: ['None', '1', '16']
+217           0 RESUME                   0
+
+218           2 LOAD_FAST                3 (file_size)
+              4 LOAD_FAST                4 (chunk_size)
+              6 BINARY_OP                0 (+)
+             10 LOAD_CONST               1 (1)
+             12 BINARY_OP               10 (-)
+             16 LOAD_FAST                4 (chunk_size)
+             18 BINARY_OP                2 (//)
+             22 STORE_FAST               5 (chunks)
+
+219          24 LOAD_GLOBAL              0 (RECORD_SIZE)
+             34 LOAD_FAST                0 (author_len)
+             36 BINARY_OP                0 (+)
+             40 LOAD_FAST                1 (temporary_len)
+             42 BINARY_OP                0 (+)
+             46 LOAD_FAST                2 (meta_len)
+             48 BINARY_OP                0 (+)
+             52 LOAD_FAST                3 (file_size)
+             54 BINARY_OP                0 (+)
+             58 LOAD_FAST                5 (chunks)
+             60 LOAD_CONST               2 (16)
+             62 BINARY_OP                5 (*)
+             66 BINARY_OP                0 (+)
+             70 RETURN_VALUE
+
+======================================================================
+CODE: append_file  qual=append_file  args=('store_path', 'author_public_key', 'temporary_public_key', 'source', 'progress', 'used_hint')
+======================================================================
+CONSTS: ["'追加加密一个文件到 store。\\n\\n    ``progress`` 可选回调 ``progress(done_bytes, total_bytes)``，在分块加密写入时\\n    周期性调用，用于驱动投递进度条。\\n\\n    ``used_hint`` 可选：调用方若维护着上一条记录写完后的 ``used``（即上一次本函数\\n    返回的 ``new_used``），传进来可跳过 ", "'所选文件无法读取，请重新选择。'", 'None', "'Author public key does not match this mailbox.'", "'Temporary-access public key does not match this mailbox.'", '256', "('bit_length',)", "('mgf', 'algorithm', 'label')", '8', "'%Y-%m-%dT%H:%M:%SZ'", "('name', 'size', 'added_utc')", 'False', "(',', ':')", "('ensure_ascii', 'separators')", "'utf-8'", '0', '4', "'big'", "b'pigeon-meta-v2'", "'文件仓空间不足，请先取件释放空间后再试。'", "'r+b'", "'rb'", '1', "b'pigeon-file-v2'"]
+222           0 RESUME                   0
+
+241           2 LOAD_FAST                3 (source)
+              4 LOAD_ATTR                1 (NULL|self + is_file)
+             24 CALL                     0
+             32 POP_JUMP_IF_TRUE        11 (to 56)
+
+242          34 LOAD_GLOBAL              3 (NULL + MailboxError)
+             44 LOAD_CONST               1 ('所选文件无法读取，请重新选择。')
+             46 CALL                     1
+             54 RAISE_VARARGS            1
+
+243     >>   56 LOAD_FAST                5 (used_hint)
+             58 POP_JUMP_IF_NONE       110 (to 280)
+
+245          60 LOAD_GLOBAL              5 (NULL + _read_header)
+             70 LOAD_FAST                0 (store_path)
+             72 CALL                     1
+             80 UNPACK_SEQUENCE          3
+             84 STORE_FAST               6 (author_fp)
+             86 STORE_FAST               7 (temporary_fp)
+             88 STORE_FAST               8 (capacity)
+
+246          90 LOAD_FAST                6 (author_fp)
+             92 LOAD_GLOBAL              7 (NULL + fingerprint)
+            102 LOAD_FAST                1 (author_public_key)
+            104 CALL                     1
+            112 COMPARE_OP              55 (!=)
+            116 POP_JUMP_IF_FALSE       11 (to 140)
+
+247         118 LOAD_GLOBAL              3 (NULL + MailboxError)
+            128 LOAD_CONST               3 ('Author public key does not match this mailbox.')
+            130 CALL                     1
+            138 RAISE_VARARGS            1
+
+248     >>  140 LOAD_FAST                7 (temporary_fp)
+            142 LOAD_GLOBAL              7 (NULL + fingerprint)
+            152 LOAD_FAST                2 (temporary_public_key)
+            154 CALL                     1
+            162 COMPARE_OP              55 (!=)
+            166 POP_JUMP_IF_FALSE       11 (to 190)
+
+249         168 LOAD_GLOBAL              3 (NULL + MailboxError)
+            178 LOAD_CONST               4 ('Temporary-access public key does not match this mailbox.')
+            180 CALL                     1
+            188 RAISE_VARARGS            1
+
+250     >>  190 LOAD_FAST                5 (used_hint)
+            192 STORE_FAST               9 (used)
+
+251         194 LOAD_FAST                9 (used)
+            196 LOAD_FAST                8 (capacity)
+            198 COMPARE_OP              68 (>)
+            202 POP_JUMP_IF_FALSE       75 (to 354)
+
+253         204 LOAD_GLOBAL              9 (NULL + inspect_store)
+            214 LOAD_FAST                0 (store_path)
+            216 LOAD_FAST                1 (author_public_key)
+            218 LOAD_FAST                2 (temporary_public_key)
+            220 CALL                     3
+            228 STORE_FAST              10 (info)
+
+254         230 LOAD_FAST               10 (info)
+            232 LOAD_ATTR               10 (used)
+            252 LOAD_FAST               10 (info)
+            254 LOAD_ATTR               12 (capacity)
+            274 STORE_FAST               8 (capacity)
+            276 STORE_FAST               9 (used)
+            278 JUMP_FORWARD            37 (to 354)
+
+256     >>  280 LOAD_GLOBAL              9 (NULL + inspect_store)
+            290 LOAD_FAST                0 (store_path)
+            292 LOAD_FAST                1 (author_public_key)
+            294 LOAD_FAST                2 (temporary_public_key)
+            296 CALL                     3
+            304 STORE_FAST              10 (info)
+
+257         306 LOAD_FAST               10 (info)
+            308 LOAD_ATTR               10 (used)
+            328 LOAD_FAST               10 (info)
+            330 LOAD_ATTR               12 (capacity)
+            350 STORE_FAST               8 (capacity)
+            352 STORE_FAST               9 (used)
+
+258     >>  354 LOAD_FAST                3 (source)
+            356 LOAD_ATTR               15 (NULL|self + stat)
+            376 CALL                     0
+            384 LOAD_ATTR               16 (st_size)
+            404 STORE_FAST              11 (file_size)
+
+259         406 LOAD_GLOBAL             19 (NULL + AESGCM)
+            416 LOAD_ATTR               20 (generate_key)
+            436 LOAD_CONST               5 (256)
+            438 KW_NAMES                 6 (('bit_length',))
+            440 CALL                     1
+            448 STORE_FAST              12 (data_key)
+
+260         450 LOAD_FAST                1 (author_public_key)
+            452 LOAD_ATTR               23 (NULL|self + encrypt)
+
+261         472 LOAD_FAST               12 (data_key)
+            474 LOAD_GLOBAL             25 (NULL + padding)
+            484 LOAD_ATTR               26 (OAEP)
+            504 LOAD_GLOBAL             25 (NULL + padding)
+            514 LOAD_ATTR               28 (MGF1)
+            534 LOAD_GLOBAL             31 (NULL + hashes)
+            544 LOAD_ATTR               32 (SHA256)
+            564 CALL                     0
+            572 CALL                     1
+            580 LOAD_GLOBAL             31 (NULL + hashes)
+            590 LOAD_ATTR               32 (SHA256)
+            610 CALL                     0
+            618 LOAD_GLOBAL             34 (AUTHOR_LABEL)
+            628 KW_NAMES                 7 (('mgf', 'algorithm', 'label'))
+            630 CALL                     3
+
+260         638 CALL                     2
+            646 STORE_FAST              13 (author_wrapped)
+
+263         648 LOAD_FAST                2 (temporary_public_key)
+            650 LOAD_ATTR               23 (NULL|self + encrypt)
+
+264         670 LOAD_FAST               12 (data_key)
+            672 LOAD_GLOBAL             25 (NULL + padding)
+            682 LOAD_ATTR               26 (OAEP)
+            702 LOAD_GLOBAL             25 (NULL + padding)
+            712 LOAD_ATTR               28 (MGF1)
+            732 LOAD_GLOBAL             31 (NULL + hashes)
+            742 LOAD_ATTR               32 (SHA256)
+            762 CALL                     0
+            770 CALL                     1
+            778 LOAD_GLOBAL             31 (NULL + hashes)
+            788 LOAD_ATTR               32 (SHA256)
+            808 CALL                     0
+            816 LOAD_GLOBAL             36 (TEMPORARY_LABEL)
+            826 KW_NAMES                 7 (('mgf', 'algorithm', 'label'))
+            828 CALL                     3
+
+263         836 CALL                     2
+            844 STORE_FAST              14 (temporary_wrapped)
+
+266         846 LOAD_GLOBAL             39 (NULL + os)
+            856 LOAD_ATTR               40 (urandom)
+            876 LOAD_CONST               8 (8)
+            878 CALL                     1
+            886 STORE_FAST              15 (nonce_prefix)
+
+267         888 LOAD_GLOBAL             43 (NULL + json)
+            898 LOAD_ATTR               44 (dumps)
+
+268         918 LOAD_FAST                3 (source)
+            920 LOAD_ATTR               46 (name)
+            940 LOAD_FAST               11 (file_size)
+            942 LOAD_GLOBAL             49 (NULL + time)
+            952 LOAD_ATTR               50 (strftime)
+            972 LOAD_CONST               9 ('%Y-%m-%dT%H:%M:%SZ')
+            974 LOAD_GLOBAL             49 (NULL + time)
+            984 LOAD_ATTR               52 (gmtime)
+           1004 CALL                     0
+           1012 CALL                     2
+           1020 LOAD_CONST              10 (('name', 'size', 'added_utc'))
+           1022 BUILD_CONST_KEY_MAP      3
+
+269        1024 LOAD_CONST              11 (False)
+           1026 LOAD_CONST              12 ((',', ':'))
+
+267        1028 KW_NAMES                13 (('ensure_ascii', 'separators'))
+           1030 CALL                     3
+
+270        1038 LOAD_ATTR               55 (NULL|self + encode)
+           1058 LOAD_CONST              14 ('utf-8')
+           1060 CALL                     1
+
+267        1068 STORE_FAST              16 (metadata)
+
+271        1070 LOAD_GLOBAL             19 (NULL + AESGCM)
+           1080 LOAD_FAST               12 (data_key)
+           1082 CALL                     1
+           1090 STORE_FAST              17 (aead)
+
+272        1092 LOAD_FAST               17 (aead)
+           1094 LOAD_ATTR               23 (NULL|self + encrypt)
+           1114 LOAD_FAST               15 (nonce_prefix)
+           1116 LOAD_CONST              15 (0)
+           1118 LOAD_ATTR               57 (NULL|self + to_bytes)
+           1138 LOAD_CONST              16 (4)
+           1140 LOAD_CONST              17 ('big')
+           1142 CALL                     2
+           1150 BINARY_OP                0 (+)
+           1154 LOAD_FAST               16 (metadata)
+           1156 LOAD_CONST              18 (b'pigeon-meta-v2')
+           1158 CALL                     3
+           1166 STORE_FAST              18 (meta_cipher)
+
+273        1168 LOAD_GLOBAL             59 (NULL + _record_length)
+           1178 LOAD_GLOBAL             61 (NULL + len)
+           1188 LOAD_FAST               13 (author_wrapped)
+           1190 CALL                     1
+           1198 LOAD_GLOBAL             61 (NULL + len)
+           1208 LOAD_FAST               14 (temporary_wrapped)
+           1210 CALL                     1
+           1218 LOAD_GLOBAL             61 (NULL + len)
+           1228 LOAD_FAST               18 (meta_cipher)
+           1230 CALL                     1
+           1238 LOAD_FAST               11 (file_size)
+           1240 LOAD_GLOBAL             62 (CHUNK_SIZE)
+           1250 CALL                     5
+           1258 STORE_FAST              19 (total)
+
+274        1260 LOAD_FAST                9 (used)
+           1262 LOAD_FAST               19 (total)
+           1264 BINARY_OP                0 (+)
+           1268 LOAD_FAST                8 (capacity)
+           1270 COMPARE_OP              68 (>)
+           1274 POP_JUMP_IF_FALSE       11 (to 1298)
+
+275        1276 LOAD_GLOBAL              3 (NULL + MailboxError)
+           1286 LOAD_CONST              19 ('文件仓空间不足，请先取件释放空间后再试。')
+           1288 CALL                     1
+           1296 RAISE_VARARGS            1
+
+276     >> 1298 LOAD_FAST                0 (store_path)
+           1300 LOAD_ATTR               65 (NULL|self + open)
+           1320 LOAD_CONST              20 ('r+b')
+           1322 CALL                     1
+           1330 BEFORE_WITH
+           1332 STORE_FAST              20 (target)
+           1334 LOAD_FAST                3 (source)
+           1336 LOAD_ATTR               65 (NULL|self + open)
+           1356 LOAD_CONST              21 ('rb')
+           1358 CALL                     1
+           1366 BEFORE_WITH
+           1368 STORE_FAST              21 (source_handle)
+
+278        1370 LOAD_FAST               20 (target)
+           1372 LOAD_ATTR               67 (NULL|self + seek)
+           1392 LOAD_FAST                9 (used)
+           1394 LOAD_GLOBAL             68 (RECORD_SIZE)
+           1404 BINARY_OP                0 (+)
+           1408 CALL                     1
+           1416 POP_TOP
+
+279        1418 LOAD_FAST               20 (target)
+           1420 LOAD_ATTR               71 (NULL|self + write)
+           1440 LOAD_FAST               13 (author_wrapped)
+           1442 CALL                     1
+           1450 POP_TOP
+
+280        1452 LOAD_FAST               20 (target)
+           1454 LOAD_ATTR               71 (NULL|self + write)
+           1474 LOAD_FAST               14 (temporary_wrapped)
+           1476 CALL                     1
+           1484 POP_TOP
+
+281        1486 LOAD_FAST               20 (target)
+           1488 LOAD_ATTR               71 (NULL|self + write)
+           1508 LOAD_FAST               18 (meta_cipher)
+           1510 CALL                     1
+           1518 POP_TOP
+
+282        1520 LOAD_CONST              22 (1)
+           1522 STORE_FAST              22 (index)
+
+283        1524 LOAD_CONST              15 (0)
+           1526 STORE_FAST              23 (written)
+
+286        1528 LOAD_FAST                4 (progress)
+           1530 POP_JUMP_IF_NONE         9 (to 1550)
+
+287        1532 PUSH_NULL
+           1534 LOAD_FAST                4 (progress)
+           1536 LOAD_CONST              15 (0)
+           1538 LOAD_FAST               11 (file_size)
+           1540 CALL                     2
+           1548 POP_TOP
+
+288     >> 1550 LOAD_FAST               21 (source_handle)
+           1552 LOAD_ATTR               73 (NULL|self + read)
+           1572 LOAD_GLOBAL             62 (CHUNK_SIZE)
+           1582 CALL                     1
+           1590 COPY                     1
+           1592 STORE_FAST              24 (chunk)
+           1594 POP_JUMP_IF_FALSE      107 (to 1810)
+
+289     >> 1596 LOAD_FAST               20 (target)
+           1598 LOAD_ATTR               71 (NULL|self + write)
+           1618 LOAD_FAST               17 (aead)
+           1620 LOAD_ATTR               23 (NULL|self + encrypt)
+           1640 LOAD_FAST               15 (nonce_prefix)
+           1642 LOAD_FAST               22 (index)
+           1644 LOAD_ATTR               57 (NULL|self + to_bytes)
+           1664 LOAD_CONST              16 (4)
+           1666 LOAD_CONST              17 ('big')
+           1668 CALL                     2
+           1676 BINARY_OP                0 (+)
+           1680 LOAD_FAST               24 (chunk)
+           1682 LOAD_CONST              23 (b'pigeon-file-v2')
+           1684 CALL                     3
+           1692 CALL                     1
+           1700 POP_TOP
+
+290        1702 LOAD_FAST               23 (written)
+           1704 LOAD_GLOBAL             61 (NULL + len)
+           1714 LOAD_FAST               24 (chunk)
+           1716 CALL                     1
+           1724 BINARY_OP               13 (+=)
+           1728 STORE_FAST              23 (written)
+
+291        1730 LOAD_FAST               22 (index)
+           1732 LOAD_CONST              22 (1)
+           1734 BINARY_OP               13 (+=)
+           1738 STORE_FAST              22 (index)
+
+292        1740 LOAD_FAST                4 (progress)
+           1742 POP_JUMP_IF_NONE         9 (to 1762)
+
+293        1744 PUSH_NULL
+           1746 LOAD_FAST                4 (progress)
+           1748 LOAD_FAST               23 (written)
+           1750 LOAD_FAST               11 (file_size)
+           1752 CALL                     2
+           1760 POP_TOP
+
+288     >> 1762 LOAD_FAST               21 (source_handle)
+           1764 LOAD_ATTR               73 (NULL|self + read)
+           1784 LOAD_GLOBAL             62 (CHUNK_SIZE)
+           1794 CALL                     1
+           1802 COPY                     1
+           1804 STORE_FAST              24 (chunk)
+           1806 POP_JUMP_IF_FALSE        1 (to 1810)
+           1808 JUMP_BACKWARD          107 (to 1596)
+
+294     >> 1810 LOAD_FAST               20 (target)
+           1812 LOAD_ATTR               75 (NULL|self + flush)
+           1832 CALL                     0
+           1840 POP_TOP
+
+295        1842 LOAD_GLOBAL             39 (NULL + os)
+           1852 LOAD_ATTR               76 (fsync)
+           1872 LOAD_FAST               20 (target)
+           1874 LOAD_ATTR               79 (NULL|self + fileno)
+           1894 CALL                     0
+           1902 CALL                     1
+           1910 POP_TOP
+
+297        1912 LOAD_FAST               20 (target)
+           1914 LOAD_ATTR               67 (NULL|self + seek)
+           1934 LOAD_FAST                9 (used)
+           1936 CALL                     1
+           1944 POP_TOP
+
+298        1946 LOAD_FAST               20 (target)
+           1948 LOAD_ATTR               71 (NULL|self + write)
+           1968 LOAD_GLOBAL             81 (NULL + struct)
+           1978 LOAD_ATTR               82 (pack)
+
+299        1998 LOAD_GLOBAL             84 (RECORD_FMT)
+           2008 LOAD_GLOBAL             86 (RECORD_MAGIC)
+           2018 LOAD_FAST               19 (total)
+           2020 LOAD_GLOBAL             61 (NULL + len)
+           2030 LOAD_FAST               13 (author_wrapped)
+           2032 CALL                     1
+           2040 LOAD_GLOBAL             61 (NULL + len)
+           2050 LOAD_FAST               14 (temporary_wrapped)
+           2052 CALL                     1
+           2060 LOAD_GLOBAL             61 (NULL + len)
+           2070 LOAD_FAST               18 (meta_cipher)
+           2072 CALL                     1
+
+300        2080 LOAD_GLOBAL             62 (CHUNK_SIZE)
+           2090 LOAD_FAST               11 (file_size)
+           2092 LOAD_FAST               15 (nonce_prefix)
+
+298        2094 CALL                     9
+           2102 CALL                     1
+           2110 POP_TOP
+
+302        2112 LOAD_FAST               20 (target)
+           2114 LOAD_ATTR               75 (NULL|self + flush)
+           2134 CALL                     0
+           2142 POP_TOP
+
+303        2144 LOAD_GLOBAL             39 (NULL + os)
+           2154 LOAD_ATTR               76 (fsync)
+           2174 LOAD_FAST               20 (target)
+           2176 LOAD_ATTR               79 (NULL|self + fileno)
+           2196 CALL                     0
+           2204 CALL                     1
+           2212 POP_TOP
+
+276        2214 LOAD_CONST               2 (None)
+           2216 LOAD_CONST               2 (None)
+           2218 LOAD_CONST               2 (None)
+           2220 CALL                     2
+           2228 POP_TOP
+        >> 2230 LOAD_CONST               2 (None)
+           2232 LOAD_CONST               2 (None)
+           2234 LOAD_CONST               2 (None)
+           2236 CALL                     2
+           2244 POP_TOP
+
+304     >> 2246 LOAD_FAST                9 (used)
+           2248 LOAD_FAST               19 (total)
+           2250 BINARY_OP                0 (+)
+           2254 STORE_FAST              25 (new_used)
+
+305        2256 LOAD_FAST               19 (total)
+           2258 LOAD_FAST                8 (capacity)
+           2260 LOAD_FAST               25 (new_used)
+           2262 BINARY_OP               10 (-)
+           2266 LOAD_FAST               25 (new_used)
+           2268 BUILD_TUPLE              3
+           2270 RETURN_VALUE
+
+276     >> 2272 PUSH_EXC_INFO
+           2274 WITH_EXCEPT_START
+           2276 POP_JUMP_IF_TRUE         1 (to 2280)
+           2278 RERAISE                  2
+        >> 2280 POP_TOP
+           2282 POP_EXCEPT
+           2284 POP_TOP
+           2286 POP_TOP
+           2288 JUMP_BACKWARD           30 (to 2230)
+        >> 2290 COPY                     3
+           2292 POP_EXCEPT
+           2294 RERAISE                  1
+        >> 2296 PUSH_EXC_INFO
+           2298 WITH_EXCEPT_START
+           2300 POP_JUMP_IF_TRUE         1 (to 2304)
+           2302 RERAISE                  2
+        >> 2304 POP_TOP
+           2306 POP_EXCEPT
+           2308 POP_TOP
+           2310 POP_TOP
+           2312 JUMP_BACKWARD           34 (to 2246)
+        >> 2314 COPY                     3
+           2316 POP_EXCEPT
+           2318 RERAISE                  1
+ExceptionTable:
+  1332 to 1366 -> 2296 [1] lasti
+  1368 to 1806 -> 2272 [2] lasti
+  1810 to 2212 -> 2272 [2] lasti
+  2214 to 2228 -> 2296 [1] lasti
+  2272 to 2280 -> 2290 [4] lasti
+  2282 to 2294 -> 2296 [1] lasti
+  2296 to 2304 -> 2314 [3] lasti
+
+======================================================================
+CODE: _next_output_name  qual=_next_output_name  args=('destination', 'safe_name')
+======================================================================
+CONSTS: ["'返回 dest 下不存在的输出名，必要时加 (1)/(2) 后缀。'", '1', "' ('", "')'"]
+308           0 RESUME                   0
+
+310           2 LOAD_FAST                0 (destination)
+              4 LOAD_FAST                1 (safe_name)
+              6 BINARY_OP               11 (/)
+             10 STORE_FAST               2 (output)
+
+311          12 LOAD_CONST               1 (1)
+             14 STORE_FAST               3 (suffix)
+
+312          16 LOAD_FAST                2 (output)
+             18 LOAD_ATTR                1 (NULL|self + exists)
+             38 CALL                     0
+             46 POP_JUMP_IF_FALSE       73 (to 194)
+
+313     >>   48 LOAD_FAST                0 (destination)
+             50 LOAD_GLOBAL              3 (NULL + Path)
+             60 LOAD_FAST                1 (safe_name)
+             62 CALL                     1
+             70 LOAD_ATTR                4 (stem)
+             90 FORMAT_VALUE             0
+             92 LOAD_CONST               2 (' (')
+             94 LOAD_FAST                3 (suffix)
+             96 FORMAT_VALUE             0
+             98 LOAD_CONST               3 (')')
+            100 LOAD_GLOBAL              3 (NULL + Path)
+            110 LOAD_FAST                1 (safe_name)
+            112 CALL                     1
+            120 LOAD_ATTR                6 (suffix)
+            140 FORMAT_VALUE             0
+            142 BUILD_STRING             5
+            144 BINARY_OP               11 (/)
+            148 STORE_FAST               2 (output)
+
+314         150 LOAD_FAST                3 (suffix)
+            152 LOAD_CONST               1 (1)
+            154 BINARY_OP               13 (+=)
+            158 STORE_FAST               3 (suffix)
+
+312         160 LOAD_FAST                2 (output)
+            162 LOAD_ATTR                1 (NULL|self + exists)
+            182 CALL                     0
+            190 POP_JUMP_IF_FALSE        1 (to 194)
+            192 JUMP_BACKWARD           73 (to 48)
+
+315     >>  194 LOAD_FAST                2 (output)
+            196 RETURN_VALUE
+
+======================================================================
+CODE: extract_all  qual=extract_all  args=('store_path', 'private_key', 'destination')
+======================================================================
+CONSTS: ["'导出 store 中所有文件。\\n\\n    取回为「安全复制」：原仓记录保持不变，可反复取回。为避免取回中途中断后\\n    目标目录残留半截文件导致下次取回因文件已存在报错，每个文件先写入临时名\\n    ``.pigeon-tmp-<hex>``（排他创建），全部写完且校验通过后再原子重命名为\\n    最终名；若同一文件因正在被写入而临时名已存在，则回退到带序号的安全名。\\n    取回", 'True', "('parents', 'exist_ok')", "'.pigeon-tmp-*'", '0', "'rb'", "b'\\x00'", '1', 'None', "('mgf', 'algorithm', 'label')", '4', "'big'", "b'pigeon-meta-v2'", "'name'", "'unnamed-file'", "'.pigeon-tmp-'", '6', "'xb'", '16', "b'pigeon-file-v2'"]
+318           0 RESUME                   0
+
+335           2 LOAD_GLOBAL              1 (NULL + inspect_store)
+             12 LOAD_FAST                0 (store_path)
+             14 CALL                     1
+             22 STORE_FAST               5 (info)
+
+336          24 LOAD_FAST                2 (destination)
+             26 LOAD_ATTR                3 (NULL|self + mkdir)
+             46 LOAD_CONST               1 (True)
+             48 LOAD_CONST               1 (True)
+             50 KW_NAMES                 2 (('parents', 'exist_ok'))
+             52 CALL                     2
+             60 POP_TOP
+
+338          62 LOAD_FAST                2 (destination)
+             64 LOAD_ATTR                5 (NULL|self + glob)
+             84 LOAD_CONST               3 ('.pigeon-tmp-*')
+             86 CALL                     1
+             94 GET_ITER
+        >>   96 FOR_ITER                19 (to 138)
+            100 STORE_FAST               6 (stale)
+
+339         102 NOP
+
+340         104 LOAD_FAST                6 (stale)
+            106 LOAD_ATTR                7 (NULL|self + unlink)
+            126 CALL                     0
+            134 POP_TOP
+            136 JUMP_BACKWARD           21 (to 96)
+
+338     >>  138 END_FOR
+
+343         140 BUILD_LIST               0
+            142 STORE_FAST               7 (extracted)
+
+344         144 LOAD_CONST               4 (0)
+            146 STORE_FAST               8 (corrupted)
+
+345         148 LOAD_FAST                3 (temporary)
+            150 POP_JUMP_IF_FALSE        6 (to 164)
+            152 LOAD_GLOBAL             10 (TEMPORARY_LABEL)
+            162 JUMP_FORWARD             5 (to 174)
+        >>  164 LOAD_GLOBAL             12 (AUTHOR_LABEL)
+        >>  174 STORE_FAST               9 (label)
+
+349         176 LOAD_FAST                0 (store_path)
+            178 LOAD_ATTR               15 (NULL|self + open)
+            198 LOAD_CONST               5 ('rb')
+            200 CALL                     1
+            208 BEFORE_WITH
+            210 STORE_FAST              10 (handle)
+
+350         212 LOAD_CONST               4 (0)
+            214 STORE_FAST              11 (record_count)
+
+351         216 LOAD_GLOBAL             16 (HEADER_SIZE)
+            226 STORE_FAST              12 (pos)
+
+352         228 LOAD_FAST               12 (pos)
+            230 LOAD_GLOBAL             18 (RECORD_SIZE)
+            240 BINARY_OP                0 (+)
+            244 LOAD_FAST                5 (info)
+            246 LOAD_ATTR               20 (used)
+            266 COMPARE_OP              26 (<=)
+            270 POP_JUMP_IF_FALSE      124 (to 520)
+
+353     >>  272 LOAD_FAST               10 (handle)
+            274 LOAD_ATTR               23 (NULL|self + seek)
+            294 LOAD_FAST               12 (pos)
+            296 CALL                     1
+            304 POP_TOP
+
+354         306 LOAD_FAST               10 (handle)
+            308 LOAD_ATTR               25 (NULL|self + read)
+            328 LOAD_GLOBAL             18 (RECORD_SIZE)
+            338 CALL                     1
+            346 STORE_FAST              13 (raw)
+
+355         348 LOAD_FAST               13 (raw)
+            350 LOAD_CONST               6 (b'\x00')
+            352 LOAD_GLOBAL             18 (RECORD_SIZE)
+            362 BINARY_OP                5 (*)
+            366 COMPARE_OP              40 (==)
+            370 POP_JUMP_IF_FALSE        1 (to 374)
+
+356         372 JUMP_FORWARD            73 (to 520)
+
+357     >>  374 NOP
+
+358         376 LOAD_GLOBAL             27 (NULL + struct)
+            386 LOAD_ATTR               28 (unpack)
+            406 LOAD_GLOBAL             30 (RECORD_FMT)
+            416 LOAD_FAST               13 (raw)
+            418 CALL                     2
+            426 UNPACK_EX                2
+            428 STORE_FAST              14 (_marker)
+            430 STORE_FAST              15 (total)
+            432 STORE_FAST              16 (_)
+
+361         434 LOAD_FAST               15 (total)
+            436 LOAD_GLOBAL             18 (RECORD_SIZE)
+            446 COMPARE_OP               2 (<)
+            450 POP_JUMP_IF_FALSE        1 (to 454)
+
+362         452 JUMP_FORWARD            33 (to 520)
+
+363     >>  454 LOAD_FAST               11 (record_count)
+            456 LOAD_CONST               7 (1)
+            458 BINARY_OP               13 (+=)
+            462 STORE_FAST              11 (record_count)
+
+364         464 LOAD_FAST               12 (pos)
+            466 LOAD_FAST               15 (total)
+            468 BINARY_OP               13 (+=)
+            472 STORE_FAST              12 (pos)
+
+352         474 LOAD_FAST               12 (pos)
+            476 LOAD_GLOBAL             18 (RECORD_SIZE)
+            486 BINARY_OP                0 (+)
+            490 LOAD_FAST                5 (info)
+            492 LOAD_ATTR               20 (used)
+            512 COMPARE_OP              26 (<=)
+            516 POP_JUMP_IF_FALSE        1 (to 520)
+            518 JUMP_BACKWARD          124 (to 272)
+
+366     >>  520 LOAD_FAST                4 (progress)
+            522 POP_JUMP_IF_NONE         9 (to 542)
+
+367         524 PUSH_NULL
+            526 LOAD_FAST                4 (progress)
+            528 LOAD_CONST               4 (0)
+            530 LOAD_FAST               11 (record_count)
+            532 CALL                     2
+            540 POP_TOP
+
+369     >>  542 LOAD_CONST               4 (0)
+            544 STORE_FAST              17 (done)
+
+370         546 LOAD_GLOBAL             16 (HEADER_SIZE)
+            556 STORE_FAST              12 (pos)
+
+371         558 LOAD_FAST               12 (pos)
+            560 LOAD_GLOBAL             18 (RECORD_SIZE)
+            570 BINARY_OP                0 (+)
+            574 LOAD_FAST                5 (info)
+            576 LOAD_ATTR               20 (used)
+            596 COMPARE_OP              26 (<=)
+            600 EXTENDED_ARG             2
+            602 POP_JUMP_IF_FALSE      647 (to 1898)
+
+372     >>  604 LOAD_FAST               10 (handle)
+            606 LOAD_ATTR               23 (NULL|self + seek)
+            626 LOAD_FAST               12 (pos)
+            628 CALL                     1
+            636 POP_TOP
+
+373         638 LOAD_GLOBAL             27 (NULL + struct)
+            648 LOAD_ATTR               28 (unpack)
+            668 LOAD_GLOBAL             30 (RECORD_FMT)
+            678 LOAD_FAST               10 (handle)
+            680 LOAD_ATTR               25 (NULL|self + read)
+            700 LOAD_GLOBAL             18 (RECORD_SIZE)
+            710 CALL                     1
+            718 CALL                     2
+            726 UNPACK_SEQUENCE          8
+            730 STORE_FAST              18 (marker)
+            732 STORE_FAST              15 (total)
+            734 STORE_FAST              19 (author_len)
+            736 STORE_FAST              20 (temporary_len)
+            738 STORE_FAST              21 (meta_len)
+            740 STORE_FAST              22 (chunk_size)
+            742 STORE_FAST              23 (plain_size)
+            744 STORE_FAST              24 (nonce_prefix)
+
+374         746 LOAD_CONST               8 (None)
+            748 STORE_FAST              25 (tmp_output)
+
+375         750 NOP
+
+376         752 LOAD_FAST               10 (handle)
+            754 LOAD_ATTR               25 (NULL|self + read)
+            774 LOAD_FAST               19 (author_len)
+            776 CALL                     1
+            784 STORE_FAST              26 (author_wrapped)
+
+377         786 LOAD_FAST               10 (handle)
+            788 LOAD_ATTR               25 (NULL|self + read)
+            808 LOAD_FAST               20 (temporary_len)
+            810 CALL                     1
+            818 STORE_FAST              27 (temporary_wrapped)
+
+378         820 LOAD_FAST                3 (temporary)
+            822 POP_JUMP_IF_FALSE        2 (to 828)
+            824 LOAD_FAST               27 (temporary_wrapped)
+            826 JUMP_FORWARD             1 (to 830)
+        >>  828 LOAD_FAST               26 (author_wrapped)
+        >>  830 STORE_FAST              28 (wrapped)
+
+379         832 LOAD_FAST                1 (private_key)
+            834 LOAD_ATTR               35 (NULL|self + decrypt)
+
+380         854 LOAD_FAST               28 (wrapped)
+            856 LOAD_GLOBAL             37 (NULL + padding)
+            866 LOAD_ATTR               38 (OAEP)
+            886 LOAD_GLOBAL             37 (NULL + padding)
+            896 LOAD_ATTR               40 (MGF1)
+            916 LOAD_GLOBAL             43 (NULL + hashes)
+            926 LOAD_ATTR               44 (SHA256)
+            946 CALL                     0
+            954 CALL                     1
+            962 LOAD_GLOBAL             43 (NULL + hashes)
+            972 LOAD_ATTR               44 (SHA256)
+            992 CALL                     0
+           1000 LOAD_FAST                9 (label)
+           1002 KW_NAMES                 9 (('mgf', 'algorithm', 'label'))
+           1004 CALL                     3
+
+379        1012 CALL                     2
+           1020 STORE_FAST              29 (data_key)
+
+382        1022 LOAD_GLOBAL             47 (NULL + AESGCM)
+           1032 LOAD_FAST               29 (data_key)
+           1034 CALL                     1
+           1042 STORE_FAST              30 (aead)
+
+383        1044 LOAD_GLOBAL             49 (NULL + json)
+           1054 LOAD_ATTR               50 (loads)
+           1074 LOAD_FAST               30 (aead)
+           1076 LOAD_ATTR               35 (NULL|self + decrypt)
+           1096 LOAD_FAST               24 (nonce_prefix)
+           1098 LOAD_CONST               4 (0)
+           1100 LOAD_ATTR               53 (NULL|self + to_bytes)
+           1120 LOAD_CONST              10 (4)
+           1122 LOAD_CONST              11 ('big')
+           1124 CALL                     2
+           1132 BINARY_OP                0 (+)
+           1136 LOAD_FAST               10 (handle)
+           1138 LOAD_ATTR               25 (NULL|self + read)
+           1158 LOAD_FAST               21 (meta_len)
+           1160 CALL                     1
+           1168 LOAD_CONST              12 (b'pigeon-meta-v2')
+           1170 CALL                     3
+           1178 CALL                     1
+           1186 STORE_FAST              31 (metadata)
+
+384        1188 LOAD_GLOBAL             55 (NULL + Path)
+           1198 LOAD_GLOBAL             57 (NULL + str)
+           1208 LOAD_FAST               31 (metadata)
+           1210 LOAD_CONST              13 ('name')
+           1212 BINARY_SUBSCR
+           1216 CALL                     1
+           1224 CALL                     1
+           1232 LOAD_ATTR               58 (name)
+           1252 COPY                     1
+           1254 POP_JUMP_IF_TRUE         2 (to 1260)
+           1256 POP_TOP
+           1258 LOAD_CONST              14 ('unnamed-file')
+        >> 1260 STORE_FAST              32 (safe_name)
+
+385        1262 LOAD_GLOBAL             61 (NULL + _next_output_name)
+           1272 LOAD_FAST                2 (destination)
+           1274 LOAD_FAST               32 (safe_name)
+           1276 CALL                     2
+           1284 STORE_FAST              33 (final_output)
+
+387        1286 LOAD_CONST              15 ('.pigeon-tmp-')
+           1288 LOAD_GLOBAL             63 (NULL + os)
+           1298 LOAD_ATTR               64 (urandom)
+           1318 LOAD_CONST              16 (6)
+           1320 CALL                     1
+           1328 LOAD_ATTR               67 (NULL|self + hex)
+           1348 CALL                     0
+           1356 FORMAT_VALUE             0
+           1358 LOAD_GLOBAL             55 (NULL + Path)
+           1368 LOAD_FAST               32 (safe_name)
+           1370 CALL                     1
+           1378 LOAD_ATTR               68 (suffix)
+           1398 FORMAT_VALUE             0
+           1400 BUILD_STRING             3
+           1402 STORE_FAST              34 (tmp_name)
+
+388        1404 LOAD_FAST                2 (destination)
+           1406 LOAD_FAST               34 (tmp_name)
+           1408 BINARY_OP               11 (/)
+           1412 STORE_FAST              25 (tmp_output)
+
+389        1414 LOAD_FAST               23 (plain_size)
+           1416 STORE_FAST              35 (remaining)
+
+390        1418 LOAD_FAST               25 (tmp_output)
+           1420 LOAD_ATTR               15 (NULL|self + open)
+           1440 LOAD_CONST              17 ('xb')
+           1442 CALL                     1
+           1450 BEFORE_WITH
+           1452 STORE_FAST              36 (out)
+
+391        1454 LOAD_GLOBAL             71 (NULL + range)
+           1464 LOAD_CONST               7 (1)
+           1466 LOAD_FAST               23 (plain_size)
+           1468 LOAD_FAST               22 (chunk_size)
+           1470 BINARY_OP                0 (+)
+           1474 LOAD_CONST               7 (1)
+           1476 BINARY_OP               10 (-)
+           1480 LOAD_FAST               22 (chunk_size)
+           1482 BINARY_OP                2 (//)
+           1486 LOAD_CONST               7 (1)
+           1488 BINARY_OP                0 (+)
+           1492 CALL                     2
+           1500 GET_ITER
+        >> 1502 FOR_ITER               102 (to 1710)
+           1506 STORE_FAST              37 (index)
+
+392        1508 LOAD_GLOBAL             73 (NULL + min)
+           1518 LOAD_FAST               22 (chunk_size)
+           1520 LOAD_FAST               35 (remaining)
+           1522 CALL                     2
+           1530 LOAD_CONST              18 (16)
+           1532 BINARY_OP                0 (+)
+           1536 STORE_FAST              38 (cipher_len)
+
+393        1538 LOAD_FAST               10 (handle)
+           1540 LOAD_ATTR               25 (NULL|self + read)
+           1560 LOAD_FAST               38 (cipher_len)
+           1562 CALL                     1
+           1570 STORE_FAST              39 (encrypted)
+
+394        1572 LOAD_FAST               36 (out)
+           1574 LOAD_ATTR               75 (NULL|self + write)
+           1594 LOAD_FAST               30 (aead)
+           1596 LOAD_ATTR               35 (NULL|self + decrypt)
+           1616 LOAD_FAST               24 (nonce_prefix)
+           1618 LOAD_FAST               37 (index)
+           1620 LOAD_ATTR               53 (NULL|self + to_bytes)
+           1640 LOAD_CONST              10 (4)
+           1642 LOAD_CONST              11 ('big')
+           1644 CALL                     2
+           1652 BINARY_OP                0 (+)
+           1656 LOAD_FAST               39 (encrypted)
+           1658 LOAD_CONST              19 (b'pigeon-file-v2')
+           1660 CALL                     3
+           1668 CALL                     1
+           1676 POP_TOP
+
+395        1678 LOAD_FAST               35 (remaining)
+           1680 LOAD_GLOBAL             73 (NULL + min)
+           1690 LOAD_FAST               22 (chunk_size)
+           1692 LOAD_FAST               35 (remaining)
+           1694 CALL                     2
+           1702 BINARY_OP               23 (-=)
+           1706 STORE_FAST              35 (remaining)
+           1708 JUMP_BACKWARD          104 (to 1502)
+
+391     >> 1710 END_FOR
+           1712 NOP
+
+390        1714 LOAD_CONST               8 (None)
+           1716 LOAD_CONST               8 (None)
+           1718 LOAD_CONST               8 (None)
+           1720 CALL                     2
+           1728 POP_TOP
+
+396     >> 1730 LOAD_GLOBAL             63 (NULL + os)
+           1740 LOAD_ATTR               76 (replace)
+           1760 LOAD_FAST               25 (tmp_output)
+           1762 LOAD_FAST               33 (final_output)
+           1764 CALL                     2
+           1772 POP_TOP
+
+397        1774 LOAD_FAST                7 (extracted)
+           1776 LOAD_ATTR               79 (NULL|self + append)
+           1796 LOAD_FAST               33 (final_output)
+           1798 CALL                     1
+           1806 POP_TOP
+
+407     >> 1808 LOAD_FAST               17 (done)
+           1810 LOAD_CONST               7 (1)
+           1812 BINARY_OP               13 (+=)
+           1816 STORE_FAST              17 (done)
+
+408        1818 LOAD_FAST                4 (progress)
+           1820 POP_JUMP_IF_NONE         9 (to 1840)
+
+409        1822 PUSH_NULL
+           1824 LOAD_FAST                4 (progress)
+           1826 LOAD_FAST               17 (done)
+           1828 LOAD_FAST               11 (record_count)
+           1830 CALL                     2
+           1838 POP_TOP
+
+410     >> 1840 LOAD_FAST               12 (pos)
+           1842 LOAD_FAST               15 (total)
+           1844 BINARY_OP               13 (+=)
+           1848 STORE_FAST              12 (pos)
+
+371        1850 LOAD_FAST               12 (pos)
+           1852 LOAD_GLOBAL             18 (RECORD_SIZE)
+           1862 BINARY_OP                0 (+)
+           1866 LOAD_FAST                5 (info)
+           1868 LOAD_ATTR               20 (used)
+           1888 COMPARE_OP              26 (<=)
+           1892 POP_JUMP_IF_FALSE        2 (to 1898)
+           1894 EXTENDED_ARG             2
+           1896 JUMP_BACKWARD          647 (to 604)
+
+349     >> 1898 LOAD_CONST               8 (None)
+           1900 LOAD_CONST               8 (None)
+           1902 LOAD_CONST               8 (None)
+           1904 CALL                     2
+           1912 POP_TOP
+
+411        1914 LOAD_FAST                7 (extracted)
+           1916 LOAD_FAST                8 (corrupted)
+           1918 BUILD_TUPLE              2
+           1920 RETURN_VALUE
+        >> 1922 PUSH_EXC_INFO
+
+341        1924 LOAD_GLOBAL              8 (OSError)
+           1934 CHECK_EXC_MATCH
+           1936 POP_JUMP_IF_FALSE        4 (to 1946)
+           1938 POP_TOP
+
+342        1940 POP_EXCEPT
+           1942 EXTENDED_ARG             3
+           1944 JUMP_BACKWARD          925 (to 96)
+
+341     >> 1946 RERAISE                  0
+        >> 1948 COPY                     3
+           1950 POP_EXCEPT
+           1952 RERAISE                  1
+        >> 1954 PUSH_EXC_INFO
+
+359        1956 LOAD_GLOBAL             26 (struct)
+           1966 LOAD_ATTR               32 (error)
+           1986 CHECK_EXC_MATCH
+           1988 POP_JUMP_IF_FALSE        4 (to 1998)
+           1990 POP_TOP
+
+360        1992 POP_EXCEPT
+           1994 EXTENDED_ARG             2
+           1996 JUMP_BACKWARD          739 (to 520)
+
+359     >> 1998 RERAISE                  0
+        >> 2000 COPY                     3
+           2002 POP_EXCEPT
+           2004 RERAISE                  1
+
+390     >> 2006 PUSH_EXC_INFO
+           2008 WITH_EXCEPT_START
+           2010 POP_JUMP_IF_TRUE         1 (to 2014)
+           2012 RERAISE                  2
+        >> 2014 POP_TOP
+           2016 POP_EXCEPT
+           2018 POP_TOP
+           2020 POP_TOP
+           2022 JUMP_BACKWARD          147 (to 1730)
+        >> 2024 COPY                     3
+           2026 POP_EXCEPT
+           2028 RERAISE                  1
+        >> 2030 PUSH_EXC_INFO
+
+398        2032 LOAD_GLOBAL             80 (Exception)
+           2042 CHECK_EXC_MATCH
+           2044 POP_JUMP_IF_FALSE       59 (to 2164)
+           2046 POP_TOP
+
+401        2048 LOAD_FAST               25 (tmp_output)
+           2050 POP_JUMP_IF_NONE        49 (to 2150)
+           2052 LOAD_FAST               25 (tmp_output)
+           2054 LOAD_ATTR               83 (NULL|self + exists)
+           2074 CALL                     0
+           2082 POP_JUMP_IF_FALSE       33 (to 2150)
+
+402        2084 NOP
+
+403        2086 LOAD_FAST               25 (tmp_output)
+           2088 LOAD_ATTR                7 (NULL|self + unlink)
+           2108 CALL                     0
+           2116 POP_TOP
+           2118 JUMP_FORWARD            15 (to 2150)
+        >> 2120 PUSH_EXC_INFO
+
+404        2122 LOAD_GLOBAL              8 (OSError)
+           2132 CHECK_EXC_MATCH
+           2134 POP_JUMP_IF_FALSE        3 (to 2142)
+           2136 POP_TOP
+
+405        2138 POP_EXCEPT
+           2140 JUMP_FORWARD             4 (to 2150)
+
+404     >> 2142 RERAISE                  0
+        >> 2144 COPY                     3
+           2146 POP_EXCEPT
+           2148 RERAISE                  1
+
+406     >> 2150 LOAD_FAST                8 (corrupted)
+           2152 LOAD_CONST               7 (1)
+           2154 BINARY_OP               13 (+=)
+           2158 STORE_FAST               8 (corrupted)
+           2160 POP_EXCEPT
+           2162 JUMP_BACKWARD          178 (to 1808)
+
+398     >> 2164 RERAISE                  0
+        >> 2166 COPY                     3
+           2168 POP_EXCEPT
+           2170 RERAISE                  1
+
+349     >> 2172 PUSH_EXC_INFO
+           2174 WITH_EXCEPT_START
+           2176 POP_JUMP_IF_TRUE         1 (to 2180)
+           2178 RERAISE                  2
+        >> 2180 POP_TOP
+           2182 POP_EXCEPT
+           2184 POP_TOP
+           2186 POP_TOP
+
+411        2188 LOAD_FAST                7 (extracted)
+           2190 LOAD_FAST                8 (corrupted)
+           2192 BUILD_TUPLE              2
+           2194 RETURN_VALUE
+        >> 2196 COPY                     3
+           2198 POP_EXCEPT
+           2200 RERAISE                  1
+ExceptionTable:
+  104 to 134 -> 1922 [1]
+  210 to 372 -> 2172 [1] lasti
+  376 to 432 -> 1954 [1]
+  434 to 516 -> 2172 [1] lasti
+  520 to 748 -> 2172 [1] lasti
+  752 to 1450 -> 2030 [1]
+  1452 to 1710 -> 2006 [2] lasti
+  1714 to 1806 -> 2030 [1]
+  1808 to 1892 -> 2172 [1] lasti
+  1922 to 1938 -> 1948 [2] lasti
+  1946 to 1946 -> 1948 [2] lasti
+  1954 to 1990 -> 2000 [2] lasti
+  1992 to 1996 -> 2172 [1] lasti
+  1998 to 1998 -> 2000 [2] lasti
+  2000 to 2004 -> 2172 [1] lasti
+  2006 to 2014 -> 2024 [4] lasti
+  2016 to 2028 -> 2030 [1]
+  2030 to 2082 -> 2166 [2] lasti
+  2086 to 2116 -> 2120 [2]
+  2118 to 2118 -> 2166 [2] lasti
+  2120 to 2136 -> 2144 [3] lasti
+  2138 to 2140 -> 2166 [2] lasti
+  2142 to 2142 -> 2144 [3] lasti
+  2144 to 2158 -> 2166 [2] lasti
+  2160 to 2162 -> 2172 [1] lasti
+  2164 to 2164 -> 2166 [2] lasti
+  2166 to 2170 -> 2172 [1] lasti
+  2172 to 2180 -> 2196 [3] lasti

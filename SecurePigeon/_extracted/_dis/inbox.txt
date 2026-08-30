@@ -1,0 +1,1800 @@
+
+======================================================================
+CODE: <module>  qual=<module>  args=()
+======================================================================
+CONSTS: ["'收件箱 — 将文件存入安全信鸽 U 盘（Secure Pigeon Inbox）.'", '0', "('annotations',)", 'None', "('Path',)", "('get_cached_code', 'get_device_id', 'is_activated', 'start_trial', 'trial_started', 'verify_and_save', 'days_remaining')", "'.pigeon.temp.public.pem'", "'.pigeon.public.pem'", "'.pigeon.store'", '134217728', "'DeliveryProgress'", "'__main__'", "'投递失败'", "'发生未预期错误。\\n\\n'", "'Error'", "'安全信鸽 · 投递失败'", '16', '1', "('script', 'str', 'return', 'Path')", "('script', 'str', 'return', 'subprocess.CompletedProcess[str]')", "('value', 'str', 'return', 'str')", "('Information',)", "('title', 'str', 'body', 'str', 'icon', 'str', 'return', 'None')", "('return', 'list[Path]')", "('device_id', 'str', 'return', 'str | None')", "('return', 'str | None')", "('return', 'int')"]
+  0           0 RESUME                   0
+
+  1           2 LOAD_CONST               0 ('收件箱 — 将文件存入安全信鸽 U 盘（Secure Pigeon Inbox）.')
+              4 STORE_NAME               0 (__doc__)
+
+  2           6 LOAD_CONST               1 (0)
+              8 LOAD_CONST               2 (('annotations',))
+             10 IMPORT_NAME              1 (__future__)
+             12 IMPORT_FROM              2 (annotations)
+             14 STORE_NAME               2 (annotations)
+             16 POP_TOP
+
+  4          18 LOAD_CONST               1 (0)
+             20 LOAD_CONST               3 (None)
+             22 IMPORT_NAME              3 (base64)
+             24 STORE_NAME               3 (base64)
+
+  5          26 LOAD_CONST               1 (0)
+             28 LOAD_CONST               3 (None)
+             30 IMPORT_NAME              4 (os)
+             32 STORE_NAME               4 (os)
+
+  6          34 LOAD_CONST               1 (0)
+             36 LOAD_CONST               3 (None)
+             38 IMPORT_NAME              5 (subprocess)
+             40 STORE_NAME               5 (subprocess)
+
+  7          42 LOAD_CONST               1 (0)
+             44 LOAD_CONST               3 (None)
+             46 IMPORT_NAME              6 (sys)
+             48 STORE_NAME               6 (sys)
+
+  8          50 LOAD_CONST               1 (0)
+             52 LOAD_CONST               3 (None)
+             54 IMPORT_NAME              7 (tempfile)
+             56 STORE_NAME               7 (tempfile)
+
+  9          58 LOAD_CONST               1 (0)
+             60 LOAD_CONST               3 (None)
+             62 IMPORT_NAME              8 (time)
+             64 STORE_NAME               8 (time)
+
+ 10          66 LOAD_CONST               1 (0)
+             68 LOAD_CONST               3 (None)
+             70 IMPORT_NAME              9 (uuid)
+             72 STORE_NAME               9 (uuid)
+
+ 11          74 LOAD_CONST               1 (0)
+             76 LOAD_CONST               4 (('Path',))
+             78 IMPORT_NAME             10 (pathlib)
+             80 IMPORT_FROM             11 (Path)
+             82 STORE_NAME              11 (Path)
+             84 POP_TOP
+
+ 13          86 LOAD_CONST               1 (0)
+             88 LOAD_CONST               5 (('get_cached_code', 'get_device_id', 'is_activated', 'start_trial', 'trial_started', 'verify_and_save', 'days_remaining'))
+             90 IMPORT_NAME             12 (activation)
+             92 IMPORT_FROM             13 (get_cached_code)
+             94 STORE_NAME              13 (get_cached_code)
+             96 IMPORT_FROM             14 (get_device_id)
+             98 STORE_NAME              14 (get_device_id)
+            100 IMPORT_FROM             15 (is_activated)
+            102 STORE_NAME              15 (is_activated)
+            104 IMPORT_FROM             16 (start_trial)
+            106 STORE_NAME              16 (start_trial)
+            108 IMPORT_FROM             17 (trial_started)
+            110 STORE_NAME              17 (trial_started)
+            112 IMPORT_FROM             18 (verify_and_save)
+            114 STORE_NAME              18 (verify_and_save)
+            116 IMPORT_FROM             19 (days_remaining)
+            118 STORE_NAME              19 (days_remaining)
+            120 POP_TOP
+
+ 24         122 LOAD_CONST               6 ('.pigeon.temp.public.pem')
+            124 STORE_NAME              20 (PUBLIC_NAME)
+
+ 28         126 PUSH_NULL
+            128 LOAD_NAME               11 (Path)
+            130 LOAD_NAME                6 (sys)
+            132 LOAD_ATTR               42 (argv)
+            152 LOAD_CONST               1 (0)
+            154 BINARY_SUBSCR
+            158 CALL                     1
+            166 LOAD_ATTR               45 (NULL|self + resolve)
+            186 CALL                     0
+            194 LOAD_ATTR               46 (parent)
+            214 LOAD_ATTR               46 (parent)
+            234 STORE_NAME              24 (USB_ROOT)
+
+ 29         236 LOAD_NAME               24 (USB_ROOT)
+            238 LOAD_CONST               7 ('.pigeon.public.pem')
+            240 BINARY_OP               11 (/)
+            244 STORE_NAME              25 (AUTHOR_PUBLIC)
+
+ 30         246 LOAD_NAME               24 (USB_ROOT)
+            248 LOAD_NAME               20 (PUBLIC_NAME)
+            250 BINARY_OP               11 (/)
+            254 STORE_NAME              26 (TEMPORARY_PUBLIC)
+
+ 31         256 LOAD_NAME               24 (USB_ROOT)
+            258 LOAD_CONST               8 ('.pigeon.store')
+            260 BINARY_OP               11 (/)
+            264 STORE_NAME              27 (STORE)
+
+ 32         266 LOAD_CONST               9 (134217728)
+            268 STORE_NAME              28 (CREATE_NO_WINDOW)
+
+ 35         270 LOAD_CONST              27 (('script', 'str', 'return', 'Path'))
+            272 LOAD_CONST              10 (<code object _ps_temp_file at 0x000001ADA3E8EC10, file "inbox.py", line 35>)
+            274 MAKE_FUNCTION            4 (annotations)
+            276 STORE_NAME              29 (_ps_temp_file)
+
+ 59         278 LOAD_CONST              28 (('script', 'str', 'return', 'subprocess.CompletedProcess[str]'))
+            280 LOAD_CONST              11 (<code object run_powershell at 0x000001ADA41C1FA0, file "inbox.py", line 59>)
+            282 MAKE_FUNCTION            4 (annotations)
+            284 STORE_NAME              30 (run_powershell)
+
+ 80         286 LOAD_CONST              29 (('value', 'str', 'return', 'str'))
+            288 LOAD_CONST              12 (<code object ps_text at 0x000001ADA40D4D40, file "inbox.py", line 80>)
+            290 MAKE_FUNCTION            4 (annotations)
+            292 STORE_NAME              31 (ps_text)
+
+ 84         294 LOAD_CONST              30 (('Information',))
+            296 LOAD_CONST              31 (('title', 'str', 'body', 'str', 'icon', 'str', 'return', 'None'))
+            298 LOAD_CONST              13 (<code object message at 0x000001ADA40A33C0, file "inbox.py", line 84>)
+            300 MAKE_FUNCTION            5 (defaults, annotations)
+            302 STORE_NAME              32 (message)
+
+110         304 LOAD_CONST              32 (('return', 'list[Path]'))
+            306 LOAD_CONST              14 (<code object choose_files at 0x000001ADA405DC30, file "inbox.py", line 110>)
+            308 MAKE_FUNCTION            4 (annotations)
+            310 STORE_NAME              33 (choose_files)
+
+128         312 PUSH_NULL
+            314 LOAD_BUILD_CLASS
+            316 LOAD_CONST              15 (<code object DeliveryProgress at 0x000001ADA40E1330, file "inbox.py", line 128>)
+            318 MAKE_FUNCTION            0
+            320 LOAD_CONST              16 ('DeliveryProgress')
+            322 CALL                     2
+            330 STORE_NAME              34 (DeliveryProgress)
+
+218         332 LOAD_CONST              33 (('device_id', 'str', 'return', 'str | None'))
+            334 LOAD_CONST              17 (<code object prompt_activation at 0x000001ADA3F460C0, file "inbox.py", line 218>)
+            336 MAKE_FUNCTION            4 (annotations)
+            338 STORE_NAME              35 (prompt_activation)
+
+257         340 LOAD_CONST              34 (('return', 'str | None'))
+            342 LOAD_CONST              18 (<code object prompt_trial_or_activate at 0x000001ADA40B0B10, file "inbox.py", line 257>)
+            344 MAKE_FUNCTION            4 (annotations)
+            346 STORE_NAME              36 (prompt_trial_or_activate)
+
+292         348 LOAD_CONST              35 (('return', 'int'))
+            350 LOAD_CONST              19 (<code object main at 0x000001ADA41E96F0, file "inbox.py", line 292>)
+            352 MAKE_FUNCTION            4 (annotations)
+            354 STORE_NAME              37 (main)
+
+378         356 LOAD_NAME               38 (__name__)
+            358 LOAD_CONST              20 ('__main__')
+            360 COMPARE_OP              40 (==)
+            364 POP_JUMP_IF_FALSE       14 (to 394)
+
+379         366 NOP
+
+380         368 PUSH_NULL
+            370 LOAD_NAME               39 (SystemExit)
+            372 PUSH_NULL
+            374 LOAD_NAME               37 (main)
+            376 CALL                     0
+            384 CALL                     1
+            392 RAISE_VARARGS            1
+
+378     >>  394 RETURN_CONST             3 (None)
+        >>  396 PUSH_EXC_INFO
+
+381         398 LOAD_NAME               39 (SystemExit)
+            400 CHECK_EXC_MATCH
+            402 POP_JUMP_IF_FALSE        2 (to 408)
+            404 POP_TOP
+
+382         406 RAISE_VARARGS            0
+
+383     >>  408 LOAD_NAME               40 (Exception)
+            410 CHECK_EXC_MATCH
+            412 POP_JUMP_IF_FALSE      108 (to 630)
+            414 STORE_NAME              41 (exc)
+
+384         416 NOP
+
+385         418 PUSH_NULL
+            420 LOAD_NAME               32 (message)
+            422 LOAD_CONST              21 ('投递失败')
+            424 LOAD_CONST              22 ('发生未预期错误。\n\n')
+            426 PUSH_NULL
+            428 LOAD_NAME               42 (str)
+            430 LOAD_NAME               41 (exc)
+            432 CALL                     1
+            440 BINARY_OP                0 (+)
+            444 LOAD_CONST              23 ('Error')
+            446 CALL                     3
+            454 POP_TOP
+            456 JUMP_FORWARD            74 (to 606)
+        >>  458 PUSH_EXC_INFO
+
+386         460 LOAD_NAME               40 (Exception)
+            462 CHECK_EXC_MATCH
+            464 POP_JUMP_IF_FALSE       66 (to 598)
+            466 POP_TOP
+
+387         468 NOP
+
+388         470 LOAD_CONST               1 (0)
+            472 LOAD_CONST               3 (None)
+            474 IMPORT_NAME             43 (ctypes)
+            476 STORE_NAME              44 (_ctypes)
+
+389         478 LOAD_NAME               44 (_ctypes)
+            480 LOAD_ATTR               90 (windll)
+            500 LOAD_ATTR               92 (user32)
+            520 LOAD_ATTR               95 (NULL|self + MessageBoxW)
+            540 LOAD_CONST               1 (0)
+            542 PUSH_NULL
+            544 LOAD_NAME               42 (str)
+            546 LOAD_NAME               41 (exc)
+            548 CALL                     1
+            556 LOAD_CONST              24 ('安全信鸽 · 投递失败')
+            558 LOAD_CONST              25 (16)
+            560 CALL                     4
+            568 POP_TOP
+            570 JUMP_FORWARD            11 (to 594)
+        >>  572 PUSH_EXC_INFO
+
+390         574 LOAD_NAME               40 (Exception)
+            576 CHECK_EXC_MATCH
+            578 POP_JUMP_IF_FALSE        3 (to 586)
+            580 POP_TOP
+
+391         582 POP_EXCEPT
+            584 JUMP_FORWARD             4 (to 594)
+
+390     >>  586 RERAISE                  0
+        >>  588 COPY                     3
+            590 POP_EXCEPT
+            592 RERAISE                  1
+        >>  594 POP_EXCEPT
+            596 JUMP_FORWARD             4 (to 606)
+
+386     >>  598 RERAISE                  0
+        >>  600 COPY                     3
+            602 POP_EXCEPT
+            604 RERAISE                  1
+
+392     >>  606 PUSH_NULL
+            608 LOAD_NAME               39 (SystemExit)
+            610 LOAD_CONST              26 (1)
+            612 CALL                     1
+            620 RAISE_VARARGS            1
+        >>  622 LOAD_CONST               3 (None)
+            624 STORE_NAME              41 (exc)
+            626 DELETE_NAME             41 (exc)
+            628 RERAISE                  1
+
+383     >>  630 RERAISE                  0
+        >>  632 COPY                     3
+            634 POP_EXCEPT
+            636 RERAISE                  1
+ExceptionTable:
+  368 to 392 -> 396 [0]
+  396 to 414 -> 632 [1] lasti
+  418 to 454 -> 458 [1]
+  456 to 456 -> 622 [1] lasti
+  458 to 466 -> 600 [2] lasti
+  470 to 568 -> 572 [2]
+  570 to 570 -> 600 [2] lasti
+  572 to 580 -> 588 [3] lasti
+  582 to 584 -> 600 [2] lasti
+  586 to 586 -> 588 [3] lasti
+  588 to 592 -> 600 [2] lasti
+  594 to 596 -> 622 [1] lasti
+  598 to 598 -> 600 [2] lasti
+  600 to 620 -> 622 [1] lasti
+  622 to 630 -> 632 [1] lasti
+
+======================================================================
+CODE: _ps_temp_file  qual=_ps_temp_file  args=('script',)
+======================================================================
+CONSTS: ["'Write *script* to a UTF-8-BOM temp ``.ps1`` and return its path.\\n\\n    Using ``-File`` instead of ``-EncodedCommand`` drops the base64+utf-16le\\n    command-line signature that heuristic AV engines ", "'.ps1'", "'pigeon-ps-'", "('suffix', 'prefix')", "b'\\xef\\xbb\\xbf'", "'utf-8'"]
+ 35           0 RESUME                   0
+
+ 52           2 LOAD_GLOBAL              1 (NULL + tempfile)
+             12 LOAD_ATTR                2 (mkstemp)
+             32 LOAD_CONST               1 ('.ps1')
+             34 LOAD_CONST               2 ('pigeon-ps-')
+             36 KW_NAMES                 3 (('suffix', 'prefix'))
+             38 CALL                     2
+             46 UNPACK_SEQUENCE          2
+             50 STORE_FAST               1 (fd)
+             52 STORE_FAST               2 (name)
+
+ 53          54 LOAD_GLOBAL              5 (NULL + os)
+             64 LOAD_ATTR                6 (write)
+             84 LOAD_FAST                1 (fd)
+             86 LOAD_CONST               4 (b'\xef\xbb\xbf')
+             88 CALL                     2
+             96 POP_TOP
+
+ 54          98 LOAD_GLOBAL              5 (NULL + os)
+            108 LOAD_ATTR                6 (write)
+            128 LOAD_FAST                1 (fd)
+            130 LOAD_FAST                0 (script)
+            132 LOAD_ATTR                9 (NULL|self + encode)
+            152 LOAD_CONST               5 ('utf-8')
+            154 CALL                     1
+            162 CALL                     2
+            170 POP_TOP
+
+ 55         172 LOAD_GLOBAL              5 (NULL + os)
+            182 LOAD_ATTR               10 (close)
+            202 LOAD_FAST                1 (fd)
+            204 CALL                     1
+            212 POP_TOP
+
+ 56         214 LOAD_GLOBAL             13 (NULL + Path)
+            224 LOAD_FAST                2 (name)
+            226 CALL                     1
+            234 RETURN_VALUE
+
+======================================================================
+CODE: run_powershell  qual=run_powershell  args=('script',)
+======================================================================
+CONSTS: ["'Run a PowerShell script (UTF-8-BOM temp file, ``-File``) and wait.\\n    The temp ``.ps1`` is deleted once the child has finished.\\n    '", "'powershell.exe'", "'-NoProfile'", "'-STA'", "'-ExecutionPolicy'", "'RemoteSigned'", "'-File'", 'True', "'utf-8'", "'replace'", "('capture_output', 'text', 'encoding', 'errors', 'creationflags', 'stdin')", '-1', "''", "'PowerShell not found'", "('stdout', 'stderr')"]
+ 59           0 RESUME                   0
+
+ 63           2 LOAD_GLOBAL              1 (NULL + _ps_temp_file)
+             12 LOAD_FAST                0 (script)
+             14 CALL                     1
+             22 STORE_FAST               1 (path)
+
+ 64          24 LOAD_CONST               1 ('powershell.exe')
+             26 LOAD_CONST               2 ('-NoProfile')
+             28 LOAD_CONST               3 ('-STA')
+             30 LOAD_CONST               4 ('-ExecutionPolicy')
+             32 LOAD_CONST               5 ('RemoteSigned')
+
+ 65          34 LOAD_CONST               6 ('-File')
+             36 LOAD_GLOBAL              3 (NULL + str)
+             46 LOAD_FAST                1 (path)
+             48 CALL                     1
+
+ 64          56 BUILD_LIST               7
+             58 STORE_FAST               2 (command)
+
+ 66          60 NOP
+
+ 67          62 NOP
+
+ 68          64 LOAD_GLOBAL              5 (NULL + subprocess)
+             74 LOAD_ATTR                6 (run)
+             94 LOAD_FAST                2 (command)
+             96 LOAD_CONST               7 (True)
+             98 LOAD_CONST               7 (True)
+            100 LOAD_CONST               8 ('utf-8')
+
+ 69         102 LOAD_CONST               9 ('replace')
+            104 LOAD_GLOBAL              8 (CREATE_NO_WINDOW)
+
+ 70         114 LOAD_GLOBAL              4 (subprocess)
+            124 LOAD_ATTR               10 (DEVNULL)
+
+ 68         144 KW_NAMES                10 (('capture_output', 'text', 'encoding', 'errors', 'creationflags', 'stdin'))
+            146 CALL                     7
+
+ 74         154 NOP
+
+ 75         156 LOAD_FAST                1 (path)
+            158 LOAD_ATTR               13 (NULL|self + unlink)
+            178 CALL                     0
+            186 POP_TOP
+            188 RETURN_VALUE
+        >>  190 PUSH_EXC_INFO
+
+ 76         192 LOAD_GLOBAL             14 (OSError)
+            202 CHECK_EXC_MATCH
+            204 POP_JUMP_IF_FALSE        3 (to 212)
+            206 POP_TOP
+
+ 77         208 POP_EXCEPT
+            210 RETURN_VALUE
+
+ 76     >>  212 RERAISE                  0
+        >>  214 COPY                     3
+            216 POP_EXCEPT
+            218 RERAISE                  1
+        >>  220 PUSH_EXC_INFO
+
+ 71         222 LOAD_GLOBAL             16 (FileNotFoundError)
+            232 CHECK_EXC_MATCH
+            234 POP_JUMP_IF_FALSE       60 (to 356)
+            236 POP_TOP
+
+ 72         238 LOAD_GLOBAL              5 (NULL + subprocess)
+            248 LOAD_ATTR               18 (CompletedProcess)
+            268 LOAD_FAST                2 (command)
+            270 LOAD_CONST              11 (-1)
+            272 LOAD_CONST              12 ('')
+            274 LOAD_CONST              13 ('PowerShell not found')
+            276 KW_NAMES                14 (('stdout', 'stderr'))
+            278 CALL                     4
+            286 SWAP                     2
+            288 POP_EXCEPT
+
+ 74         290 NOP
+
+ 75         292 LOAD_FAST                1 (path)
+            294 LOAD_ATTR               13 (NULL|self + unlink)
+            314 CALL                     0
+            322 POP_TOP
+            324 RETURN_VALUE
+        >>  326 PUSH_EXC_INFO
+
+ 76         328 LOAD_GLOBAL             14 (OSError)
+            338 CHECK_EXC_MATCH
+            340 POP_JUMP_IF_FALSE        3 (to 348)
+            342 POP_TOP
+
+ 77         344 POP_EXCEPT
+            346 RETURN_VALUE
+
+ 76     >>  348 RERAISE                  0
+        >>  350 COPY                     3
+            352 POP_EXCEPT
+            354 RERAISE                  1
+
+ 71     >>  356 RERAISE                  0
+        >>  358 COPY                     3
+            360 POP_EXCEPT
+            362 RERAISE                  1
+        >>  364 PUSH_EXC_INFO
+
+ 74         366 NOP
+
+ 75         368 LOAD_FAST                1 (path)
+            370 LOAD_ATTR               13 (NULL|self + unlink)
+            390 CALL                     0
+            398 POP_TOP
+            400 RERAISE                  0
+        >>  402 PUSH_EXC_INFO
+
+ 76         404 LOAD_GLOBAL             14 (OSError)
+            414 CHECK_EXC_MATCH
+            416 POP_JUMP_IF_FALSE        3 (to 424)
+            418 POP_TOP
+
+ 77         420 POP_EXCEPT
+            422 RERAISE                  0
+
+ 76     >>  424 RERAISE                  0
+        >>  426 COPY                     3
+            428 POP_EXCEPT
+            430 RERAISE                  1
+        >>  432 COPY                     3
+            434 POP_EXCEPT
+            436 RERAISE                  1
+ExceptionTable:
+  64 to 152 -> 220 [0]
+  156 to 186 -> 190 [1]
+  190 to 206 -> 214 [2] lasti
+  212 to 212 -> 214 [2] lasti
+  220 to 286 -> 358 [1] lasti
+  288 to 288 -> 364 [0]
+  292 to 322 -> 326 [1]
+  326 to 342 -> 350 [2] lasti
+  348 to 348 -> 350 [2] lasti
+  356 to 356 -> 358 [1] lasti
+  358 to 362 -> 364 [0]
+  364 to 364 -> 432 [1] lasti
+  368 to 398 -> 402 [2]
+  400 to 400 -> 432 [1] lasti
+  402 to 418 -> 426 [3] lasti
+  420 to 422 -> 432 [1] lasti
+  424 to 424 -> 426 [3] lasti
+  426 to 430 -> 432 [1] lasti
+
+======================================================================
+CODE: ps_text  qual=ps_text  args=('value',)
+======================================================================
+CONSTS: ['None', "'utf-16le'", "'ascii'"]
+ 80           0 RESUME                   0
+
+ 81           2 LOAD_GLOBAL              1 (NULL + base64)
+             12 LOAD_ATTR                2 (b64encode)
+             32 LOAD_FAST                0 (value)
+             34 LOAD_ATTR                5 (NULL|self + encode)
+             54 LOAD_CONST               1 ('utf-16le')
+             56 CALL                     1
+             64 CALL                     1
+             72 LOAD_ATTR                7 (NULL|self + decode)
+             92 LOAD_CONST               2 ('ascii')
+             94 CALL                     1
+            102 RETURN_VALUE
+
+======================================================================
+CODE: message  qual=message  args=('title', 'body', 'icon')
+======================================================================
+CONSTS: ['None', "'确定'", "'Error'", "'#34C759'", "'#FF3B30'", '"Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$accent=[Drawing.ColorTranslator]::FromHtml(\'"', '"\');$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$b=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$ok=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=285;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object W']
+ 84           0 RESUME                   0
+
+ 85           2 NOP
+
+ 86           4 LOAD_GLOBAL              1 (NULL + ps_text)
+             14 LOAD_FAST                0 (title)
+             16 CALL                     1
+             24 STORE_FAST               3 (title64)
+
+ 87          26 LOAD_GLOBAL              1 (NULL + ps_text)
+             36 LOAD_FAST                1 (body)
+             38 CALL                     1
+             46 STORE_FAST               4 (body64)
+
+ 88          48 LOAD_GLOBAL              1 (NULL + ps_text)
+             58 LOAD_CONST               1 ('确定')
+             60 CALL                     1
+             68 STORE_FAST               5 (ok64)
+
+ 89          70 LOAD_FAST                2 (icon)
+             72 LOAD_CONST               2 ('Error')
+             74 COMPARE_OP              55 (!=)
+             78 STORE_FAST               6 (success)
+
+ 90          80 LOAD_FAST                6 (success)
+             82 POP_JUMP_IF_FALSE        2 (to 88)
+             84 LOAD_CONST               3 ('#34C759')
+             86 JUMP_FORWARD             1 (to 90)
+        >>   88 LOAD_CONST               4 ('#FF3B30')
+        >>   90 STORE_FAST               7 (accent)
+
+ 92          92 LOAD_CONST               5 ("Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$accent=[Drawing.ColorTranslator]::FromHtml('")
+
+ 93          94 LOAD_FAST                7 (accent)
+
+ 92          96 BINARY_OP                0 (+)
+
+ 93         100 LOAD_CONST               6 ("');$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+ 92         102 BINARY_OP                0 (+)
+
+ 94         106 LOAD_FAST                3 (title64)
+
+ 92         108 BINARY_OP                0 (+)
+
+ 94         112 LOAD_CONST               7 ("'));$b=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+ 92         114 BINARY_OP                0 (+)
+
+ 95         118 LOAD_FAST                4 (body64)
+
+ 92         120 BINARY_OP                0 (+)
+
+ 95         124 LOAD_CONST               8 ("'));$ok=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+ 92         126 BINARY_OP                0 (+)
+
+ 96         130 LOAD_FAST                5 (ok64)
+
+ 92         132 BINARY_OP                0 (+)
+
+ 96         136 LOAD_CONST               9 ("'));$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=285;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object Windows.Forms.Form;$f.Text='';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.FormBorderStyle='FixedDialog';$f.MaximizeBox=$false;$f.MinimizeBox=$false;$f.ShowInTaskbar=$false;$f.BackColor=[Drawing.Color]::White;$s=New-Object Windows.Forms.Panel;$s.Size=New-Object Drawing.Size(420,4);$s.Location=New-Object Drawing.Point(0,0);$s.BackColor=$accent;$f.Controls.Add($s);$l=New-Object Windows.Forms.Label;$l.Text=$t;$l.Location=New-Object Drawing.Point(32,28);$l.Size=New-Object Drawing.Size(356,24);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($l);$m=New-Object Windows.Forms.Label;$m.Text=$b;$m.Location=New-Object Drawing.Point(32,60);$m.Size=New-Object Drawing.Size(356,100);$m.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$m.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($m);$k=New-Object Windows.Forms.Button;$k.Text=$ok;$k.Location=New-Object Drawing.Point(310,180);$k.Size=New-Object Drawing.Size(84,32);$k.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$k.FlatStyle='Flat';$k.BackColor=[Drawing.Color]::White;$k.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$k.FlatAppearance.BorderSize=0;$k.DialogResult=[Windows.Forms.DialogResult]::OK;$f.AcceptButton=$k;$f.Controls.Add($k);[void]$f.ShowDialog()")
+
+ 92         138 BINARY_OP                0 (+)
+
+ 91         142 STORE_FAST               8 (script)
+
+105         144 LOAD_GLOBAL              3 (NULL + run_powershell)
+            154 LOAD_FAST                8 (script)
+            156 CALL                     1
+            164 POP_TOP
+            166 RETURN_CONST             0 (None)
+        >>  168 PUSH_EXC_INFO
+
+106         170 LOAD_GLOBAL              4 (Exception)
+            180 CHECK_EXC_MATCH
+            182 POP_JUMP_IF_FALSE        3 (to 190)
+            184 POP_TOP
+
+107         186 POP_EXCEPT
+            188 RETURN_CONST             0 (None)
+
+106     >>  190 RERAISE                  0
+        >>  192 COPY                     3
+            194 POP_EXCEPT
+            196 RERAISE                  1
+ExceptionTable:
+  4 to 164 -> 168 [0]
+  168 to 184 -> 192 [1] lasti
+  190 to 190 -> 192 [1] lasti
+
+======================================================================
+CODE: choose_files  qual=choose_files  args=()
+======================================================================
+CONSTS: ['None', "'选择需要投递的文件'", '"Add-Type -AssemblyName System.Windows.Forms;$d=New-Object Windows.Forms.OpenFileDialog;$d.Title=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$d.Multiselect=$true;if($d.ShowDialog() -eq [Windows.Forms.DialogResult]::OK){$d.FileNames|ForEach-Object{[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($_))}}"', "'utf-16le'"]
+110           0 RESUME                   0
+
+111           2 LOAD_GLOBAL              1 (NULL + ps_text)
+             12 LOAD_CONST               1 ('选择需要投递的文件')
+             14 CALL                     1
+             22 STORE_FAST               0 (title)
+
+113          24 LOAD_CONST               2 ("Add-Type -AssemblyName System.Windows.Forms;$d=New-Object Windows.Forms.OpenFileDialog;$d.Title=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+115          26 LOAD_FAST                0 (title)
+
+113          28 BINARY_OP                0 (+)
+
+115          32 LOAD_CONST               3 ("'));$d.Multiselect=$true;if($d.ShowDialog() -eq [Windows.Forms.DialogResult]::OK){$d.FileNames|ForEach-Object{[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($_))}}")
+
+113          34 BINARY_OP                0 (+)
+
+112          38 STORE_FAST               1 (script)
+
+120          40 LOAD_GLOBAL              3 (NULL + run_powershell)
+             50 LOAD_FAST                1 (script)
+             52 CALL                     1
+             60 STORE_FAST               2 (result)
+
+121          62 BUILD_LIST               0
+             64 STORE_FAST               3 (paths)
+
+122          66 LOAD_FAST                2 (result)
+             68 LOAD_ATTR                4 (stdout)
+             88 LOAD_ATTR                7 (NULL|self + splitlines)
+            108 CALL                     0
+            116 GET_ITER
+        >>  118 FOR_ITER                93 (to 308)
+            122 STORE_FAST               4 (line)
+
+123         124 LOAD_FAST                4 (line)
+            126 LOAD_ATTR                9 (NULL|self + strip)
+            146 CALL                     0
+            154 POP_JUMP_IF_TRUE         1 (to 158)
+            156 JUMP_BACKWARD           20 (to 118)
+
+124     >>  158 LOAD_FAST                3 (paths)
+            160 LOAD_ATTR               11 (NULL|self + append)
+            180 LOAD_GLOBAL             13 (NULL + Path)
+            190 LOAD_GLOBAL             15 (NULL + base64)
+            200 LOAD_ATTR               16 (b64decode)
+            220 LOAD_FAST                4 (line)
+            222 LOAD_ATTR                9 (NULL|self + strip)
+            242 CALL                     0
+            250 CALL                     1
+            258 LOAD_ATTR               19 (NULL|self + decode)
+            278 LOAD_CONST               4 ('utf-16le')
+            280 CALL                     1
+            288 CALL                     1
+            296 CALL                     1
+            304 POP_TOP
+            306 JUMP_BACKWARD           95 (to 118)
+
+122     >>  308 END_FOR
+
+125         310 LOAD_FAST                3 (paths)
+            312 RETURN_VALUE
+
+======================================================================
+CODE: DeliveryProgress  qual=DeliveryProgress  args=()
+======================================================================
+CONSTS: ["'DeliveryProgress'", 'None', "('total', 'int', 'return', 'None')", '(0, 0)', "('state', 'str', 'current', 'int', 'name', 'str', 'file_done', 'int', 'file_total', 'int', 'return', 'None')", "('current', 'int', 'name', 'str', 'return', 'None')", "('done', 'int', 'total', 'int', 'return', 'None')", "('return', 'bool')", '(False,)', "('failed', 'bool', 'return', 'None')"]
+128           0 RESUME                   0
+              2 LOAD_NAME                0 (__name__)
+              4 STORE_NAME               1 (__module__)
+              6 LOAD_CONST               0 ('DeliveryProgress')
+              8 STORE_NAME               2 (__qualname__)
+
+129          10 LOAD_CONST               8 (('total', 'int', 'return', 'None'))
+             12 LOAD_CONST               1 (<code object __init__ at 0x000001ADA3EE51C0, file "inbox.py", line 129>)
+             14 MAKE_FUNCTION            4 (annotations)
+             16 STORE_NAME               3 (__init__)
+
+177          18 LOAD_CONST               9 ((0, 0))
+             20 LOAD_CONST              10 (('state', 'str', 'current', 'int', 'name', 'str', 'file_done', 'int', 'file_total', 'int', 'return', 'None'))
+             22 LOAD_CONST               2 (<code object _write at 0x000001ADA40F41D0, file "inbox.py", line 177>)
+             24 MAKE_FUNCTION            5 (defaults, annotations)
+             26 STORE_NAME               4 (_write)
+
+183          28 LOAD_CONST              11 (('current', 'int', 'name', 'str', 'return', 'None'))
+             30 LOAD_CONST               3 (<code object update at 0x000001ADA40DDBD0, file "inbox.py", line 183>)
+             32 MAKE_FUNCTION            4 (annotations)
+             34 STORE_NAME               5 (update)
+
+188          36 LOAD_CONST              12 (('done', 'int', 'total', 'int', 'return', 'None'))
+             38 LOAD_CONST               4 (<code object update_file at 0x000001ADA40D96B0, file "inbox.py", line 188>)
+             40 MAKE_FUNCTION            4 (annotations)
+             42 STORE_NAME               6 (update_file)
+
+192          44 LOAD_CONST              13 (('return', 'bool'))
+             46 LOAD_CONST               5 (<code object cancelled at 0x000001ADA40817D0, file "inbox.py", line 192>)
+             48 MAKE_FUNCTION            4 (annotations)
+             50 STORE_NAME               7 (cancelled)
+
+200          52 LOAD_CONST              14 ((False,))
+             54 LOAD_CONST              15 (('failed', 'bool', 'return', 'None'))
+             56 LOAD_CONST               6 (<code object close at 0x000001ADA41E1B10, file "inbox.py", line 200>)
+             58 MAKE_FUNCTION            5 (defaults, annotations)
+             60 STORE_NAME               8 (close)
+             62 RETURN_CONST             7 (None)
+
+======================================================================
+CODE: __init__  qual=DeliveryProgress.__init__  args=('self', 'total')
+======================================================================
+CONSTS: ['None', "'secure-pigeon-'", "'.status'", '0', "''", "'RUN'", "'正在安全投递'", "'正在写入 U 盘'", "'取消投递'", '"$p=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$title=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$prefix=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$cancelTxt=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=230;$FW=[Math]::Min($DW,[Math]::Max(320,', "'powershell.exe'", "'-NoProfile'", "'-STA'", "'-ExecutionPolicy'", "'RemoteSigned'", "'-File'", "('creationflags',)"]
+129           0 RESUME                   0
+
+130           2 LOAD_CONST               0 (None)
+              4 LOAD_FAST                0 (self)
+              6 STORE_ATTR               0 (_ps_script)
+
+131          16 LOAD_GLOBAL              3 (NULL + Path)
+             26 LOAD_GLOBAL              5 (NULL + tempfile)
+             36 LOAD_ATTR                6 (gettempdir)
+             56 CALL                     0
+             64 CALL                     1
+             72 LOAD_CONST               1 ('secure-pigeon-')
+             74 LOAD_GLOBAL              9 (NULL + uuid)
+             84 LOAD_ATTR               10 (uuid4)
+            104 CALL                     0
+            112 LOAD_ATTR               12 (hex)
+            132 FORMAT_VALUE             0
+            134 LOAD_CONST               2 ('.status')
+            136 BUILD_STRING             3
+            138 BINARY_OP               11 (/)
+            142 LOAD_FAST                0 (self)
+            144 STORE_ATTR               7 (path)
+
+132         154 LOAD_FAST                1 (total)
+            156 LOAD_FAST                0 (self)
+            158 STORE_ATTR               8 (total)
+
+133         168 LOAD_CONST               3 (0)
+            170 LOAD_FAST                0 (self)
+            172 STORE_ATTR               9 (_cur)
+
+134         182 LOAD_CONST               4 ('')
+            184 LOAD_FAST                0 (self)
+            186 STORE_ATTR              10 (_name)
+
+135         196 LOAD_FAST                0 (self)
+            198 LOAD_ATTR               23 (NULL|self + _write)
+            218 LOAD_CONST               5 ('RUN')
+            220 LOAD_CONST               3 (0)
+            222 LOAD_CONST               4 ('')
+            224 CALL                     3
+            232 POP_TOP
+
+136         234 LOAD_GLOBAL             25 (NULL + ps_text)
+            244 LOAD_GLOBAL             27 (NULL + str)
+            254 LOAD_FAST                0 (self)
+            256 LOAD_ATTR               14 (path)
+            276 CALL                     1
+            284 CALL                     1
+            292 STORE_FAST               2 (path64)
+
+137         294 LOAD_GLOBAL             25 (NULL + ps_text)
+            304 LOAD_CONST               6 ('正在安全投递')
+            306 CALL                     1
+            314 STORE_FAST               3 (title64)
+
+138         316 LOAD_GLOBAL             25 (NULL + ps_text)
+            326 LOAD_CONST               7 ('正在写入 U 盘')
+            328 CALL                     1
+            336 STORE_FAST               4 (prefix64)
+
+139         338 LOAD_GLOBAL             25 (NULL + ps_text)
+            348 LOAD_CONST               8 ('取消投递')
+            350 CALL                     1
+            358 STORE_FAST               5 (cancel64)
+
+141         360 LOAD_CONST               9 ("$p=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            362 LOAD_FAST                2 (path64)
+            364 BINARY_OP                0 (+)
+            368 LOAD_CONST              10 ("'));$title=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            370 BINARY_OP                0 (+)
+
+142         374 LOAD_FAST                3 (title64)
+
+141         376 BINARY_OP                0 (+)
+
+142         380 LOAD_CONST              11 ("'));$prefix=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+141         382 BINARY_OP                0 (+)
+
+143         386 LOAD_FAST                4 (prefix64)
+
+141         388 BINARY_OP                0 (+)
+
+143         392 LOAD_CONST              12 ("'));$cancelTxt=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+141         394 BINARY_OP                0 (+)
+
+144         398 LOAD_FAST                5 (cancel64)
+
+141         400 BINARY_OP                0 (+)
+
+144         404 LOAD_CONST              13 ("'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=230;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(200,$wa.Height-24));$f=New-Object Windows.Forms.Form;$f.Text=$title;$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.FormBorderStyle='FixedDialog';$f.ControlBox=$false;$f.BackColor=[Drawing.Color]::White;$tl=New-Object Windows.Forms.Label;$tl.Text=$title;$tl.Location=New-Object Drawing.Point(28,20);$tl.Size=New-Object Drawing.Size(364,24);$tl.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$tl.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($tl);$pct=New-Object Windows.Forms.Label;$pct.Location=New-Object Drawing.Point(28,50);$pct.Size=New-Object Drawing.Size(100,36);$pct.Font=New-Object Drawing.Font('Microsoft YaHei UI',24,[Drawing.FontStyle]::Bold);$pct.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$pct.Text='0%';$f.Controls.Add($pct);$l=New-Object Windows.Forms.Label;$l.Location=New-Object Drawing.Point(136,54);$l.Size=New-Object Drawing.Size(256,30);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($l);$track=New-Object Windows.Forms.Panel;$track.Size=New-Object Drawing.Size(364,8);$track.Location=New-Object Drawing.Point(28,96);$track.BackColor=[Drawing.ColorTranslator]::FromHtml('#F0F0F0');$f.Controls.Add($track);$fill=New-Object Windows.Forms.Label;$fill.Size=New-Object Drawing.Size(0,8);$fill.Location=New-Object Drawing.Point(0,0);$fill.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$track.Controls.Add($fill);$c=New-Object Windows.Forms.Label;$c.Location=New-Object Drawing.Point(28,110);$c.Size=New-Object Drawing.Size(364,18);$c.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$c.ForeColor=[Drawing.ColorTranslator]::FromHtml('#AEAEB2');$f.Controls.Add($c);$cancel=New-Object System.Windows.Forms.Button;$cancel.Text=$cancelTxt;$cancel.Location=New-Object Drawing.Point(290,142);$cancel.Size=New-Object Drawing.Size(102,32);$cancel.FlatStyle='Flat';$cancel.BackColor=[Drawing.Color]::White;$cancel.ForeColor=[Drawing.ColorTranslator]::FromHtml('#FF3B30');$cancel.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$cancel.FlatAppearance.BorderColor=[Drawing.ColorTranslator]::FromHtml('#FF3B30');$cancel.FlatAppearance.BorderSize=1;$f.Controls.Add($cancel);$t=New-Object Windows.Forms.Timer;$t.Interval=180;$t.Add_Tick({if(Test-Path -LiteralPath $p){$v=(Get-Content -LiteralPath $p -Raw -Encoding UTF8).Split([char]9);if($v[0] -eq 'CANCEL'){$t.Stop();$f.Close()}elseif($v.Length -ge 6){$max=[int]$v[2];$cur=[Math]::Min([int]$v[1],$max);$fDone=[int64]$v[4];$fTotal=[int64]$v[5];$fileRatio=if($fTotal -gt 0){$fDone/$fTotal}else{0};$ratio=if($max -gt 0){[Math]::Min(1.0,[Math]::Max(0.0,($cur+$fileRatio)/$max))}else{0};$fillW=[Math]::Floor(364*$ratio);$fill.Size=New-Object Drawing.Size($fillW,8);$pctTxt=[Math]::Floor($ratio*100);$pct.Text=($pctTxt.ToString()+'%');$name=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($v[3]));$l.Text=$name;$c.Text=($cur.ToString()+' / '+$max.ToString()+' 个文件');if($v[0] -ne 'RUN'){$t.Stop();$f.Close()}}}});$cancel.Add_Click({Set-Content -LiteralPath $p -Value 'CANCEL' -Encoding UTF8;$cancel.Enabled=$false;$cancel.Text=$cancelTxt;});$f.Add_Shown({$t.Start()});[void]$f.ShowDialog()")
+
+141         406 BINARY_OP                0 (+)
+
+140         410 STORE_FAST               6 (script)
+
+170         412 LOAD_GLOBAL             29 (NULL + _ps_temp_file)
+            422 LOAD_FAST                6 (script)
+            424 CALL                     1
+            432 LOAD_FAST                0 (self)
+            434 STORE_ATTR               0 (_ps_script)
+
+171         444 LOAD_GLOBAL             31 (NULL + subprocess)
+            454 LOAD_ATTR               32 (Popen)
+
+172         474 LOAD_CONST              14 ('powershell.exe')
+            476 LOAD_CONST              15 ('-NoProfile')
+            478 LOAD_CONST              16 ('-STA')
+            480 LOAD_CONST              17 ('-ExecutionPolicy')
+            482 LOAD_CONST              18 ('RemoteSigned')
+
+173         484 LOAD_CONST              19 ('-File')
+            486 LOAD_GLOBAL             27 (NULL + str)
+            496 LOAD_FAST                0 (self)
+            498 LOAD_ATTR                0 (_ps_script)
+            518 CALL                     1
+
+172         526 BUILD_LIST               7
+
+174         528 LOAD_GLOBAL             34 (CREATE_NO_WINDOW)
+
+171         538 KW_NAMES                20 (('creationflags',))
+            540 CALL                     2
+            548 LOAD_FAST                0 (self)
+            550 STORE_ATTR              18 (process)
+            560 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: _write  qual=DeliveryProgress._write  args=('self', 'state', 'current', 'name', 'file_done', 'file_total')
+======================================================================
+CONSTS: ['None', "'utf-16le'", "'ascii'", "'\\t'", "'utf-8'", "('encoding',)"]
+177           0 RESUME                   0
+
+178           2 LOAD_GLOBAL              1 (NULL + base64)
+             12 LOAD_ATTR                2 (b64encode)
+             32 LOAD_FAST                3 (name)
+             34 LOAD_ATTR                5 (NULL|self + encode)
+             54 LOAD_CONST               1 ('utf-16le')
+             56 CALL                     1
+             64 CALL                     1
+             72 LOAD_ATTR                7 (NULL|self + decode)
+             92 LOAD_CONST               2 ('ascii')
+             94 CALL                     1
+            102 STORE_FAST               6 (encoded_name)
+
+179         104 LOAD_FAST                0 (self)
+            106 LOAD_ATTR                8 (path)
+            126 LOAD_ATTR               11 (NULL|self + write_text)
+
+180         146 LOAD_FAST                1 (state)
+            148 FORMAT_VALUE             0
+            150 LOAD_CONST               3 ('\t')
+            152 LOAD_FAST                2 (current)
+            154 FORMAT_VALUE             0
+            156 LOAD_CONST               3 ('\t')
+            158 LOAD_FAST                0 (self)
+            160 LOAD_ATTR               12 (total)
+            180 FORMAT_VALUE             0
+            182 LOAD_CONST               3 ('\t')
+            184 LOAD_FAST                6 (encoded_name)
+            186 FORMAT_VALUE             0
+            188 LOAD_CONST               3 ('\t')
+            190 LOAD_FAST                4 (file_done)
+            192 FORMAT_VALUE             0
+            194 LOAD_CONST               3 ('\t')
+            196 LOAD_FAST                5 (file_total)
+            198 FORMAT_VALUE             0
+            200 BUILD_STRING            11
+            202 LOAD_CONST               4 ('utf-8')
+
+179         204 KW_NAMES                 5 (('encoding',))
+            206 CALL                     2
+            214 POP_TOP
+            216 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: update  qual=DeliveryProgress.update  args=('self', 'current', 'name')
+======================================================================
+CONSTS: ['None', "'RUN'"]
+183           0 RESUME                   0
+
+184           2 LOAD_FAST                1 (current)
+              4 LOAD_FAST                0 (self)
+              6 STORE_ATTR               0 (_cur)
+
+185          16 LOAD_FAST                2 (name)
+             18 LOAD_FAST                0 (self)
+             20 STORE_ATTR               1 (_name)
+
+186          30 LOAD_FAST                0 (self)
+             32 LOAD_ATTR                5 (NULL|self + _write)
+             52 LOAD_CONST               1 ('RUN')
+             54 LOAD_FAST                1 (current)
+             56 LOAD_FAST                2 (name)
+             58 CALL                     3
+             66 POP_TOP
+             68 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: update_file  qual=DeliveryProgress.update_file  args=('self', 'done', 'total')
+======================================================================
+CONSTS: ["'文件内分块进度回调（由 append_file 调用）。'", "'RUN'", 'None']
+188           0 RESUME                   0
+
+190           2 LOAD_FAST                0 (self)
+              4 LOAD_ATTR                1 (NULL|self + _write)
+             24 LOAD_CONST               1 ('RUN')
+             26 LOAD_FAST                0 (self)
+             28 LOAD_ATTR                2 (_cur)
+             48 LOAD_FAST                0 (self)
+             50 LOAD_ATTR                4 (_name)
+             70 LOAD_FAST                1 (done)
+             72 LOAD_FAST                2 (total)
+             74 CALL                     5
+             82 POP_TOP
+             84 RETURN_CONST             2 (None)
+
+======================================================================
+CODE: cancelled  qual=DeliveryProgress.cancelled  args=('self',)
+======================================================================
+CONSTS: ["'用户是否点了取消投递。'", "'utf-8'", "('encoding',)", "'\\t'", '0', "'CANCEL'", 'False']
+192           0 RESUME                   0
+
+194           2 NOP
+
+195           4 LOAD_FAST                0 (self)
+              6 LOAD_ATTR                0 (path)
+             26 LOAD_ATTR                3 (NULL|self + read_text)
+             46 LOAD_CONST               1 ('utf-8')
+             48 KW_NAMES                 2 (('encoding',))
+             50 CALL                     1
+             58 LOAD_ATTR                5 (NULL|self + split)
+             78 LOAD_CONST               3 ('\t')
+             80 CALL                     1
+             88 LOAD_CONST               4 (0)
+             90 BINARY_SUBSCR
+             94 STORE_FAST               1 (state)
+
+196          96 LOAD_FAST                1 (state)
+             98 LOAD_CONST               5 ('CANCEL')
+            100 COMPARE_OP              40 (==)
+            104 RETURN_VALUE
+        >>  106 PUSH_EXC_INFO
+
+197         108 LOAD_GLOBAL              6 (OSError)
+            118 CHECK_EXC_MATCH
+            120 POP_JUMP_IF_FALSE        3 (to 128)
+            122 POP_TOP
+
+198         124 POP_EXCEPT
+            126 RETURN_CONST             6 (False)
+
+197     >>  128 RERAISE                  0
+        >>  130 COPY                     3
+            132 POP_EXCEPT
+            134 RERAISE                  1
+ExceptionTable:
+  4 to 102 -> 106 [0]
+  106 to 122 -> 130 [1] lasti
+  128 to 128 -> 130 [1] lasti
+
+======================================================================
+CODE: close  qual=DeliveryProgress.close  args=('self', 'failed')
+======================================================================
+CONSTS: ['None', "'ERROR'", "'DONE'", "''", '3', "('timeout',)"]
+200           0 RESUME                   0
+
+201           2 LOAD_FAST                0 (self)
+              4 LOAD_ATTR                1 (NULL|self + _write)
+             24 LOAD_FAST                1 (failed)
+             26 POP_JUMP_IF_FALSE        2 (to 32)
+             28 LOAD_CONST               1 ('ERROR')
+             30 JUMP_FORWARD             1 (to 34)
+        >>   32 LOAD_CONST               2 ('DONE')
+        >>   34 LOAD_FAST                0 (self)
+             36 LOAD_ATTR                2 (total)
+             56 LOAD_CONST               3 ('')
+             58 CALL                     3
+             66 POP_TOP
+
+202          68 NOP
+
+203          70 LOAD_FAST                0 (self)
+             72 LOAD_ATTR                4 (process)
+             92 LOAD_ATTR                7 (NULL|self + wait)
+            112 LOAD_CONST               4 (3)
+            114 KW_NAMES                 5 (('timeout',))
+            116 CALL                     1
+            124 POP_TOP
+
+207     >>  126 NOP
+
+208         128 LOAD_FAST                0 (self)
+            130 LOAD_ATTR               14 (path)
+            150 LOAD_ATTR               17 (NULL|self + unlink)
+            170 CALL                     0
+            178 POP_TOP
+
+211     >>  180 LOAD_FAST                0 (self)
+            182 LOAD_ATTR               20 (_ps_script)
+            202 POP_JUMP_IF_NONE        28 (to 260)
+
+212         204 NOP
+
+213         206 LOAD_FAST                0 (self)
+            208 LOAD_ATTR               20 (_ps_script)
+            228 LOAD_ATTR               17 (NULL|self + unlink)
+            248 CALL                     0
+            256 POP_TOP
+            258 RETURN_CONST             0 (None)
+
+211     >>  260 RETURN_CONST             0 (None)
+        >>  262 PUSH_EXC_INFO
+
+204         264 LOAD_GLOBAL              8 (subprocess)
+            274 LOAD_ATTR               10 (TimeoutExpired)
+            294 CHECK_EXC_MATCH
+            296 POP_JUMP_IF_FALSE       55 (to 408)
+            298 POP_TOP
+
+205         300 LOAD_FAST                0 (self)
+            302 LOAD_ATTR                4 (process)
+            322 LOAD_ATTR               13 (NULL|self + kill)
+            342 CALL                     0
+            350 POP_TOP
+
+206         352 LOAD_FAST                0 (self)
+            354 LOAD_ATTR                4 (process)
+            374 LOAD_ATTR                7 (NULL|self + wait)
+            394 CALL                     0
+            402 POP_TOP
+            404 POP_EXCEPT
+            406 JUMP_BACKWARD          141 (to 126)
+
+204     >>  408 RERAISE                  0
+        >>  410 COPY                     3
+            412 POP_EXCEPT
+            414 RERAISE                  1
+        >>  416 PUSH_EXC_INFO
+
+209         418 LOAD_GLOBAL             18 (OSError)
+            428 CHECK_EXC_MATCH
+            430 POP_JUMP_IF_FALSE        3 (to 438)
+            432 POP_TOP
+
+210         434 POP_EXCEPT
+            436 JUMP_BACKWARD          129 (to 180)
+
+209     >>  438 RERAISE                  0
+        >>  440 COPY                     3
+            442 POP_EXCEPT
+            444 RERAISE                  1
+        >>  446 PUSH_EXC_INFO
+
+214         448 LOAD_GLOBAL             18 (OSError)
+            458 CHECK_EXC_MATCH
+            460 POP_JUMP_IF_FALSE        3 (to 468)
+            462 POP_TOP
+
+215         464 POP_EXCEPT
+            466 RETURN_CONST             0 (None)
+
+214     >>  468 RERAISE                  0
+        >>  470 COPY                     3
+            472 POP_EXCEPT
+            474 RERAISE                  1
+ExceptionTable:
+  70 to 124 -> 262 [0]
+  128 to 178 -> 416 [0]
+  206 to 256 -> 446 [0]
+  262 to 402 -> 410 [1] lasti
+  408 to 408 -> 410 [1] lasti
+  416 to 432 -> 440 [1] lasti
+  438 to 438 -> 440 [1] lasti
+  446 to 462 -> 470 [1] lasti
+  468 to 468 -> 470 [1] lasti
+
+======================================================================
+CODE: prompt_activation  qual=prompt_activation  args=('device_id',)
+======================================================================
+CONSTS: ["'Show an activation dialog with the device ID. Returns the entered code.'", "'激活 U 盘'", "'试用期已过，请输入激活码。'", "'设备 ID：'", "'XXXX-XXXX-XXXX-XXXX'", "'激活'", "'取消'", '"$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$hint=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$dev=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$fmt=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$ok=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$cancel=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=265;$FW=[Math]::Min($DW,[Math]::Max(320,', 'None', "'utf-16le'"]
+218           0 RESUME                   0
+
+220           2 LOAD_GLOBAL              1 (NULL + ps_text)
+             12 LOAD_CONST               1 ('激活 U 盘')
+             14 CALL                     1
+             22 STORE_FAST               1 (title64)
+
+221          24 LOAD_GLOBAL              1 (NULL + ps_text)
+             34 LOAD_CONST               2 ('试用期已过，请输入激活码。')
+             36 CALL                     1
+             44 STORE_FAST               2 (hint64)
+
+222          46 LOAD_GLOBAL              1 (NULL + ps_text)
+             56 LOAD_CONST               3 ('设备 ID：')
+             58 LOAD_FAST                0 (device_id)
+             60 BINARY_OP                0 (+)
+             64 CALL                     1
+             72 STORE_FAST               3 (dev64)
+
+223          74 LOAD_GLOBAL              1 (NULL + ps_text)
+             84 LOAD_CONST               4 ('XXXX-XXXX-XXXX-XXXX')
+             86 CALL                     1
+             94 STORE_FAST               4 (fmt64)
+
+224          96 LOAD_GLOBAL              1 (NULL + ps_text)
+            106 LOAD_CONST               5 ('激活')
+            108 CALL                     1
+            116 STORE_FAST               5 (ok64)
+
+225         118 LOAD_GLOBAL              1 (NULL + ps_text)
+            128 LOAD_CONST               6 ('取消')
+            130 CALL                     1
+            138 STORE_FAST               6 (cancel64)
+
+227         140 LOAD_CONST               7 ("$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            142 LOAD_FAST                1 (title64)
+            144 BINARY_OP                0 (+)
+            148 LOAD_CONST               8 ("'));$hint=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            150 BINARY_OP                0 (+)
+
+228         154 LOAD_FAST                2 (hint64)
+
+227         156 BINARY_OP                0 (+)
+
+228         160 LOAD_CONST               9 ("'));$dev=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+227         162 BINARY_OP                0 (+)
+
+229         166 LOAD_FAST                3 (dev64)
+
+227         168 BINARY_OP                0 (+)
+
+229         172 LOAD_CONST              10 ("'));$fmt=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+227         174 BINARY_OP                0 (+)
+
+230         178 LOAD_FAST                4 (fmt64)
+
+227         180 BINARY_OP                0 (+)
+
+230         184 LOAD_CONST              11 ("'));$ok=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+227         186 BINARY_OP                0 (+)
+
+231         190 LOAD_FAST                5 (ok64)
+
+227         192 BINARY_OP                0 (+)
+
+231         196 LOAD_CONST              12 ("'));$cancel=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+227         198 BINARY_OP                0 (+)
+
+232         202 LOAD_FAST                6 (cancel64)
+
+227         204 BINARY_OP                0 (+)
+
+232         208 LOAD_CONST              13 ("'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=265;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object Windows.Forms.Form;$f.Text='';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.FormBorderStyle='FixedDialog';$f.MaximizeBox=$false;$f.MinimizeBox=$false;$f.BackColor=[Drawing.Color]::White;$s=New-Object Windows.Forms.Panel;$s.Size=New-Object Drawing.Size(420,4);$s.Location=New-Object Drawing.Point(0,0);$s.BackColor=[Drawing.ColorTranslator]::FromHtml('#FF3B30');$f.Controls.Add($s);$l=New-Object Windows.Forms.Label;$l.Text=$t;$l.Location=New-Object Drawing.Point(32,28);$l.Size=New-Object Drawing.Size(356,24);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($l);$h=New-Object Windows.Forms.Label;$h.Text=$hint;$h.Location=New-Object Drawing.Point(32,56);$h.Size=New-Object Drawing.Size(356,20);$h.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$h.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($h);$d=New-Object Windows.Forms.Label;$d.Text=$dev;$d.Location=New-Object Drawing.Point(32,78);$d.Size=New-Object Drawing.Size(356,20);$d.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$d.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($d);$x=New-Object Windows.Forms.TextBox;$x.Location=New-Object Drawing.Point(32,108);$x.Size=New-Object Drawing.Size(356,32);$x.Font=New-Object Drawing.Font('Microsoft YaHei UI',14);$x.TextAlign='Center';$x.MaxLength=19;$x.Text=$fmt;$x.ForeColor=[Drawing.ColorTranslator]::FromHtml('#AEAEB2');$f.Controls.Add($x);$x.Add_GotFocus({if($x.Text -eq $fmt){$x.Text='';$x.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E')}});$x.Add_LostFocus({if([string]::IsNullOrWhiteSpace($x.Text)){$x.Text=$fmt;$x.ForeColor=[Drawing.ColorTranslator]::FromHtml('#AEAEB2')}});$b=New-Object Windows.Forms.Button;$b.Text=$ok;$b.Location=New-Object Drawing.Point(314,158);$b.Size=New-Object Drawing.Size(80,32);$b.FlatStyle='Flat';$b.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$b.ForeColor=[Drawing.Color]::White;$b.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$b.FlatAppearance.BorderSize=0;$f.AcceptButton=$b;$f.Controls.Add($b);$b.Add_Click({$f.Tag=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($x.Text));$f.Close();});$c=New-Object Windows.Forms.Button;$c.Text=$cancel;$c.Location=New-Object Drawing.Point(226,158);$c.Size=New-Object Drawing.Size(80,32);$c.FlatStyle='Flat';$c.BackColor=[Drawing.Color]::White;$c.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$c.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$c.FlatAppearance.BorderSize=0;$f.Controls.Add($c);$c.Add_Click({$f.Tag='';$f.Close();});[void]$f.ShowDialog();if($f.Tag){Write-Output $f.Tag}")
+
+227         210 BINARY_OP                0 (+)
+
+226         214 STORE_FAST               7 (script)
+
+249         216 LOAD_GLOBAL              3 (NULL + run_powershell)
+            226 LOAD_FAST                7 (script)
+            228 CALL                     1
+            236 STORE_FAST               8 (result)
+
+250         238 LOAD_FAST                8 (result)
+            240 LOAD_ATTR                4 (stdout)
+            260 LOAD_ATTR                7 (NULL|self + strip)
+            280 CALL                     0
+            288 STORE_FAST               9 (line)
+
+251         290 LOAD_FAST                9 (line)
+            292 POP_JUMP_IF_TRUE         1 (to 296)
+
+252         294 RETURN_CONST            14 (None)
+
+253     >>  296 LOAD_GLOBAL              9 (NULL + base64)
+            306 LOAD_ATTR               10 (b64decode)
+            326 LOAD_FAST                9 (line)
+            328 CALL                     1
+            336 LOAD_ATTR               13 (NULL|self + decode)
+            356 LOAD_CONST              15 ('utf-16le')
+            358 CALL                     1
+            366 LOAD_ATTR                7 (NULL|self + strip)
+            386 CALL                     0
+            394 STORE_FAST              10 (code)
+
+254         396 LOAD_FAST               10 (code)
+            398 POP_JUMP_IF_FALSE        7 (to 414)
+            400 LOAD_FAST               10 (code)
+            402 LOAD_CONST               4 ('XXXX-XXXX-XXXX-XXXX')
+            404 COMPARE_OP              55 (!=)
+            408 POP_JUMP_IF_FALSE        2 (to 414)
+            410 LOAD_FAST               10 (code)
+            412 RETURN_VALUE
+        >>  414 LOAD_CONST              14 (None)
+            416 RETURN_VALUE
+
+======================================================================
+CODE: prompt_trial_or_activate  qual=prompt_trial_or_activate  args=()
+======================================================================
+CONSTS: ['\'First-launch dialog: choose the free 7-day trial or activate now.\\n\\n    Returns ``"trial"``, ``"activate"``, or ``None`` if the user cancels.\\n    \'', "'选择激活方式'", "'欢迎使用安全信鸽，请选择激活方式：'", "'免费试用 7 天'", "'立即激活永久'", "'取消'", '"$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$hint=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$trial=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$act=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$cancel=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=250;$FW=[Math]::Min($DW,[Math]::Max(320,', "frozenset({'activate', 'trial'})", 'None']
+257           0 RESUME                   0
+
+262           2 LOAD_GLOBAL              1 (NULL + ps_text)
+             12 LOAD_CONST               1 ('选择激活方式')
+             14 CALL                     1
+             22 STORE_FAST               0 (title64)
+
+263          24 LOAD_GLOBAL              1 (NULL + ps_text)
+             34 LOAD_CONST               2 ('欢迎使用安全信鸽，请选择激活方式：')
+             36 CALL                     1
+             44 STORE_FAST               1 (hint64)
+
+264          46 LOAD_GLOBAL              1 (NULL + ps_text)
+             56 LOAD_CONST               3 ('免费试用 7 天')
+             58 CALL                     1
+             66 STORE_FAST               2 (trial64)
+
+265          68 LOAD_GLOBAL              1 (NULL + ps_text)
+             78 LOAD_CONST               4 ('立即激活永久')
+             80 CALL                     1
+             88 STORE_FAST               3 (act64)
+
+266          90 LOAD_GLOBAL              1 (NULL + ps_text)
+            100 LOAD_CONST               5 ('取消')
+            102 CALL                     1
+            110 STORE_FAST               4 (cancel64)
+
+268         112 LOAD_CONST               6 ("$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            114 LOAD_FAST                0 (title64)
+            116 BINARY_OP                0 (+)
+            120 LOAD_CONST               7 ("'));$hint=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            122 BINARY_OP                0 (+)
+
+269         126 LOAD_FAST                1 (hint64)
+
+268         128 BINARY_OP                0 (+)
+
+269         132 LOAD_CONST               8 ("'));$trial=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+268         134 BINARY_OP                0 (+)
+
+270         138 LOAD_FAST                2 (trial64)
+
+268         140 BINARY_OP                0 (+)
+
+270         144 LOAD_CONST               9 ("'));$act=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+268         146 BINARY_OP                0 (+)
+
+271         150 LOAD_FAST                3 (act64)
+
+268         152 BINARY_OP                0 (+)
+
+271         156 LOAD_CONST              10 ("'));$cancel=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+268         158 BINARY_OP                0 (+)
+
+272         162 LOAD_FAST                4 (cancel64)
+
+268         164 BINARY_OP                0 (+)
+
+272         168 LOAD_CONST              11 ("'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=250;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object System.Windows.Forms.Form;$f.Text='';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.FormBorderStyle='FixedDialog';$f.MaximizeBox=$false;$f.MinimizeBox=$false;$f.BackColor=[Drawing.Color]::White;$s=New-Object System.Windows.Forms.Panel;$s.Size=New-Object Drawing.Size(420,4);$s.Location=New-Object Drawing.Point(0,0);$s.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$f.Controls.Add($s);$l=New-Object System.Windows.Forms.Label;$l.Text=$t;$l.Location=New-Object Drawing.Point(32,28);$l.Size=New-Object Drawing.Size(356,24);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($l);$h=New-Object System.Windows.Forms.Label;$h.Text=$hint;$h.Location=New-Object Drawing.Point(32,60);$h.Size=New-Object Drawing.Size(356,36);$h.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$h.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($h);$b1=New-Object System.Windows.Forms.Button;$b1.Text=$trial;$b1.Location=New-Object Drawing.Point(32,108);$b1.Size=New-Object Drawing.Size(168,38);$b1.FlatStyle='Flat';$b1.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$b1.ForeColor=[Drawing.Color]::White;$b1.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$b1.FlatAppearance.BorderSize=0;$f.Controls.Add($b1);$b1.Add_Click({$f.Tag='trial';$f.Close()});$b2=New-Object System.Windows.Forms.Button;$b2.Text=$act;$b2.Location=New-Object Drawing.Point(220,108);$b2.Size=New-Object Drawing.Size(168,38);$b2.FlatStyle='Flat';$b2.BackColor=[Drawing.Color]::White;$b2.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$b2.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$b2.FlatAppearance.BorderColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$b2.FlatAppearance.BorderSize=1;$f.Controls.Add($b2);$b2.Add_Click({$f.Tag='activate';$f.Close()});$c=New-Object System.Windows.Forms.Button;$c.Text=$cancel;$c.Location=New-Object Drawing.Point(32,158);$c.Size=New-Object Drawing.Size(356,30);$c.FlatStyle='Flat';$c.BackColor=[Drawing.Color]::White;$c.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$c.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$c.FlatAppearance.BorderSize=0;$f.Controls.Add($c);$c.Add_Click({$f.Tag='';$f.Close();});[void]$f.ShowDialog();if($f.Tag){Write-Output $f.Tag}")
+
+268         170 BINARY_OP                0 (+)
+
+267         174 STORE_FAST               5 (script)
+
+287         176 LOAD_GLOBAL              3 (NULL + run_powershell)
+            186 LOAD_FAST                5 (script)
+            188 CALL                     1
+            196 STORE_FAST               6 (result)
+
+288         198 LOAD_FAST                6 (result)
+            200 LOAD_ATTR                4 (stdout)
+            220 LOAD_ATTR                7 (NULL|self + strip)
+            240 CALL                     0
+            248 STORE_FAST               7 (line)
+
+289         250 LOAD_FAST                7 (line)
+            252 LOAD_CONST              12 (frozenset({'activate', 'trial'}))
+            254 CONTAINS_OP              0
+            256 POP_JUMP_IF_FALSE        2 (to 262)
+            258 LOAD_FAST                7 (line)
+            260 RETURN_VALUE
+        >>  262 LOAD_CONST              13 (None)
+            264 RETURN_VALUE
+
+======================================================================
+CODE: main  qual=main  args=()
+======================================================================
+CONSTS: ['None', "'trial'", "'试用已开始'", "'免费试用已开始，续期 7 天，到期后需激活。'", "'activate'", '0', "'激活失败'", "'激活码不正确，请核对后重新输入。'", "'Error'", '1', "'激活成功'", "'已永久激活，感谢使用！'", "'试用已过期'", "'试用期 7 天已结束，请联系作者获取激活码。\\n\\n设备 ID：'", "'无法投递'", "'无法读取激活信息。\\n\\n'", "('MailboxError', 'append_file', 'inspect_store', 'load_public_key')", "'无法读取 U 盘数据，请确认 U 盘已正确连接。\\n\\n'", "'发生未预期错误。\\n\\n'", "'无法读取文件'", "'请重新选择需要投递的文件。'", "('start',)", "'投递已取消'", "'已停止投递，已写入的文件保留在 U 盘中。'", "('used_hint',)", "'投递完成'", "'文件已存入 U 盘。'", 'True', "('failed',)", "'投递失败'", "'操作未能完成，请勿拔出 U 盘，联系作者处理。'"]
+292           0 RESUME                   0
+
+294           2 NOP
+
+295           4 LOAD_GLOBAL              1 (NULL + is_activated)
+             14 LOAD_GLOBAL              2 (USB_ROOT)
+             24 CALL                     1
+             32 POP_JUMP_IF_FALSE        1 (to 36)
+
+296          34 JUMP_FORWARD           242 (to 520)
+
+297     >>   36 LOAD_GLOBAL              5 (NULL + trial_started)
+             46 LOAD_GLOBAL              2 (USB_ROOT)
+             56 CALL                     1
+             64 POP_JUMP_IF_TRUE       121 (to 308)
+
+299          66 LOAD_GLOBAL              7 (NULL + prompt_trial_or_activate)
+             76 CALL                     0
+             84 STORE_FAST               0 (choice)
+
+300          86 LOAD_FAST                0 (choice)
+             88 LOAD_CONST               1 ('trial')
+             90 COMPARE_OP              40 (==)
+             94 POP_JUMP_IF_FALSE       28 (to 152)
+
+301          96 LOAD_GLOBAL              9 (NULL + start_trial)
+            106 LOAD_GLOBAL              2 (USB_ROOT)
+            116 CALL                     1
+            124 POP_TOP
+
+302         126 LOAD_GLOBAL             11 (NULL + message)
+            136 LOAD_CONST               2 ('试用已开始')
+            138 LOAD_CONST               3 ('免费试用已开始，续期 7 天，到期后需激活。')
+            140 CALL                     2
+            148 POP_TOP
+            150 JUMP_FORWARD           184 (to 520)
+
+303     >>  152 LOAD_FAST                0 (choice)
+            154 LOAD_CONST               4 ('activate')
+            156 COMPARE_OP              40 (==)
+            160 POP_JUMP_IF_FALSE       72 (to 306)
+
+304         162 LOAD_GLOBAL             13 (NULL + get_device_id)
+            172 LOAD_GLOBAL              2 (USB_ROOT)
+            182 CALL                     1
+            190 STORE_FAST               1 (device_id)
+
+305         192 LOAD_GLOBAL             15 (NULL + prompt_activation)
+            202 LOAD_FAST                1 (device_id)
+            204 CALL                     1
+            212 STORE_FAST               2 (code)
+
+306         214 LOAD_FAST                2 (code)
+            216 POP_JUMP_IF_NOT_NONE     1 (to 220)
+
+307         218 RETURN_CONST             5 (0)
+
+308     >>  220 LOAD_GLOBAL             17 (NULL + verify_and_save)
+            230 LOAD_GLOBAL              2 (USB_ROOT)
+            240 LOAD_FAST                2 (code)
+            242 CALL                     2
+            250 POP_JUMP_IF_TRUE        14 (to 280)
+
+309         252 LOAD_GLOBAL             11 (NULL + message)
+            262 LOAD_CONST               6 ('激活失败')
+            264 LOAD_CONST               7 ('激活码不正确，请核对后重新输入。')
+            266 LOAD_CONST               8 ('Error')
+            268 CALL                     3
+            276 POP_TOP
+
+310         278 RETURN_CONST             9 (1)
+
+311     >>  280 LOAD_GLOBAL             11 (NULL + message)
+            290 LOAD_CONST              10 ('激活成功')
+            292 LOAD_CONST              11 ('已永久激活，感谢使用！')
+            294 CALL                     2
+            302 POP_TOP
+            304 JUMP_FORWARD           107 (to 520)
+
+313     >>  306 RETURN_CONST             5 (0)
+
+314     >>  308 LOAD_GLOBAL             19 (NULL + days_remaining)
+            318 LOAD_GLOBAL              2 (USB_ROOT)
+            328 CALL                     1
+            336 LOAD_CONST               5 (0)
+            338 COMPARE_OP              68 (>)
+            342 POP_JUMP_IF_FALSE        1 (to 346)
+
+315         344 JUMP_FORWARD            87 (to 520)
+
+317     >>  346 LOAD_GLOBAL             13 (NULL + get_device_id)
+            356 LOAD_GLOBAL              2 (USB_ROOT)
+            366 CALL                     1
+            374 STORE_FAST               1 (device_id)
+
+318         376 LOAD_GLOBAL             11 (NULL + message)
+            386 LOAD_CONST              12 ('试用已过期')
+            388 LOAD_CONST              13 ('试用期 7 天已结束，请联系作者获取激活码。\n\n设备 ID：')
+            390 LOAD_FAST                1 (device_id)
+            392 BINARY_OP                0 (+)
+            396 LOAD_CONST               8 ('Error')
+            398 CALL                     3
+            406 POP_TOP
+
+319         408 LOAD_GLOBAL             15 (NULL + prompt_activation)
+            418 LOAD_FAST                1 (device_id)
+            420 CALL                     1
+            428 STORE_FAST               2 (code)
+
+320         430 LOAD_FAST                2 (code)
+            432 POP_JUMP_IF_NOT_NONE     1 (to 436)
+
+321         434 RETURN_CONST             5 (0)
+
+322     >>  436 LOAD_GLOBAL             17 (NULL + verify_and_save)
+            446 LOAD_GLOBAL              2 (USB_ROOT)
+            456 LOAD_FAST                2 (code)
+            458 CALL                     2
+            466 POP_JUMP_IF_TRUE        14 (to 496)
+
+323         468 LOAD_GLOBAL             11 (NULL + message)
+            478 LOAD_CONST               6 ('激活失败')
+            480 LOAD_CONST               7 ('激活码不正确，请核对后重新输入。')
+            482 LOAD_CONST               8 ('Error')
+            484 CALL                     3
+            492 POP_TOP
+
+324         494 RETURN_CONST             9 (1)
+
+325     >>  496 LOAD_GLOBAL             11 (NULL + message)
+            506 LOAD_CONST              10 ('激活成功')
+            508 LOAD_CONST              11 ('已永久激活，感谢使用！')
+            510 CALL                     2
+            518 POP_TOP
+
+330     >>  520 LOAD_CONST               5 (0)
+            522 LOAD_CONST              16 (('MailboxError', 'append_file', 'inspect_store', 'load_public_key'))
+            524 IMPORT_NAME             12 (pigeon_store)
+            526 IMPORT_FROM             13 (MailboxError)
+            528 STORE_FAST               4 (MailboxError)
+            530 IMPORT_FROM             14 (append_file)
+            532 STORE_FAST               5 (append_file)
+            534 IMPORT_FROM             15 (inspect_store)
+            536 STORE_FAST               6 (inspect_store)
+            538 IMPORT_FROM             16 (load_public_key)
+            540 STORE_FAST               7 (load_public_key)
+            542 POP_TOP
+
+331         544 NOP
+
+332         546 PUSH_NULL
+            548 LOAD_FAST                7 (load_public_key)
+            550 LOAD_GLOBAL             34 (AUTHOR_PUBLIC)
+            560 CALL                     1
+            568 STORE_FAST               8 (author_key)
+
+333         570 PUSH_NULL
+            572 LOAD_FAST                7 (load_public_key)
+            574 LOAD_GLOBAL             36 (TEMPORARY_PUBLIC)
+            584 CALL                     1
+            592 STORE_FAST               9 (temporary_key)
+
+334         594 PUSH_NULL
+            596 LOAD_FAST                6 (inspect_store)
+            598 LOAD_GLOBAL             38 (STORE)
+            608 LOAD_FAST                8 (author_key)
+            610 LOAD_FAST                9 (temporary_key)
+            612 CALL                     3
+            620 POP_TOP
+
+344         622 NOP
+
+345         624 LOAD_GLOBAL             43 (NULL + choose_files)
+            634 CALL                     0
+            642 STORE_FAST              10 (files)
+
+349         644 LOAD_FAST               10 (files)
+            646 POP_JUMP_IF_TRUE         1 (to 650)
+
+350         648 RETURN_CONST             5 (0)
+
+351     >>  650 LOAD_GLOBAL             45 (NULL + DeliveryProgress)
+            660 LOAD_GLOBAL             47 (NULL + len)
+            670 LOAD_FAST               10 (files)
+            672 CALL                     1
+            680 CALL                     1
+            688 STORE_FAST              11 (progress)
+
+352         690 LOAD_CONST               0 (None)
+            692 STORE_FAST              12 (used_hint)
+
+353         694 NOP
+
+354         696 LOAD_GLOBAL             49 (NULL + enumerate)
+            706 LOAD_FAST               10 (files)
+            708 LOAD_CONST               9 (1)
+            710 KW_NAMES                21 (('start',))
+            712 CALL                     2
+            720 GET_ITER
+        >>  722 FOR_ITER               116 (to 958)
+            726 UNPACK_SEQUENCE          2
+            730 STORE_FAST              13 (index)
+            732 STORE_FAST              14 (path)
+
+355         734 LOAD_FAST               11 (progress)
+            736 LOAD_ATTR               51 (NULL|self + cancelled)
+            756 CALL                     0
+            764 POP_JUMP_IF_FALSE       30 (to 826)
+
+356         766 LOAD_FAST               11 (progress)
+            768 LOAD_ATTR               53 (NULL|self + close)
+            788 CALL                     0
+            796 POP_TOP
+
+357         798 LOAD_GLOBAL             11 (NULL + message)
+            808 LOAD_CONST              22 ('投递已取消')
+            810 LOAD_CONST              23 ('已停止投递，已写入的文件保留在 U 盘中。')
+            812 CALL                     2
+            820 POP_TOP
+
+358         822 POP_TOP
+            824 RETURN_CONST             5 (0)
+
+362     >>  826 LOAD_FAST               11 (progress)
+            828 LOAD_ATTR               55 (NULL|self + update)
+            848 LOAD_FAST               13 (index)
+            850 LOAD_CONST               9 (1)
+            852 BINARY_OP               10 (-)
+            856 LOAD_FAST               14 (path)
+            858 LOAD_ATTR               56 (name)
+            878 CALL                     2
+            886 POP_TOP
+
+363         888 PUSH_NULL
+            890 LOAD_FAST                5 (append_file)
+            892 LOAD_GLOBAL             38 (STORE)
+            902 LOAD_FAST                8 (author_key)
+            904 LOAD_FAST                9 (temporary_key)
+            906 LOAD_FAST               14 (path)
+            908 LOAD_FAST               11 (progress)
+            910 LOAD_ATTR               58 (update_file)
+            930 LOAD_FAST               12 (used_hint)
+            932 KW_NAMES                24 (('used_hint',))
+            934 CALL                     6
+            942 UNPACK_SEQUENCE          3
+            946 STORE_FAST              15 (_total)
+            948 STORE_FAST              16 (_free)
+            950 STORE_FAST              17 (new_used)
+
+364         952 LOAD_FAST               17 (new_used)
+            954 STORE_FAST              12 (used_hint)
+            956 JUMP_BACKWARD          118 (to 722)
+
+354     >>  958 END_FOR
+
+365         960 LOAD_FAST               11 (progress)
+            962 LOAD_ATTR               53 (NULL|self + close)
+            982 CALL                     0
+            990 POP_TOP
+
+366         992 LOAD_GLOBAL             11 (NULL + message)
+           1002 LOAD_CONST              25 ('投递完成')
+           1004 LOAD_CONST              26 ('文件已存入 U 盘。')
+           1006 CALL                     2
+           1014 POP_TOP
+
+367        1016 RETURN_CONST             5 (0)
+        >> 1018 PUSH_EXC_INFO
+
+326        1020 LOAD_GLOBAL             20 (OSError)
+           1030 CHECK_EXC_MATCH
+           1032 POP_JUMP_IF_FALSE       35 (to 1104)
+           1034 STORE_FAST               3 (exc)
+
+327        1036 LOAD_GLOBAL             11 (NULL + message)
+           1046 LOAD_CONST              14 ('无法投递')
+           1048 LOAD_CONST              15 ('无法读取激活信息。\n\n')
+           1050 LOAD_GLOBAL             23 (NULL + str)
+           1060 LOAD_FAST                3 (exc)
+           1062 CALL                     1
+           1070 BINARY_OP                0 (+)
+           1074 LOAD_CONST               8 ('Error')
+           1076 CALL                     3
+           1084 POP_TOP
+
+328        1086 POP_EXCEPT
+           1088 LOAD_CONST               0 (None)
+           1090 STORE_FAST               3 (exc)
+           1092 DELETE_FAST              3 (exc)
+           1094 RETURN_CONST             9 (1)
+        >> 1096 LOAD_CONST               0 (None)
+           1098 STORE_FAST               3 (exc)
+           1100 DELETE_FAST              3 (exc)
+           1102 RERAISE                  1
+
+326     >> 1104 RERAISE                  0
+        >> 1106 COPY                     3
+           1108 POP_EXCEPT
+           1110 RERAISE                  1
+        >> 1112 PUSH_EXC_INFO
+
+335        1114 LOAD_FAST                4 (MailboxError)
+           1116 CHECK_EXC_MATCH
+           1118 POP_JUMP_IF_FALSE       32 (to 1184)
+           1120 STORE_FAST               3 (exc)
+
+336        1122 LOAD_GLOBAL             11 (NULL + message)
+           1132 LOAD_CONST              14 ('无法投递')
+           1134 LOAD_GLOBAL             23 (NULL + str)
+           1144 LOAD_FAST                3 (exc)
+           1146 CALL                     1
+           1154 LOAD_CONST               8 ('Error')
+           1156 CALL                     3
+           1164 POP_TOP
+
+337        1166 POP_EXCEPT
+           1168 LOAD_CONST               0 (None)
+           1170 STORE_FAST               3 (exc)
+           1172 DELETE_FAST              3 (exc)
+           1174 RETURN_CONST             9 (1)
+        >> 1176 LOAD_CONST               0 (None)
+           1178 STORE_FAST               3 (exc)
+           1180 DELETE_FAST              3 (exc)
+           1182 RERAISE                  1
+
+338     >> 1184 LOAD_GLOBAL             20 (OSError)
+           1194 CHECK_EXC_MATCH
+           1196 POP_JUMP_IF_FALSE       35 (to 1268)
+           1198 STORE_FAST               3 (exc)
+
+339        1200 LOAD_GLOBAL             11 (NULL + message)
+           1210 LOAD_CONST              14 ('无法投递')
+           1212 LOAD_CONST              17 ('无法读取 U 盘数据，请确认 U 盘已正确连接。\n\n')
+           1214 LOAD_GLOBAL             23 (NULL + str)
+           1224 LOAD_FAST                3 (exc)
+           1226 CALL                     1
+           1234 BINARY_OP                0 (+)
+           1238 LOAD_CONST               8 ('Error')
+           1240 CALL                     3
+           1248 POP_TOP
+
+340        1250 POP_EXCEPT
+           1252 LOAD_CONST               0 (None)
+           1254 STORE_FAST               3 (exc)
+           1256 DELETE_FAST              3 (exc)
+           1258 RETURN_CONST             9 (1)
+        >> 1260 LOAD_CONST               0 (None)
+           1262 STORE_FAST               3 (exc)
+           1264 DELETE_FAST              3 (exc)
+           1266 RERAISE                  1
+
+341     >> 1268 LOAD_GLOBAL             40 (Exception)
+           1278 CHECK_EXC_MATCH
+           1280 POP_JUMP_IF_FALSE       35 (to 1352)
+           1282 STORE_FAST               3 (exc)
+
+342        1284 LOAD_GLOBAL             11 (NULL + message)
+           1294 LOAD_CONST              14 ('无法投递')
+           1296 LOAD_CONST              18 ('发生未预期错误。\n\n')
+           1298 LOAD_GLOBAL             23 (NULL + str)
+           1308 LOAD_FAST                3 (exc)
+           1310 CALL                     1
+           1318 BINARY_OP                0 (+)
+           1322 LOAD_CONST               8 ('Error')
+           1324 CALL                     3
+           1332 POP_TOP
+
+343        1334 POP_EXCEPT
+           1336 LOAD_CONST               0 (None)
+           1338 STORE_FAST               3 (exc)
+           1340 DELETE_FAST              3 (exc)
+           1342 RETURN_CONST             9 (1)
+        >> 1344 LOAD_CONST               0 (None)
+           1346 STORE_FAST               3 (exc)
+           1348 DELETE_FAST              3 (exc)
+           1350 RERAISE                  1
+
+341     >> 1352 RERAISE                  0
+        >> 1354 COPY                     3
+           1356 POP_EXCEPT
+           1358 RERAISE                  1
+        >> 1360 PUSH_EXC_INFO
+
+346        1362 LOAD_GLOBAL             40 (Exception)
+           1372 CHECK_EXC_MATCH
+           1374 POP_JUMP_IF_FALSE       16 (to 1408)
+           1376 POP_TOP
+
+347        1378 LOAD_GLOBAL             11 (NULL + message)
+           1388 LOAD_CONST              19 ('无法读取文件')
+           1390 LOAD_CONST              20 ('请重新选择需要投递的文件。')
+           1392 LOAD_CONST               8 ('Error')
+           1394 CALL                     3
+           1402 POP_TOP
+
+348        1404 POP_EXCEPT
+           1406 RETURN_CONST             9 (1)
+
+346     >> 1408 RERAISE                  0
+        >> 1410 COPY                     3
+           1412 POP_EXCEPT
+           1414 RERAISE                  1
+        >> 1416 PUSH_EXC_INFO
+
+368        1418 LOAD_FAST                4 (MailboxError)
+           1420 CHECK_EXC_MATCH
+           1422 POP_JUMP_IF_FALSE       50 (to 1524)
+           1424 STORE_FAST               3 (exc)
+
+369        1426 LOAD_FAST               11 (progress)
+           1428 LOAD_ATTR               53 (NULL|self + close)
+           1448 LOAD_CONST              27 (True)
+           1450 KW_NAMES                28 (('failed',))
+           1452 CALL                     1
+           1460 POP_TOP
+
+370        1462 LOAD_GLOBAL             11 (NULL + message)
+           1472 LOAD_CONST              29 ('投递失败')
+           1474 LOAD_GLOBAL             23 (NULL + str)
+           1484 LOAD_FAST                3 (exc)
+           1486 CALL                     1
+           1494 LOAD_CONST               8 ('Error')
+           1496 CALL                     3
+           1504 POP_TOP
+
+371        1506 POP_EXCEPT
+           1508 LOAD_CONST               0 (None)
+           1510 STORE_FAST               3 (exc)
+           1512 DELETE_FAST              3 (exc)
+           1514 RETURN_CONST             9 (1)
+        >> 1516 LOAD_CONST               0 (None)
+           1518 STORE_FAST               3 (exc)
+           1520 DELETE_FAST              3 (exc)
+           1522 RERAISE                  1
+
+372     >> 1524 LOAD_GLOBAL             40 (Exception)
+           1534 CHECK_EXC_MATCH
+           1536 POP_JUMP_IF_FALSE       34 (to 1606)
+           1538 POP_TOP
+
+373        1540 LOAD_FAST               11 (progress)
+           1542 LOAD_ATTR               53 (NULL|self + close)
+           1562 LOAD_CONST              27 (True)
+           1564 KW_NAMES                28 (('failed',))
+           1566 CALL                     1
+           1574 POP_TOP
+
+374        1576 LOAD_GLOBAL             11 (NULL + message)
+           1586 LOAD_CONST              29 ('投递失败')
+           1588 LOAD_CONST              30 ('操作未能完成，请勿拔出 U 盘，联系作者处理。')
+           1590 LOAD_CONST               8 ('Error')
+           1592 CALL                     3
+           1600 POP_TOP
+
+375        1602 POP_EXCEPT
+           1604 RETURN_CONST             9 (1)
+
+372     >> 1606 RERAISE                  0
+        >> 1608 COPY                     3
+           1610 POP_EXCEPT
+           1612 RERAISE                  1
+ExceptionTable:
+  4 to 216 -> 1018 [0]
+  220 to 276 -> 1018 [0]
+  280 to 304 -> 1018 [0]
+  308 to 432 -> 1018 [0]
+  436 to 492 -> 1018 [0]
+  496 to 518 -> 1018 [0]
+  546 to 620 -> 1112 [0]
+  624 to 642 -> 1360 [0]
+  696 to 822 -> 1416 [0]
+  826 to 1014 -> 1416 [0]
+  1018 to 1034 -> 1106 [1] lasti
+  1036 to 1084 -> 1096 [1] lasti
+  1096 to 1104 -> 1106 [1] lasti
+  1112 to 1120 -> 1354 [1] lasti
+  1122 to 1164 -> 1176 [1] lasti
+  1176 to 1198 -> 1354 [1] lasti
+  1200 to 1248 -> 1260 [1] lasti
+  1260 to 1282 -> 1354 [1] lasti
+  1284 to 1332 -> 1344 [1] lasti
+  1344 to 1352 -> 1354 [1] lasti
+  1360 to 1402 -> 1410 [1] lasti
+  1408 to 1408 -> 1410 [1] lasti
+  1416 to 1424 -> 1608 [1] lasti
+  1426 to 1504 -> 1516 [1] lasti
+  1516 to 1600 -> 1608 [1] lasti
+  1606 to 1606 -> 1608 [1] lasti

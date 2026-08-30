@@ -1,0 +1,1083 @@
+
+======================================================================
+CODE: <module>  qual=<module>  args=()
+======================================================================
+CONSTS: ["'Trial and permanent activation for Secure Pigeon USB drives.\\n\\nDevice identity\\n---------------\\nEach USB is identified by its NTFS volume serial number (a 32-bit integer\\nassigned when the volume i", '0', "('annotations',)", 'None', "('Path',)", "'.pigeon.trial'", "'.pigeon.license'", '7', '32', '8', "('root', 'Path', 'return', 'int')", "('root', 'Path', 'return', 'str')", "('return', 'bytes')", "('serial', 'int', 'return', 'bytes')", "('master_key', 'bytes', 'serial', 'int', 'return', 'bytes')", "('device_id', 'str', 'master_key', 'bytes', 'return', 'str')", "('code', 'str', 'return', 'str')", "('root', 'Path', 'master_key', 'bytes', 'code_hash_value', 'str', 'return', 'None')", "('root', 'Path', 'return', 'bool')", "('root', 'Path', 'return', 'None')", "('root', 'Path', 'entered_code', 'str', 'return', 'bool')", "('root', 'Path', 'return', 'str | None')"]
+  0           0 RESUME                   0
+
+  1           2 LOAD_CONST               0 ('Trial and permanent activation for Secure Pigeon USB drives.\n\nDevice identity\n---------------\nEach USB is identified by its NTFS volume serial number (a 32-bit integer\nassigned when the volume is formatted).  The serial is displayed as 8 hex\nchars (e.g. ``ABCD1234``) and used as the ``device_id``.\n\nMaster key\n----------\nDuring deployment a random 32-byte *master key* is generated.  An obfuscated\ncopy is stored on the USB so the inbox can verify activation codes without\nphoning home.  The plain-text master key is saved to the author\'s key folder\nand is needed by the activation-code generator tool.\n\nActivation code\n---------------\n::\n\n    device_id       = format_serial(usb_volume_serial)\n    activation_code = HMAC-SHA256(master_key, device_id).hex()[:16]\n                      → "XXXX-XXXX-XXXX-XXXX" (19 chars with dashes)\n\nThe SHA-256 hash of the activation code is pre-computed during deployment and\nstored on the USB.  The inbox verifies a user-supplied code by hashing it and\ncomparing against the stored value.\n\nTrial\n-----\nOn first inbox launch a trial start date is written to the USB.  The inbox\nworks for 7 calendar days.  After expiry the device ID is shown and an\nactivation code—obtained from the author—is required.\n')
+              4 STORE_NAME               0 (__doc__)
+
+ 35           6 LOAD_CONST               1 (0)
+              8 LOAD_CONST               2 (('annotations',))
+             10 IMPORT_NAME              1 (__future__)
+             12 IMPORT_FROM              2 (annotations)
+             14 STORE_NAME               2 (annotations)
+             16 POP_TOP
+
+ 37          18 LOAD_CONST               1 (0)
+             20 LOAD_CONST               3 (None)
+             22 IMPORT_NAME              3 (ctypes)
+             24 STORE_NAME               3 (ctypes)
+
+ 38          26 LOAD_CONST               1 (0)
+             28 LOAD_CONST               3 (None)
+             30 IMPORT_NAME              4 (hashlib)
+             32 STORE_NAME               4 (hashlib)
+
+ 39          34 LOAD_CONST               1 (0)
+             36 LOAD_CONST               3 (None)
+             38 IMPORT_NAME              5 (hmac)
+             40 STORE_NAME               5 (hmac)
+
+ 40          42 LOAD_CONST               1 (0)
+             44 LOAD_CONST               3 (None)
+             46 IMPORT_NAME              6 (secrets)
+             48 STORE_NAME               6 (secrets)
+
+ 41          50 LOAD_CONST               1 (0)
+             52 LOAD_CONST               3 (None)
+             54 IMPORT_NAME              7 (struct)
+             56 STORE_NAME               7 (struct)
+
+ 42          58 LOAD_CONST               1 (0)
+             60 LOAD_CONST               3 (None)
+             62 IMPORT_NAME              8 (time)
+             64 STORE_NAME               8 (time)
+
+ 43          66 LOAD_CONST               1 (0)
+             68 LOAD_CONST               4 (('Path',))
+             70 IMPORT_NAME              9 (pathlib)
+             72 IMPORT_FROM             10 (Path)
+             74 STORE_NAME              10 (Path)
+             76 POP_TOP
+
+ 47          78 LOAD_CONST               5 ('.pigeon.trial')
+             80 STORE_NAME              11 (TRIAL_NAME)
+
+ 48          82 LOAD_CONST               6 ('.pigeon.license')
+             84 STORE_NAME              12 (LICENSE_NAME)
+
+ 52          86 LOAD_CONST               7 (7)
+             88 STORE_NAME              13 (TRIAL_DAYS)
+
+ 53          90 LOAD_CONST               8 (32)
+             92 STORE_NAME              14 (MASTER_KEY_BYTES)
+
+ 54          94 LOAD_CONST               9 (8)
+             96 STORE_NAME              15 (CODE_BYTES)
+
+ 62          98 LOAD_CONST              25 (('root', 'Path', 'return', 'int'))
+            100 LOAD_CONST              10 (<code object read_volume_serial at 0x000001ADA3F659B0, file "activation.py", line 62>)
+            102 MAKE_FUNCTION            4 (annotations)
+            104 STORE_NAME              16 (read_volume_serial)
+
+ 83         106 LOAD_CONST              26 (('root', 'Path', 'return', 'str'))
+            108 LOAD_CONST              11 (<code object get_device_id at 0x000001ADA40AA5B0, file "activation.py", line 83>)
+            110 MAKE_FUNCTION            4 (annotations)
+            112 STORE_NAME              17 (get_device_id)
+
+ 94         114 LOAD_CONST              27 (('return', 'bytes'))
+            116 LOAD_CONST              12 (<code object generate_master_key at 0x000001ADA40E1130, file "activation.py", line 94>)
+            118 MAKE_FUNCTION            4 (annotations)
+            120 STORE_NAME              18 (generate_master_key)
+
+ 99         122 LOAD_CONST              28 (('serial', 'int', 'return', 'bytes'))
+            124 LOAD_CONST              13 (<code object _obfuscation_mask at 0x000001ADA3E7E3D0, file "activation.py", line 99>)
+            126 MAKE_FUNCTION            4 (annotations)
+            128 STORE_NAME              19 (_obfuscation_mask)
+
+103         130 LOAD_CONST              29 (('master_key', 'bytes', 'serial', 'int', 'return', 'bytes'))
+            132 LOAD_CONST              14 (<code object obfuscate_key at 0x000001ADA40DD8A0, file "activation.py", line 103>)
+            134 MAKE_FUNCTION            4 (annotations)
+            136 STORE_NAME              20 (obfuscate_key)
+
+115         138 LOAD_CONST              30 (('device_id', 'str', 'master_key', 'bytes', 'return', 'str'))
+            140 LOAD_CONST              15 (<code object generate_activation_code at 0x000001ADA3E8EA60, file "activation.py", line 115>)
+            142 MAKE_FUNCTION            4 (annotations)
+            144 STORE_NAME              21 (generate_activation_code)
+
+125         146 LOAD_CONST              31 (('code', 'str', 'return', 'str'))
+            148 LOAD_CONST              16 (<code object _normalise_code at 0x000001ADA40D98F0, file "activation.py", line 125>)
+            150 MAKE_FUNCTION            4 (annotations)
+            152 STORE_NAME              22 (_normalise_code)
+
+129         154 LOAD_CONST              31 (('code', 'str', 'return', 'str'))
+            156 LOAD_CONST              17 (<code object code_hash at 0x000001ADA3E79E30, file "activation.py", line 129>)
+            158 MAKE_FUNCTION            4 (annotations)
+            160 STORE_NAME              23 (code_hash)
+
+139         162 LOAD_CONST              32 (('root', 'Path', 'master_key', 'bytes', 'code_hash_value', 'str', 'return', 'None'))
+            164 LOAD_CONST              18 (<code object deploy_license at 0x000001ADA40817D0, file "activation.py", line 139>)
+            166 MAKE_FUNCTION            4 (annotations)
+            168 STORE_NAME              24 (deploy_license)
+
+156         170 LOAD_CONST              33 (('root', 'Path', 'return', 'bool'))
+            172 LOAD_CONST              19 (<code object trial_started at 0x000001ADA40A3A00, file "activation.py", line 156>)
+            174 MAKE_FUNCTION            4 (annotations)
+            176 STORE_NAME              25 (trial_started)
+
+174         178 LOAD_CONST              34 (('root', 'Path', 'return', 'None'))
+            180 LOAD_CONST              20 (<code object start_trial at 0x000001ADA3F68B20, file "activation.py", line 174>)
+            182 MAKE_FUNCTION            4 (annotations)
+            184 STORE_NAME              26 (start_trial)
+
+187         186 LOAD_CONST              25 (('root', 'Path', 'return', 'int'))
+            188 LOAD_CONST              21 (<code object days_remaining at 0x000001ADA3F040A0, file "activation.py", line 187>)
+            190 MAKE_FUNCTION            4 (annotations)
+            192 STORE_NAME              27 (days_remaining)
+
+205         194 LOAD_CONST              33 (('root', 'Path', 'return', 'bool'))
+            196 LOAD_CONST              22 (<code object is_activated at 0x000001ADA3F66110, file "activation.py", line 205>)
+            198 MAKE_FUNCTION            4 (annotations)
+            200 STORE_NAME              28 (is_activated)
+
+229         202 LOAD_CONST              35 (('root', 'Path', 'entered_code', 'str', 'return', 'bool'))
+            204 LOAD_CONST              23 (<code object verify_and_save at 0x000001ADA41ECE30, file "activation.py", line 229>)
+            206 MAKE_FUNCTION            4 (annotations)
+            208 STORE_NAME              29 (verify_and_save)
+
+259         210 LOAD_CONST              36 (('root', 'Path', 'return', 'str | None'))
+            212 LOAD_CONST              24 (<code object get_cached_code at 0x000001ADA3B1EC20, file "activation.py", line 259>)
+            214 MAKE_FUNCTION            4 (annotations)
+            216 STORE_NAME              30 (get_cached_code)
+            218 RETURN_CONST             3 (None)
+
+======================================================================
+CODE: read_volume_serial  qual=read_volume_serial  args=('root',)
+======================================================================
+CONSTS: ["'Return the NTFS volume serial number for the volume containing *root*.\\n\\n    Returns 0 if the call fails for any reason.\\n    '", '261', '0']
+ 62           0 RESUME                   0
+
+ 67           2 NOP
+
+ 68           4 LOAD_GLOBAL              1 (NULL + ctypes)
+             14 LOAD_ATTR                2 (create_unicode_buffer)
+             34 LOAD_CONST               1 (261)
+             36 CALL                     1
+             44 STORE_FAST               1 (volume)
+
+ 69          46 LOAD_GLOBAL              1 (NULL + ctypes)
+             56 LOAD_ATTR                2 (create_unicode_buffer)
+             76 LOAD_CONST               1 (261)
+             78 CALL                     1
+             86 STORE_FAST               2 (filesystem)
+
+ 70          88 LOAD_GLOBAL              1 (NULL + ctypes)
+             98 LOAD_ATTR                4 (c_uint32)
+            118 CALL                     0
+            126 STORE_FAST               3 (serial)
+
+ 71         128 LOAD_GLOBAL              1 (NULL + ctypes)
+            138 LOAD_ATTR                4 (c_uint32)
+            158 CALL                     0
+            166 STORE_FAST               4 (maximum)
+
+ 72         168 LOAD_GLOBAL              1 (NULL + ctypes)
+            178 LOAD_ATTR                4 (c_uint32)
+            198 CALL                     0
+            206 STORE_FAST               5 (flags)
+
+ 73         208 LOAD_GLOBAL              0 (ctypes)
+            218 LOAD_ATTR                6 (windll)
+            238 LOAD_ATTR                8 (kernel32)
+            258 LOAD_ATTR               11 (NULL|self + GetVolumeInformationW)
+
+ 74         278 LOAD_GLOBAL             13 (NULL + str)
+            288 LOAD_FAST                0 (root)
+            290 CALL                     1
+            298 LOAD_FAST                1 (volume)
+            300 LOAD_GLOBAL             15 (NULL + len)
+            310 LOAD_FAST                1 (volume)
+            312 CALL                     1
+            320 LOAD_GLOBAL              1 (NULL + ctypes)
+            330 LOAD_ATTR               16 (byref)
+            350 LOAD_FAST                3 (serial)
+            352 CALL                     1
+
+ 75         360 LOAD_GLOBAL              1 (NULL + ctypes)
+            370 LOAD_ATTR               16 (byref)
+            390 LOAD_FAST                4 (maximum)
+            392 CALL                     1
+            400 LOAD_GLOBAL              1 (NULL + ctypes)
+            410 LOAD_ATTR               16 (byref)
+            430 LOAD_FAST                5 (flags)
+            432 CALL                     1
+
+ 76         440 LOAD_FAST                2 (filesystem)
+            442 LOAD_GLOBAL             15 (NULL + len)
+            452 LOAD_FAST                2 (filesystem)
+            454 CALL                     1
+
+ 73         462 CALL                     8
+            470 STORE_FAST               6 (ok)
+
+ 78         472 LOAD_FAST                6 (ok)
+            474 POP_JUMP_IF_FALSE       12 (to 500)
+            476 LOAD_FAST                3 (serial)
+            478 LOAD_ATTR               18 (value)
+            498 RETURN_VALUE
+        >>  500 LOAD_CONST               2 (0)
+            502 RETURN_VALUE
+        >>  504 PUSH_EXC_INFO
+
+ 79         506 LOAD_GLOBAL             20 (OSError)
+            516 CHECK_EXC_MATCH
+            518 POP_JUMP_IF_FALSE        3 (to 526)
+            520 POP_TOP
+
+ 80         522 POP_EXCEPT
+            524 RETURN_CONST             2 (0)
+
+ 79     >>  526 RERAISE                  0
+        >>  528 COPY                     3
+            530 POP_EXCEPT
+            532 RERAISE                  1
+ExceptionTable:
+  4 to 496 -> 504 [0]
+  500 to 500 -> 504 [0]
+  504 to 520 -> 528 [1] lasti
+  526 to 526 -> 528 [1] lasti
+
+======================================================================
+CODE: get_device_id  qual=get_device_id  args=('root',)
+======================================================================
+CONSTS: ["'Return the human-readable device identifier (8 hex chars).'", '4294967295', "'08X'"]
+ 83           0 RESUME                   0
+
+ 85           2 LOAD_GLOBAL              1 (NULL + read_volume_serial)
+             12 LOAD_FAST                0 (root)
+             14 CALL                     1
+             22 STORE_FAST               1 (serial)
+
+ 86          24 LOAD_FAST                1 (serial)
+             26 LOAD_CONST               1 (4294967295)
+             28 BINARY_OP                1 (&)
+             32 LOAD_CONST               2 ('08X')
+             34 FORMAT_VALUE             4 (with format)
+             36 RETURN_VALUE
+
+======================================================================
+CODE: generate_master_key  qual=generate_master_key  args=()
+======================================================================
+CONSTS: ["'Return a fresh 32-byte master key for a new deployment.'"]
+ 94           0 RESUME                   0
+
+ 96           2 LOAD_GLOBAL              1 (NULL + secrets)
+             12 LOAD_ATTR                2 (token_bytes)
+             32 LOAD_GLOBAL              4 (MASTER_KEY_BYTES)
+             42 CALL                     1
+             50 RETURN_VALUE
+
+======================================================================
+CODE: _obfuscation_mask  qual=_obfuscation_mask  args=('serial',)
+======================================================================
+CONSTS: ['None', '4', "'little'"]
+ 99           0 RESUME                   0
+
+100           2 LOAD_GLOBAL              1 (NULL + hashlib)
+             12 LOAD_ATTR                2 (sha256)
+             32 LOAD_FAST                0 (serial)
+             34 LOAD_ATTR                5 (NULL|self + to_bytes)
+             54 LOAD_CONST               1 (4)
+             56 LOAD_CONST               2 ('little')
+             58 CALL                     2
+             66 CALL                     1
+             74 LOAD_ATTR                7 (NULL|self + digest)
+             94 CALL                     0
+            102 RETURN_VALUE
+
+======================================================================
+CODE: obfuscate_key  qual=obfuscate_key  args=('master_key', 'serial')
+======================================================================
+CONSTS: ["'Obfuscate *master_key* with the volume serial so it can be stored on\\n    the USB without being trivially extractable.'"]
+103           0 RESUME                   0
+
+106           2 LOAD_GLOBAL              1 (NULL + _obfuscation_mask)
+             12 LOAD_FAST                1 (serial)
+             14 CALL                     1
+             22 STORE_FAST               2 (mask)
+
+107          24 LOAD_GLOBAL              3 (NULL + bytes)
+             34 LOAD_CONST               1 (<code object <genexpr> at 0x000001ADA40AA2E0, file "activation.py", line 107>)
+             36 MAKE_FUNCTION            0
+             38 LOAD_GLOBAL              5 (NULL + zip)
+             48 LOAD_FAST                0 (master_key)
+             50 LOAD_FAST                2 (mask)
+             52 CALL                     2
+             60 GET_ITER
+             62 CALL                     0
+             70 CALL                     1
+             78 RETURN_VALUE
+
+======================================================================
+CODE: <genexpr>  qual=obfuscate_key.<locals>.<genexpr>  args=('.0',)
+======================================================================
+CONSTS: ['None']
+107           0 RETURN_GENERATOR
+              2 POP_TOP
+              4 RESUME                   0
+              6 LOAD_FAST                0 (.0)
+        >>    8 FOR_ITER                12 (to 36)
+             12 UNPACK_SEQUENCE          2
+             16 STORE_FAST               1 (a)
+             18 STORE_FAST               2 (b)
+             20 LOAD_FAST                1 (a)
+             22 LOAD_FAST                2 (b)
+             24 BINARY_OP               12 (^)
+             28 YIELD_VALUE              1
+             30 RESUME                   1
+             32 POP_TOP
+             34 JUMP_BACKWARD           14 (to 8)
+        >>   36 END_FOR
+             38 RETURN_CONST             0 (None)
+        >>   40 CALL_INTRINSIC_1         3 (INTRINSIC_STOPITERATION_ERROR)
+             42 RERAISE                  1
+ExceptionTable:
+  4 to 38 -> 40 [0] lasti
+
+======================================================================
+CODE: generate_activation_code  qual=generate_activation_code  args=('device_id', 'master_key')
+======================================================================
+CONSTS: ["'Produce a human-friendly activation code for *device_id*.\\n\\n    Returns a string like ``A3F2-B8D1-5C9E-7F04``.\\n    '", "'ascii'", 'None', '2', '4', "'-'", '8', '12', '16']
+115           0 RESUME                   0
+
+120           2 LOAD_GLOBAL              1 (NULL + hmac)
+             12 LOAD_ATTR                2 (new)
+             32 LOAD_FAST                1 (master_key)
+             34 LOAD_FAST                0 (device_id)
+             36 LOAD_ATTR                5 (NULL|self + encode)
+             56 LOAD_CONST               1 ('ascii')
+             58 CALL                     1
+             66 LOAD_GLOBAL              6 (hashlib)
+             76 LOAD_ATTR                8 (sha256)
+             96 CALL                     3
+            104 LOAD_ATTR               11 (NULL|self + hexdigest)
+            124 CALL                     0
+            132 STORE_FAST               2 (raw)
+
+121         134 LOAD_FAST                2 (raw)
+            136 LOAD_CONST               2 (None)
+            138 LOAD_GLOBAL             12 (CODE_BYTES)
+            148 LOAD_CONST               3 (2)
+            150 BINARY_OP                5 (*)
+            154 BINARY_SLICE
+            156 LOAD_ATTR               15 (NULL|self + upper)
+            176 CALL                     0
+            184 STORE_FAST               3 (code)
+
+122         186 LOAD_FAST                3 (code)
+            188 LOAD_CONST               2 (None)
+            190 LOAD_CONST               4 (4)
+            192 BINARY_SLICE
+            194 FORMAT_VALUE             0
+            196 LOAD_CONST               5 ('-')
+            198 LOAD_FAST                3 (code)
+            200 LOAD_CONST               4 (4)
+            202 LOAD_CONST               6 (8)
+            204 BINARY_SLICE
+            206 FORMAT_VALUE             0
+            208 LOAD_CONST               5 ('-')
+            210 LOAD_FAST                3 (code)
+            212 LOAD_CONST               6 (8)
+            214 LOAD_CONST               7 (12)
+            216 BINARY_SLICE
+            218 FORMAT_VALUE             0
+            220 LOAD_CONST               5 ('-')
+            222 LOAD_FAST                3 (code)
+            224 LOAD_CONST               7 (12)
+            226 LOAD_CONST               8 (16)
+            228 BINARY_SLICE
+            230 FORMAT_VALUE             0
+            232 BUILD_STRING             7
+            234 RETURN_VALUE
+
+======================================================================
+CODE: _normalise_code  qual=_normalise_code  args=('code',)
+======================================================================
+CONSTS: ['None', "'-'", "''"]
+125           0 RESUME                   0
+
+126           2 LOAD_FAST                0 (code)
+              4 LOAD_ATTR                1 (NULL|self + upper)
+             24 CALL                     0
+             32 LOAD_ATTR                3 (NULL|self + replace)
+             52 LOAD_CONST               1 ('-')
+             54 LOAD_CONST               2 ('')
+             56 CALL                     2
+             64 LOAD_ATTR                5 (NULL|self + strip)
+             84 CALL                     0
+             92 RETURN_VALUE
+
+======================================================================
+CODE: code_hash  qual=code_hash  args=('code',)
+======================================================================
+CONSTS: ["'SHA-256 hex digest of a normalised activation code.'", "'ascii'"]
+129           0 RESUME                   0
+
+131           2 LOAD_GLOBAL              1 (NULL + hashlib)
+             12 LOAD_ATTR                2 (sha256)
+             32 LOAD_GLOBAL              5 (NULL + _normalise_code)
+             42 LOAD_FAST                0 (code)
+             44 CALL                     1
+             52 LOAD_ATTR                7 (NULL|self + encode)
+             72 LOAD_CONST               1 ('ascii')
+             74 CALL                     1
+             82 CALL                     1
+             90 LOAD_ATTR                9 (NULL|self + hexdigest)
+            110 CALL                     0
+            118 RETURN_VALUE
+
+======================================================================
+CODE: deploy_license  qual=deploy_license  args=('root', 'master_key', 'code_hash_value')
+======================================================================
+CONSTS: ["'Write the obfuscated master key and activation-code hash to the USB.\\n\\n    Called once during deployment.\\n    '", "'ascii'", 'None']
+139           0 RESUME                   0
+
+144           2 LOAD_GLOBAL              1 (NULL + read_volume_serial)
+             12 LOAD_FAST                0 (root)
+             14 CALL                     1
+             22 STORE_FAST               3 (serial)
+
+145          24 LOAD_GLOBAL              3 (NULL + obfuscate_key)
+             34 LOAD_FAST                1 (master_key)
+             36 LOAD_FAST                3 (serial)
+             38 CALL                     2
+             46 STORE_FAST               4 (obfuscated)
+
+146          48 LOAD_FAST                0 (root)
+             50 LOAD_GLOBAL              4 (LICENSE_NAME)
+             60 BINARY_OP               11 (/)
+             64 LOAD_ATTR                7 (NULL|self + write_bytes)
+
+147          84 LOAD_FAST                4 (obfuscated)
+             86 LOAD_FAST                2 (code_hash_value)
+             88 LOAD_ATTR                9 (NULL|self + encode)
+            108 LOAD_CONST               1 ('ascii')
+            110 CALL                     1
+            118 BINARY_OP                0 (+)
+
+146         122 CALL                     1
+            130 POP_TOP
+            132 RETURN_CONST             2 (None)
+
+======================================================================
+CODE: trial_started  qual=trial_started  args=('root',)
+======================================================================
+CONSTS: ["'Return ``True`` only when a valid trial start date has been recorded.\\n\\n    During deployment an empty ``TRIAL_NAME`` file (a pending marker) is\\n    created; the real start date is written on first", 'False', "'ascii'", "('encoding',)", "'%Y-%m-%d'", 'True']
+156           0 RESUME                   0
+
+163           2 LOAD_FAST                0 (root)
+              4 LOAD_GLOBAL              0 (TRIAL_NAME)
+             14 BINARY_OP               11 (/)
+             18 STORE_FAST               1 (path)
+
+164          20 LOAD_FAST                1 (path)
+             22 LOAD_ATTR                3 (NULL|self + exists)
+             42 CALL                     0
+             50 POP_JUMP_IF_TRUE         1 (to 54)
+
+165          52 RETURN_CONST             1 (False)
+
+166     >>   54 NOP
+
+167          56 LOAD_FAST                1 (path)
+             58 LOAD_ATTR                5 (NULL|self + read_text)
+             78 LOAD_CONST               2 ('ascii')
+             80 KW_NAMES                 3 (('encoding',))
+             82 CALL                     1
+             90 LOAD_ATTR                7 (NULL|self + strip)
+            110 CALL                     0
+            118 STORE_FAST               2 (start_str)
+
+168         120 LOAD_GLOBAL              9 (NULL + time)
+            130 LOAD_ATTR               10 (strptime)
+            150 LOAD_FAST                2 (start_str)
+            152 LOAD_CONST               4 ('%Y-%m-%d')
+            154 CALL                     2
+            162 POP_TOP
+
+169         164 RETURN_CONST             5 (True)
+        >>  166 PUSH_EXC_INFO
+
+170         168 LOAD_GLOBAL             12 (OSError)
+            178 LOAD_GLOBAL             14 (ValueError)
+            188 BUILD_TUPLE              2
+            190 CHECK_EXC_MATCH
+            192 POP_JUMP_IF_FALSE        3 (to 200)
+            194 POP_TOP
+
+171         196 POP_EXCEPT
+            198 RETURN_CONST             1 (False)
+
+170     >>  200 RERAISE                  0
+        >>  202 COPY                     3
+            204 POP_EXCEPT
+            206 RERAISE                  1
+ExceptionTable:
+  56 to 162 -> 166 [0]
+  166 to 194 -> 202 [1] lasti
+  200 to 200 -> 202 [1] lasti
+
+======================================================================
+CODE: start_trial  qual=start_trial  args=('root',)
+======================================================================
+CONSTS: ['None', "'%Y-%m-%d'", "'ascii'", "'r+b'", '0']
+174           0 RESUME                   0
+
+175           2 LOAD_GLOBAL              1 (NULL + trial_started)
+             12 LOAD_FAST                0 (root)
+             14 CALL                     1
+             22 POP_JUMP_IF_TRUE       157 (to 338)
+
+176          24 LOAD_FAST                0 (root)
+             26 LOAD_GLOBAL              2 (TRIAL_NAME)
+             36 BINARY_OP               11 (/)
+             40 STORE_FAST               1 (path)
+
+177          42 LOAD_GLOBAL              5 (NULL + time)
+             52 LOAD_ATTR                6 (strftime)
+             72 LOAD_CONST               1 ('%Y-%m-%d')
+             74 LOAD_GLOBAL              5 (NULL + time)
+             84 LOAD_ATTR                8 (gmtime)
+            104 CALL                     0
+            112 CALL                     2
+            120 LOAD_ATTR               11 (NULL|self + encode)
+            140 LOAD_CONST               2 ('ascii')
+            142 CALL                     1
+            150 STORE_FAST               2 (payload)
+
+180         152 LOAD_FAST                1 (path)
+            154 LOAD_ATTR               13 (NULL|self + open)
+            174 LOAD_CONST               3 ('r+b')
+            176 CALL                     1
+            184 BEFORE_WITH
+            186 STORE_FAST               3 (handle)
+
+181         188 LOAD_FAST                3 (handle)
+            190 LOAD_ATTR               15 (NULL|self + seek)
+            210 LOAD_CONST               4 (0)
+            212 CALL                     1
+            220 POP_TOP
+
+182         222 LOAD_FAST                3 (handle)
+            224 LOAD_ATTR               17 (NULL|self + write)
+            244 LOAD_FAST                2 (payload)
+            246 CALL                     1
+            254 POP_TOP
+
+183         256 LOAD_FAST                3 (handle)
+            258 LOAD_ATTR               19 (NULL|self + truncate)
+            278 CALL                     0
+            286 POP_TOP
+
+184         288 LOAD_FAST                3 (handle)
+            290 LOAD_ATTR               21 (NULL|self + flush)
+            310 CALL                     0
+            318 POP_TOP
+
+180         320 LOAD_CONST               0 (None)
+            322 LOAD_CONST               0 (None)
+            324 LOAD_CONST               0 (None)
+            326 CALL                     2
+            334 POP_TOP
+            336 RETURN_CONST             0 (None)
+
+175     >>  338 RETURN_CONST             0 (None)
+
+180     >>  340 PUSH_EXC_INFO
+            342 WITH_EXCEPT_START
+            344 POP_JUMP_IF_TRUE         1 (to 348)
+            346 RERAISE                  2
+        >>  348 POP_TOP
+            350 POP_EXCEPT
+            352 POP_TOP
+            354 POP_TOP
+            356 RETURN_CONST             0 (None)
+        >>  358 COPY                     3
+            360 POP_EXCEPT
+            362 RERAISE                  1
+ExceptionTable:
+  186 to 318 -> 340 [1] lasti
+  340 to 348 -> 358 [3] lasti
+
+======================================================================
+CODE: days_remaining  qual=days_remaining  args=('root',)
+======================================================================
+CONSTS: ['None', "'ascii'", "('encoding',)", "'%Y-%m-%d'", '86400.0', '0']
+187           0 RESUME                   0
+
+188           2 LOAD_GLOBAL              1 (NULL + trial_started)
+             12 LOAD_FAST                0 (root)
+             14 CALL                     1
+             22 POP_JUMP_IF_TRUE         6 (to 36)
+
+189          24 LOAD_GLOBAL              2 (TRIAL_DAYS)
+             34 RETURN_VALUE
+
+190     >>   36 NOP
+
+191          38 LOAD_FAST                0 (root)
+             40 LOAD_GLOBAL              4 (TRIAL_NAME)
+             50 BINARY_OP               11 (/)
+             54 LOAD_ATTR                7 (NULL|self + read_text)
+             74 LOAD_CONST               1 ('ascii')
+             76 KW_NAMES                 2 (('encoding',))
+             78 CALL                     1
+             86 LOAD_ATTR                9 (NULL|self + strip)
+            106 CALL                     0
+            114 STORE_FAST               1 (start_str)
+
+192         116 LOAD_GLOBAL             11 (NULL + time)
+            126 LOAD_ATTR               12 (strptime)
+            146 LOAD_FAST                1 (start_str)
+            148 LOAD_CONST               3 ('%Y-%m-%d')
+            150 CALL                     2
+            158 STORE_FAST               2 (start)
+
+193         160 LOAD_GLOBAL             11 (NULL + time)
+            170 LOAD_ATTR               14 (mktime)
+            190 LOAD_FAST                2 (start)
+            192 CALL                     1
+            200 STORE_FAST               3 (start_ts)
+
+194         202 LOAD_GLOBAL             11 (NULL + time)
+            212 LOAD_ATTR               10 (time)
+            232 CALL                     0
+            240 LOAD_FAST                3 (start_ts)
+            242 BINARY_OP               10 (-)
+            246 LOAD_CONST               4 (86400.0)
+            248 BINARY_OP               11 (/)
+            252 STORE_FAST               4 (elapsed)
+
+195         254 LOAD_GLOBAL              2 (TRIAL_DAYS)
+            264 LOAD_GLOBAL             17 (NULL + int)
+            274 LOAD_FAST                4 (elapsed)
+            276 CALL                     1
+            284 BINARY_OP               10 (-)
+            288 RETURN_VALUE
+        >>  290 PUSH_EXC_INFO
+
+196         292 LOAD_GLOBAL             18 (OSError)
+            302 LOAD_GLOBAL             20 (ValueError)
+            312 BUILD_TUPLE              2
+            314 CHECK_EXC_MATCH
+            316 POP_JUMP_IF_FALSE        3 (to 324)
+            318 POP_TOP
+
+197         320 POP_EXCEPT
+            322 RETURN_CONST             5 (0)
+
+196     >>  324 RERAISE                  0
+        >>  326 COPY                     3
+            328 POP_EXCEPT
+            330 RERAISE                  1
+ExceptionTable:
+  38 to 286 -> 290 [0]
+  290 to 318 -> 326 [1] lasti
+  324 to 324 -> 326 [1] lasti
+
+======================================================================
+CODE: is_activated  qual=is_activated  args=('root',)
+======================================================================
+CONSTS: ["'Return ``True`` if the USB carries a verified permanent activation.'", 'False', '64', "'ascii'", 'None', "'\\n'", '0', '19']
+205           0 RESUME                   0
+
+207           2 LOAD_FAST                0 (root)
+              4 LOAD_GLOBAL              0 (LICENSE_NAME)
+             14 BINARY_OP               11 (/)
+             18 STORE_FAST               1 (path)
+
+208          20 LOAD_FAST                1 (path)
+             22 LOAD_ATTR                3 (NULL|self + exists)
+             42 CALL                     0
+             50 POP_JUMP_IF_TRUE         1 (to 54)
+
+209          52 RETURN_CONST             1 (False)
+
+210     >>   54 NOP
+
+211          56 LOAD_FAST                1 (path)
+             58 LOAD_ATTR                5 (NULL|self + read_bytes)
+             78 CALL                     0
+             86 STORE_FAST               2 (data)
+
+212          88 LOAD_GLOBAL              7 (NULL + len)
+             98 LOAD_FAST                2 (data)
+            100 CALL                     1
+            108 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            118 LOAD_CONST               2 (64)
+            120 BINARY_OP                0 (+)
+            124 COMPARE_OP               2 (<)
+            128 POP_JUMP_IF_FALSE        1 (to 132)
+
+213         130 RETURN_CONST             1 (False)
+
+214     >>  132 LOAD_FAST                2 (data)
+            134 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            144 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            154 LOAD_CONST               2 (64)
+            156 BINARY_OP                0 (+)
+            160 BINARY_SLICE
+            162 LOAD_ATTR               11 (NULL|self + decode)
+            182 LOAD_CONST               3 ('ascii')
+            184 CALL                     1
+            192 STORE_FAST               3 (stored_hash)
+
+216         194 LOAD_FAST                2 (data)
+            196 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            206 LOAD_CONST               2 (64)
+            208 BINARY_OP                0 (+)
+            212 LOAD_CONST               4 (None)
+            214 BINARY_SLICE
+            216 STORE_FAST               4 (extra)
+
+217         218 LOAD_FAST                4 (extra)
+            220 POP_JUMP_IF_FALSE       97 (to 416)
+
+218         222 NOP
+
+219         224 LOAD_FAST                4 (extra)
+            226 LOAD_ATTR               11 (NULL|self + decode)
+            246 LOAD_CONST               3 ('ascii')
+            248 CALL                     1
+            256 LOAD_ATTR               13 (NULL|self + strip)
+            276 CALL                     0
+            284 LOAD_ATTR               15 (NULL|self + split)
+            304 LOAD_CONST               5 ('\n')
+            306 CALL                     1
+            314 LOAD_CONST               6 (0)
+            316 BINARY_SUBSCR
+            320 STORE_FAST               5 (cached_code)
+
+220         322 LOAD_GLOBAL              7 (NULL + len)
+            332 LOAD_FAST                5 (cached_code)
+            334 CALL                     1
+            342 LOAD_CONST               7 (19)
+            344 COMPARE_OP              40 (==)
+            348 POP_JUMP_IF_FALSE       31 (to 412)
+
+221         350 LOAD_GLOBAL             17 (NULL + hmac)
+            360 LOAD_ATTR               18 (compare_digest)
+            380 LOAD_GLOBAL             21 (NULL + code_hash)
+            390 LOAD_FAST                5 (cached_code)
+            392 CALL                     1
+            400 LOAD_FAST                3 (stored_hash)
+            402 CALL                     2
+            410 RETURN_VALUE
+
+220     >>  412 NOP
+
+226         414 RETURN_CONST             1 (False)
+
+217     >>  416 NOP
+
+226         418 RETURN_CONST             1 (False)
+        >>  420 PUSH_EXC_INFO
+
+222         422 LOAD_GLOBAL             22 (UnicodeDecodeError)
+            432 CHECK_EXC_MATCH
+            434 POP_JUMP_IF_FALSE        3 (to 442)
+            436 POP_TOP
+
+223         438 POP_EXCEPT
+
+226         440 RETURN_CONST             1 (False)
+
+222     >>  442 RERAISE                  0
+        >>  444 COPY                     3
+            446 POP_EXCEPT
+            448 RERAISE                  1
+        >>  450 PUSH_EXC_INFO
+
+224         452 LOAD_GLOBAL             24 (OSError)
+            462 LOAD_GLOBAL             22 (UnicodeDecodeError)
+            472 LOAD_GLOBAL             26 (ValueError)
+            482 BUILD_TUPLE              3
+            484 CHECK_EXC_MATCH
+            486 POP_JUMP_IF_FALSE        3 (to 494)
+            488 POP_TOP
+
+225         490 POP_EXCEPT
+
+226         492 RETURN_CONST             1 (False)
+
+224     >>  494 RERAISE                  0
+        >>  496 COPY                     3
+            498 POP_EXCEPT
+            500 RERAISE                  1
+ExceptionTable:
+  56 to 128 -> 450 [0]
+  132 to 220 -> 450 [0]
+  224 to 408 -> 420 [0]
+  420 to 436 -> 444 [1] lasti
+  438 to 438 -> 450 [0]
+  442 to 442 -> 444 [1] lasti
+  444 to 448 -> 450 [0]
+  450 to 488 -> 496 [1] lasti
+  494 to 494 -> 496 [1] lasti
+
+======================================================================
+CODE: verify_and_save  qual=verify_and_save  args=('root', 'entered_code')
+======================================================================
+CONSTS: ["'Check *entered_code* against the stored hash and persist on success.'", 'False', '64', "'ascii'", 'None', '4', "'-'", '8', '12', '16', "b'\\n'", "'r+b'", '0', 'True']
+229           0 RESUME                   0
+
+231           2 LOAD_FAST                0 (root)
+              4 LOAD_GLOBAL              0 (LICENSE_NAME)
+             14 BINARY_OP               11 (/)
+             18 STORE_FAST               2 (path)
+
+232          20 LOAD_FAST                2 (path)
+             22 LOAD_ATTR                3 (NULL|self + exists)
+             42 CALL                     0
+             50 POP_JUMP_IF_TRUE         1 (to 54)
+
+233          52 RETURN_CONST             1 (False)
+
+234     >>   54 NOP
+
+235          56 LOAD_FAST                2 (path)
+             58 LOAD_ATTR                5 (NULL|self + read_bytes)
+             78 CALL                     0
+             86 STORE_FAST               3 (data)
+
+236          88 LOAD_GLOBAL              7 (NULL + len)
+             98 LOAD_FAST                3 (data)
+            100 CALL                     1
+            108 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            118 LOAD_CONST               2 (64)
+            120 BINARY_OP                0 (+)
+            124 COMPARE_OP               2 (<)
+            128 POP_JUMP_IF_FALSE        1 (to 132)
+
+237         130 RETURN_CONST             1 (False)
+
+238     >>  132 LOAD_FAST                3 (data)
+            134 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            144 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            154 LOAD_CONST               2 (64)
+            156 BINARY_OP                0 (+)
+            160 BINARY_SLICE
+            162 LOAD_ATTR               11 (NULL|self + decode)
+            182 LOAD_CONST               3 ('ascii')
+            184 CALL                     1
+            192 STORE_FAST               4 (stored_hash)
+
+242         194 LOAD_GLOBAL             17 (NULL + hmac)
+            204 LOAD_ATTR               18 (compare_digest)
+            224 LOAD_GLOBAL             21 (NULL + code_hash)
+            234 LOAD_FAST                1 (entered_code)
+            236 CALL                     1
+            244 LOAD_FAST                4 (stored_hash)
+            246 CALL                     2
+            254 POP_JUMP_IF_TRUE         1 (to 258)
+
+243         256 RETURN_CONST             1 (False)
+
+246     >>  258 LOAD_GLOBAL             23 (NULL + _normalise_code)
+            268 LOAD_FAST                1 (entered_code)
+            270 CALL                     1
+            278 STORE_FAST               5 (normalised)
+
+247         280 LOAD_FAST                5 (normalised)
+            282 LOAD_CONST               4 (None)
+            284 LOAD_CONST               5 (4)
+            286 BINARY_SLICE
+            288 FORMAT_VALUE             0
+            290 LOAD_CONST               6 ('-')
+            292 LOAD_FAST                5 (normalised)
+            294 LOAD_CONST               5 (4)
+            296 LOAD_CONST               7 (8)
+            298 BINARY_SLICE
+            300 FORMAT_VALUE             0
+            302 LOAD_CONST               6 ('-')
+            304 LOAD_FAST                5 (normalised)
+            306 LOAD_CONST               7 (8)
+            308 LOAD_CONST               8 (12)
+            310 BINARY_SLICE
+            312 FORMAT_VALUE             0
+            314 LOAD_CONST               6 ('-')
+            316 LOAD_FAST                5 (normalised)
+            318 LOAD_CONST               8 (12)
+            320 LOAD_CONST               9 (16)
+            322 BINARY_SLICE
+            324 FORMAT_VALUE             0
+            326 BUILD_STRING             7
+            328 STORE_FAST               6 (formatted)
+
+248         330 LOAD_FAST                3 (data)
+            332 LOAD_CONST               4 (None)
+            334 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            344 LOAD_CONST               2 (64)
+            346 BINARY_OP                0 (+)
+            350 BINARY_SLICE
+            352 LOAD_CONST              10 (b'\n')
+            354 BINARY_OP                0 (+)
+            358 LOAD_FAST                6 (formatted)
+            360 LOAD_ATTR               25 (NULL|self + encode)
+            380 LOAD_CONST               3 ('ascii')
+            382 CALL                     1
+            390 BINARY_OP                0 (+)
+            394 STORE_FAST               7 (payload)
+
+251         396 LOAD_FAST                2 (path)
+            398 LOAD_ATTR               27 (NULL|self + open)
+            418 LOAD_CONST              11 ('r+b')
+            420 CALL                     1
+            428 BEFORE_WITH
+            430 STORE_FAST               8 (handle)
+
+252         432 LOAD_FAST                8 (handle)
+            434 LOAD_ATTR               29 (NULL|self + seek)
+            454 LOAD_CONST              12 (0)
+            456 CALL                     1
+            464 POP_TOP
+
+253         466 LOAD_FAST                8 (handle)
+            468 LOAD_ATTR               31 (NULL|self + write)
+            488 LOAD_FAST                7 (payload)
+            490 CALL                     1
+            498 POP_TOP
+
+254         500 LOAD_FAST                8 (handle)
+            502 LOAD_ATTR               33 (NULL|self + truncate)
+            522 CALL                     0
+            530 POP_TOP
+
+255         532 LOAD_FAST                8 (handle)
+            534 LOAD_ATTR               35 (NULL|self + flush)
+            554 CALL                     0
+            562 POP_TOP
+
+251         564 LOAD_CONST               4 (None)
+            566 LOAD_CONST               4 (None)
+            568 LOAD_CONST               4 (None)
+            570 CALL                     2
+            578 POP_TOP
+
+256         580 RETURN_CONST            13 (True)
+        >>  582 PUSH_EXC_INFO
+
+239         584 LOAD_GLOBAL             12 (OSError)
+            594 LOAD_GLOBAL             14 (UnicodeDecodeError)
+            604 BUILD_TUPLE              2
+            606 CHECK_EXC_MATCH
+            608 POP_JUMP_IF_FALSE        3 (to 616)
+            610 POP_TOP
+
+240         612 POP_EXCEPT
+            614 RETURN_CONST             1 (False)
+
+239     >>  616 RERAISE                  0
+        >>  618 COPY                     3
+            620 POP_EXCEPT
+            622 RERAISE                  1
+
+251     >>  624 PUSH_EXC_INFO
+            626 WITH_EXCEPT_START
+            628 POP_JUMP_IF_TRUE         1 (to 632)
+            630 RERAISE                  2
+        >>  632 POP_TOP
+            634 POP_EXCEPT
+            636 POP_TOP
+            638 POP_TOP
+
+256         640 RETURN_CONST            13 (True)
+        >>  642 COPY                     3
+            644 POP_EXCEPT
+            646 RERAISE                  1
+ExceptionTable:
+  56 to 128 -> 582 [0]
+  132 to 192 -> 582 [0]
+  430 to 562 -> 624 [1] lasti
+  582 to 610 -> 618 [1] lasti
+  616 to 616 -> 618 [1] lasti
+  624 to 632 -> 642 [3] lasti
+
+======================================================================
+CODE: get_cached_code  qual=get_cached_code  args=('root',)
+======================================================================
+CONSTS: ["'Return the previously-verified code, if any.'", 'None', '64', "'ascii'", "'\\n'", '0', '19']
+259           0 RESUME                   0
+
+261           2 LOAD_FAST                0 (root)
+              4 LOAD_GLOBAL              0 (LICENSE_NAME)
+             14 BINARY_OP               11 (/)
+             18 STORE_FAST               1 (path)
+
+262          20 LOAD_FAST                1 (path)
+             22 LOAD_ATTR                3 (NULL|self + exists)
+             42 CALL                     0
+             50 POP_JUMP_IF_TRUE         1 (to 54)
+
+263          52 RETURN_CONST             1 (None)
+
+264     >>   54 NOP
+
+265          56 LOAD_FAST                1 (path)
+             58 LOAD_ATTR                5 (NULL|self + read_bytes)
+             78 CALL                     0
+             86 STORE_FAST               2 (data)
+
+266          88 LOAD_GLOBAL              7 (NULL + len)
+             98 LOAD_FAST                2 (data)
+            100 CALL                     1
+            108 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            118 LOAD_CONST               2 (64)
+            120 BINARY_OP                0 (+)
+            124 COMPARE_OP              26 (<=)
+            128 POP_JUMP_IF_FALSE        1 (to 132)
+
+267         130 RETURN_CONST             1 (None)
+
+268     >>  132 LOAD_FAST                2 (data)
+            134 LOAD_GLOBAL              8 (MASTER_KEY_BYTES)
+            144 LOAD_CONST               2 (64)
+            146 BINARY_OP                0 (+)
+            150 LOAD_CONST               1 (None)
+            152 BINARY_SLICE
+            154 LOAD_ATTR               11 (NULL|self + decode)
+            174 LOAD_CONST               3 ('ascii')
+            176 CALL                     1
+            184 LOAD_ATTR               13 (NULL|self + strip)
+            204 CALL                     0
+            212 LOAD_ATTR               15 (NULL|self + split)
+            232 LOAD_CONST               4 ('\n')
+            234 CALL                     1
+            242 LOAD_CONST               5 (0)
+            244 BINARY_SUBSCR
+            248 STORE_FAST               3 (code)
+
+269         250 LOAD_GLOBAL              7 (NULL + len)
+            260 LOAD_FAST                3 (code)
+            262 CALL                     1
+            270 LOAD_CONST               6 (19)
+            272 COMPARE_OP              40 (==)
+            276 POP_JUMP_IF_FALSE        2 (to 282)
+            278 LOAD_FAST                3 (code)
+            280 RETURN_VALUE
+        >>  282 LOAD_CONST               1 (None)
+            284 RETURN_VALUE
+        >>  286 PUSH_EXC_INFO
+
+270         288 LOAD_GLOBAL             16 (OSError)
+            298 LOAD_GLOBAL             18 (UnicodeDecodeError)
+            308 BUILD_TUPLE              2
+            310 CHECK_EXC_MATCH
+            312 POP_JUMP_IF_FALSE        3 (to 320)
+            314 POP_TOP
+
+271         316 POP_EXCEPT
+            318 RETURN_CONST             1 (None)
+
+270     >>  320 RERAISE                  0
+        >>  322 COPY                     3
+            324 POP_EXCEPT
+            326 RERAISE                  1
+ExceptionTable:
+  56 to 128 -> 286 [0]
+  132 to 278 -> 286 [0]
+  282 to 282 -> 286 [0]
+  286 to 314 -> 322 [1] lasti
+  320 to 320 -> 322 [1] lasti

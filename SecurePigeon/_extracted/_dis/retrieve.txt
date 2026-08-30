@@ -1,0 +1,1567 @@
+
+======================================================================
+CODE: <module>  qual=<module>  args=()
+======================================================================
+CONSTS: ["'取件箱 — 从安全信鸽 U 盘导出文件，自动判断密钥或验证码方式。'", '0', "('annotations',)", 'None', "('Path',)", "('MailboxError', 'extract_all', 'load_private_key')", "('ACCESS_NAME', 'verify_and_consume')", '134217728', "'.pigeon.store'", "'RetrievalProgress'", "'__main__'", "'取件异常'", "'发生意外错误。\\n\\n'", 'True', '1', "('script', 'str', 'return', 'Path')", "('script_path', 'Path', 'return', 'list[str]')", "('script', 'str', 'return', 'subprocess.CompletedProcess[str]')", "('value', 'str', 'return', 'str')", "('return', 'list[str]')", "('return', 'list[Path]')", "('choice', 'str', 'return', 'Path')", '(False,)', "('title', 'str', 'detail', 'str', 'error', 'bool', 'return', 'None')", "('return', 'dict | None')", "('return', 'int')"]
+  0           0 RESUME                   0
+
+  1           2 LOAD_CONST               0 ('取件箱 — 从安全信鸽 U 盘导出文件，自动判断密钥或验证码方式。')
+              4 STORE_NAME               0 (__doc__)
+
+  2           6 LOAD_CONST               1 (0)
+              8 LOAD_CONST               2 (('annotations',))
+             10 IMPORT_NAME              1 (__future__)
+             12 IMPORT_FROM              2 (annotations)
+             14 STORE_NAME               2 (annotations)
+             16 POP_TOP
+
+  4          18 LOAD_CONST               1 (0)
+             20 LOAD_CONST               3 (None)
+             22 IMPORT_NAME              3 (base64)
+             24 STORE_NAME               3 (base64)
+
+  5          26 LOAD_CONST               1 (0)
+             28 LOAD_CONST               3 (None)
+             30 IMPORT_NAME              4 (ctypes)
+             32 STORE_NAME               4 (ctypes)
+
+  6          34 LOAD_CONST               1 (0)
+             36 LOAD_CONST               3 (None)
+             38 IMPORT_NAME              5 (os)
+             40 STORE_NAME               5 (os)
+
+  7          42 LOAD_CONST               1 (0)
+             44 LOAD_CONST               3 (None)
+             46 IMPORT_NAME              6 (subprocess)
+             48 STORE_NAME               6 (subprocess)
+
+  8          50 LOAD_CONST               1 (0)
+             52 LOAD_CONST               3 (None)
+             54 IMPORT_NAME              7 (sys)
+             56 STORE_NAME               7 (sys)
+
+  9          58 LOAD_CONST               1 (0)
+             60 LOAD_CONST               3 (None)
+             62 IMPORT_NAME              8 (tempfile)
+             64 STORE_NAME               8 (tempfile)
+
+ 10          66 LOAD_CONST               1 (0)
+             68 LOAD_CONST               3 (None)
+             70 IMPORT_NAME              9 (uuid)
+             72 STORE_NAME               9 (uuid)
+
+ 11          74 LOAD_CONST               1 (0)
+             76 LOAD_CONST               4 (('Path',))
+             78 IMPORT_NAME             10 (pathlib)
+             80 IMPORT_FROM             11 (Path)
+             82 STORE_NAME              11 (Path)
+             84 POP_TOP
+
+ 13          86 LOAD_CONST               1 (0)
+             88 LOAD_CONST               5 (('MailboxError', 'extract_all', 'load_private_key'))
+             90 IMPORT_NAME             12 (pigeon_store)
+             92 IMPORT_FROM             13 (MailboxError)
+             94 STORE_NAME              13 (MailboxError)
+             96 IMPORT_FROM             14 (extract_all)
+             98 STORE_NAME              14 (extract_all)
+            100 IMPORT_FROM             15 (load_private_key)
+            102 STORE_NAME              15 (load_private_key)
+            104 POP_TOP
+
+ 14         106 LOAD_CONST               1 (0)
+            108 LOAD_CONST               6 (('ACCESS_NAME', 'verify_and_consume'))
+            110 IMPORT_NAME             16 (temporary_access)
+            112 IMPORT_FROM             17 (ACCESS_NAME)
+            114 STORE_NAME              17 (ACCESS_NAME)
+            116 IMPORT_FROM             18 (verify_and_consume)
+            118 STORE_NAME              18 (verify_and_consume)
+            120 POP_TOP
+
+ 16         122 LOAD_CONST               7 (134217728)
+            124 STORE_NAME              19 (NO_WINDOW)
+
+ 17         126 LOAD_CONST               8 ('.pigeon.store')
+            128 STORE_NAME              20 (STORE_NAME)
+
+ 25         130 LOAD_CONST              26 (('script', 'str', 'return', 'Path'))
+            132 LOAD_CONST               9 (<code object _ps_temp_file at 0x000001ADA3E8EA60, file "retrieve.py", line 25>)
+            134 MAKE_FUNCTION            4 (annotations)
+            136 STORE_NAME              21 (_ps_temp_file)
+
+ 48         138 LOAD_CONST              27 (('script_path', 'Path', 'return', 'list[str]'))
+            140 LOAD_CONST              10 (<code object _ps_args at 0x000001ADA40A8120, file "retrieve.py", line 48>)
+            142 MAKE_FUNCTION            4 (annotations)
+            144 STORE_NAME              22 (_ps_args)
+
+ 53         146 LOAD_CONST              28 (('script', 'str', 'return', 'subprocess.CompletedProcess[str]'))
+            148 LOAD_CONST              11 (<code object ps at 0x000001ADA3F45970, file "retrieve.py", line 53>)
+            150 MAKE_FUNCTION            4 (annotations)
+            152 STORE_NAME              23 (ps)
+
+ 74         154 LOAD_CONST              29 (('value', 'str', 'return', 'str'))
+            156 LOAD_CONST              12 (<code object field at 0x000001ADA3E7E3D0, file "retrieve.py", line 74>)
+            158 MAKE_FUNCTION            4 (annotations)
+            160 STORE_NAME              24 (field)
+
+ 78         162 LOAD_CONST              30 (('return', 'list[str]'))
+            164 LOAD_CONST              13 (<code object _logical_roots at 0x000001ADA3E30030, file "retrieve.py", line 78>)
+            166 MAKE_FUNCTION            4 (annotations)
+            168 STORE_NAME              25 (_logical_roots)
+
+ 84         170 LOAD_CONST              31 (('return', 'list[Path]'))
+            172 LOAD_CONST              14 (<code object discover_usb_stores at 0x000001ADA40813E0, file "retrieve.py", line 84>)
+            174 MAKE_FUNCTION            4 (annotations)
+            176 STORE_NAME              26 (discover_usb_stores)
+
+100         178 LOAD_CONST              32 (('choice', 'str', 'return', 'Path'))
+            180 LOAD_CONST              15 (<code object resolve_store at 0x000001ADA40A3230, file "retrieve.py", line 100>)
+            182 MAKE_FUNCTION            4 (annotations)
+            184 STORE_NAME              27 (resolve_store)
+
+123         186 LOAD_CONST              33 ((False,))
+            188 LOAD_CONST              34 (('title', 'str', 'detail', 'str', 'error', 'bool', 'return', 'None'))
+            190 LOAD_CONST              16 (<code object notify at 0x000001ADA3DF2550, file "retrieve.py", line 123>)
+            192 MAKE_FUNCTION            5 (defaults, annotations)
+            194 STORE_NAME              28 (notify)
+
+149         196 PUSH_NULL
+            198 LOAD_BUILD_CLASS
+            200 LOAD_CONST              17 (<code object RetrievalProgress at 0x000001ADA40E0E30, file "retrieve.py", line 149>)
+            202 MAKE_FUNCTION            0
+            204 LOAD_CONST              18 ('RetrievalProgress')
+            206 CALL                     2
+            214 STORE_NAME              29 (RetrievalProgress)
+
+210         216 LOAD_CONST              35 (('return', 'dict | None'))
+            218 LOAD_CONST              19 (<code object request_retrieval at 0x000001ADA3F02900, file "retrieve.py", line 210>)
+            220 MAKE_FUNCTION            4 (annotations)
+            222 STORE_NAME              30 (request_retrieval)
+
+319         224 LOAD_CONST              36 (('return', 'int'))
+            226 LOAD_CONST              20 (<code object main at 0x000001ADA41C1AB0, file "retrieve.py", line 319>)
+            228 MAKE_FUNCTION            4 (annotations)
+            230 STORE_NAME              31 (main)
+
+385         232 LOAD_NAME               32 (__name__)
+            234 LOAD_CONST              21 ('__main__')
+            236 COMPARE_OP              40 (==)
+            240 POP_JUMP_IF_FALSE       14 (to 270)
+
+386         242 NOP
+
+387         244 PUSH_NULL
+            246 LOAD_NAME               33 (SystemExit)
+            248 PUSH_NULL
+            250 LOAD_NAME               31 (main)
+            252 CALL                     0
+            260 CALL                     1
+            268 RAISE_VARARGS            1
+
+385     >>  270 RETURN_CONST             3 (None)
+        >>  272 PUSH_EXC_INFO
+
+388         274 LOAD_NAME               33 (SystemExit)
+            276 CHECK_EXC_MATCH
+            278 POP_JUMP_IF_FALSE        2 (to 284)
+            280 POP_TOP
+
+389         282 RAISE_VARARGS            0
+
+390     >>  284 LOAD_NAME               34 (Exception)
+            286 CHECK_EXC_MATCH
+            288 POP_JUMP_IF_FALSE       39 (to 368)
+            290 STORE_NAME              35 (exc)
+
+391         292 NOP
+
+392         294 PUSH_NULL
+            296 LOAD_NAME               28 (notify)
+            298 LOAD_CONST              22 ('取件异常')
+            300 LOAD_CONST              23 ('发生意外错误。\n\n')
+            302 LOAD_NAME               35 (exc)
+            304 FORMAT_VALUE             0
+            306 BUILD_STRING             2
+            308 LOAD_CONST              24 (True)
+            310 CALL                     3
+            318 POP_TOP
+            320 JUMP_FORWARD            11 (to 344)
+        >>  322 PUSH_EXC_INFO
+
+393         324 LOAD_NAME               34 (Exception)
+            326 CHECK_EXC_MATCH
+            328 POP_JUMP_IF_FALSE        3 (to 336)
+            330 POP_TOP
+
+394         332 POP_EXCEPT
+            334 JUMP_FORWARD             4 (to 344)
+
+393     >>  336 RERAISE                  0
+        >>  338 COPY                     3
+            340 POP_EXCEPT
+            342 RERAISE                  1
+
+395     >>  344 PUSH_NULL
+            346 LOAD_NAME               33 (SystemExit)
+            348 LOAD_CONST              25 (1)
+            350 CALL                     1
+            358 RAISE_VARARGS            1
+        >>  360 LOAD_CONST               3 (None)
+            362 STORE_NAME              35 (exc)
+            364 DELETE_NAME             35 (exc)
+            366 RERAISE                  1
+
+390     >>  368 RERAISE                  0
+        >>  370 COPY                     3
+            372 POP_EXCEPT
+            374 RERAISE                  1
+ExceptionTable:
+  244 to 268 -> 272 [0]
+  272 to 290 -> 370 [1] lasti
+  294 to 318 -> 322 [1]
+  320 to 320 -> 360 [1] lasti
+  322 to 330 -> 338 [2] lasti
+  332 to 334 -> 360 [1] lasti
+  336 to 336 -> 338 [2] lasti
+  338 to 358 -> 360 [1] lasti
+  360 to 368 -> 370 [1] lasti
+
+======================================================================
+CODE: _ps_temp_file  qual=_ps_temp_file  args=('script',)
+======================================================================
+CONSTS: ["'Write *script* to a UTF-8-BOM temp ``.ps1`` and return its path.\\n\\n    Using ``-File`` instead of ``-EncodedCommand`` drops the base64+utf-16le\\n    command-line signature that heuristic AV engines ", "'.ps1'", "'pigeon-ps-'", "('suffix', 'prefix')", "b'\\xef\\xbb\\xbf'", "'utf-8'"]
+ 25           0 RESUME                   0
+
+ 41           2 LOAD_GLOBAL              1 (NULL + tempfile)
+             12 LOAD_ATTR                2 (mkstemp)
+             32 LOAD_CONST               1 ('.ps1')
+             34 LOAD_CONST               2 ('pigeon-ps-')
+             36 KW_NAMES                 3 (('suffix', 'prefix'))
+             38 CALL                     2
+             46 UNPACK_SEQUENCE          2
+             50 STORE_FAST               1 (fd)
+             52 STORE_FAST               2 (name)
+
+ 42          54 LOAD_GLOBAL              5 (NULL + os)
+             64 LOAD_ATTR                6 (write)
+             84 LOAD_FAST                1 (fd)
+             86 LOAD_CONST               4 (b'\xef\xbb\xbf')
+             88 CALL                     2
+             96 POP_TOP
+
+ 43          98 LOAD_GLOBAL              5 (NULL + os)
+            108 LOAD_ATTR                6 (write)
+            128 LOAD_FAST                1 (fd)
+            130 LOAD_FAST                0 (script)
+            132 LOAD_ATTR                9 (NULL|self + encode)
+            152 LOAD_CONST               5 ('utf-8')
+            154 CALL                     1
+            162 CALL                     2
+            170 POP_TOP
+
+ 44         172 LOAD_GLOBAL              5 (NULL + os)
+            182 LOAD_ATTR               10 (close)
+            202 LOAD_FAST                1 (fd)
+            204 CALL                     1
+            212 POP_TOP
+
+ 45         214 LOAD_GLOBAL             13 (NULL + Path)
+            224 LOAD_FAST                2 (name)
+            226 CALL                     1
+            234 RETURN_VALUE
+
+======================================================================
+CODE: _ps_args  qual=_ps_args  args=('script_path',)
+======================================================================
+CONSTS: ['None', "'powershell.exe'", "'-NoProfile'", "'-STA'", "'-ExecutionPolicy'", "'RemoteSigned'", "'-File'"]
+ 48           0 RESUME                   0
+
+ 49           2 LOAD_CONST               1 ('powershell.exe')
+              4 LOAD_CONST               2 ('-NoProfile')
+              6 LOAD_CONST               3 ('-STA')
+              8 LOAD_CONST               4 ('-ExecutionPolicy')
+             10 LOAD_CONST               5 ('RemoteSigned')
+
+ 50          12 LOAD_CONST               6 ('-File')
+             14 LOAD_GLOBAL              1 (NULL + str)
+             24 LOAD_FAST                0 (script_path)
+             26 CALL                     1
+
+ 49          34 BUILD_LIST               7
+             36 RETURN_VALUE
+
+======================================================================
+CODE: ps  qual=ps  args=('script',)
+======================================================================
+CONSTS: ["'Run a PowerShell script (UTF-8-BOM temp file, ``-File``) and wait.\\n\\n    Single call site is ``request_retrieval`` (synchronous dialog); the temp\\n    ``.ps1`` is deleted once the child has finished", 'True', "'utf-8'", "'replace'", "('capture_output', 'text', 'encoding', 'errors', 'creationflags', 'stdin')", '-1', "''", "'PowerShell not found'", "('stdout', 'stderr')"]
+ 53           0 RESUME                   0
+
+ 59           2 LOAD_GLOBAL              1 (NULL + _ps_temp_file)
+             12 LOAD_FAST                0 (script)
+             14 CALL                     1
+             22 STORE_FAST               1 (path)
+
+ 60          24 LOAD_GLOBAL              3 (NULL + _ps_args)
+             34 LOAD_FAST                1 (path)
+             36 CALL                     1
+             44 STORE_FAST               2 (command)
+
+ 61          46 NOP
+
+ 62          48 NOP
+
+ 63          50 LOAD_GLOBAL              5 (NULL + subprocess)
+             60 LOAD_ATTR                6 (run)
+             80 LOAD_FAST                2 (command)
+             82 LOAD_CONST               1 (True)
+             84 LOAD_CONST               1 (True)
+             86 LOAD_CONST               2 ('utf-8')
+
+ 64          88 LOAD_CONST               3 ('replace')
+             90 LOAD_GLOBAL              8 (NO_WINDOW)
+            100 LOAD_GLOBAL              4 (subprocess)
+            110 LOAD_ATTR               10 (DEVNULL)
+
+ 63         130 KW_NAMES                 4 (('capture_output', 'text', 'encoding', 'errors', 'creationflags', 'stdin'))
+            132 CALL                     7
+
+ 68         140 NOP
+
+ 69         142 LOAD_FAST                1 (path)
+            144 LOAD_ATTR               13 (NULL|self + unlink)
+            164 CALL                     0
+            172 POP_TOP
+            174 RETURN_VALUE
+        >>  176 PUSH_EXC_INFO
+
+ 70         178 LOAD_GLOBAL             14 (OSError)
+            188 CHECK_EXC_MATCH
+            190 POP_JUMP_IF_FALSE        3 (to 198)
+            192 POP_TOP
+
+ 71         194 POP_EXCEPT
+            196 RETURN_VALUE
+
+ 70     >>  198 RERAISE                  0
+        >>  200 COPY                     3
+            202 POP_EXCEPT
+            204 RERAISE                  1
+        >>  206 PUSH_EXC_INFO
+
+ 65         208 LOAD_GLOBAL             16 (FileNotFoundError)
+            218 CHECK_EXC_MATCH
+            220 POP_JUMP_IF_FALSE       60 (to 342)
+            222 POP_TOP
+
+ 66         224 LOAD_GLOBAL              5 (NULL + subprocess)
+            234 LOAD_ATTR               18 (CompletedProcess)
+            254 LOAD_FAST                2 (command)
+            256 LOAD_CONST               5 (-1)
+            258 LOAD_CONST               6 ('')
+            260 LOAD_CONST               7 ('PowerShell not found')
+            262 KW_NAMES                 8 (('stdout', 'stderr'))
+            264 CALL                     4
+            272 SWAP                     2
+            274 POP_EXCEPT
+
+ 68         276 NOP
+
+ 69         278 LOAD_FAST                1 (path)
+            280 LOAD_ATTR               13 (NULL|self + unlink)
+            300 CALL                     0
+            308 POP_TOP
+            310 RETURN_VALUE
+        >>  312 PUSH_EXC_INFO
+
+ 70         314 LOAD_GLOBAL             14 (OSError)
+            324 CHECK_EXC_MATCH
+            326 POP_JUMP_IF_FALSE        3 (to 334)
+            328 POP_TOP
+
+ 71         330 POP_EXCEPT
+            332 RETURN_VALUE
+
+ 70     >>  334 RERAISE                  0
+        >>  336 COPY                     3
+            338 POP_EXCEPT
+            340 RERAISE                  1
+
+ 65     >>  342 RERAISE                  0
+        >>  344 COPY                     3
+            346 POP_EXCEPT
+            348 RERAISE                  1
+        >>  350 PUSH_EXC_INFO
+
+ 68         352 NOP
+
+ 69         354 LOAD_FAST                1 (path)
+            356 LOAD_ATTR               13 (NULL|self + unlink)
+            376 CALL                     0
+            384 POP_TOP
+            386 RERAISE                  0
+        >>  388 PUSH_EXC_INFO
+
+ 70         390 LOAD_GLOBAL             14 (OSError)
+            400 CHECK_EXC_MATCH
+            402 POP_JUMP_IF_FALSE        3 (to 410)
+            404 POP_TOP
+
+ 71         406 POP_EXCEPT
+            408 RERAISE                  0
+
+ 70     >>  410 RERAISE                  0
+        >>  412 COPY                     3
+            414 POP_EXCEPT
+            416 RERAISE                  1
+        >>  418 COPY                     3
+            420 POP_EXCEPT
+            422 RERAISE                  1
+ExceptionTable:
+  50 to 138 -> 206 [0]
+  142 to 172 -> 176 [1]
+  176 to 192 -> 200 [2] lasti
+  198 to 198 -> 200 [2] lasti
+  206 to 272 -> 344 [1] lasti
+  274 to 274 -> 350 [0]
+  278 to 308 -> 312 [1]
+  312 to 328 -> 336 [2] lasti
+  334 to 334 -> 336 [2] lasti
+  342 to 342 -> 344 [1] lasti
+  344 to 348 -> 350 [0]
+  350 to 350 -> 418 [1] lasti
+  354 to 384 -> 388 [2]
+  386 to 386 -> 418 [1] lasti
+  388 to 404 -> 412 [3] lasti
+  406 to 408 -> 418 [1] lasti
+  410 to 410 -> 412 [3] lasti
+  412 to 416 -> 418 [1] lasti
+
+======================================================================
+CODE: field  qual=field  args=('value',)
+======================================================================
+CONSTS: ['None', "'utf-16le'", "'ascii'"]
+ 74           0 RESUME                   0
+
+ 75           2 LOAD_GLOBAL              1 (NULL + base64)
+             12 LOAD_ATTR                2 (b64encode)
+             32 LOAD_FAST                0 (value)
+             34 LOAD_ATTR                5 (NULL|self + encode)
+             54 LOAD_CONST               1 ('utf-16le')
+             56 CALL                     1
+             64 CALL                     1
+             72 LOAD_ATTR                7 (NULL|self + decode)
+             92 LOAD_CONST               2 ('ascii')
+             94 CALL                     1
+            102 RETURN_VALUE
+
+======================================================================
+CODE: _logical_roots  qual=_logical_roots  args=()
+======================================================================
+CONSTS: ['"Return mounted drive roots ``[\'C:\\\\\', \'D:\\\\\', ...]`` (forward slashes norm. away)."', '26', '1', '65', "':\\\\'"]
+ 78           0 RESUME                   0
+
+ 80           2 LOAD_GLOBAL              0 (ctypes)
+             12 LOAD_ATTR                2 (windll)
+             32 LOAD_ATTR                4 (kernel32)
+             52 LOAD_ATTR                7 (NULL|self + GetLogicalDrives)
+             72 CALL                     0
+             80 STORE_FAST               0 (mask)
+
+ 81          82 LOAD_GLOBAL              9 (NULL + range)
+             92 LOAD_CONST               1 (26)
+             94 CALL                     1
+            102 GET_ITER
+            104 LOAD_FAST_AND_CLEAR      1 (i)
+            106 SWAP                     2
+            108 BUILD_LIST               0
+            110 SWAP                     2
+        >>  112 FOR_ITER                28 (to 172)
+            116 STORE_FAST               1 (i)
+            118 LOAD_FAST                0 (mask)
+            120 LOAD_CONST               2 (1)
+            122 LOAD_FAST                1 (i)
+            124 BINARY_OP                3 (<<)
+            128 BINARY_OP                1 (&)
+            132 POP_JUMP_IF_TRUE         1 (to 136)
+            134 JUMP_BACKWARD           12 (to 112)
+        >>  136 LOAD_GLOBAL             11 (NULL + chr)
+            146 LOAD_CONST               3 (65)
+            148 LOAD_FAST                1 (i)
+            150 BINARY_OP                0 (+)
+            154 CALL                     1
+            162 FORMAT_VALUE             0
+            164 LOAD_CONST               4 (':\\')
+            166 BUILD_STRING             2
+            168 LIST_APPEND              2
+            170 JUMP_BACKWARD           30 (to 112)
+        >>  172 END_FOR
+            174 SWAP                     2
+            176 STORE_FAST               1 (i)
+            178 RETURN_VALUE
+        >>  180 SWAP                     2
+            182 POP_TOP
+            184 SWAP                     2
+            186 STORE_FAST               1 (i)
+            188 RERAISE                  0
+ExceptionTable:
+  108 to 132 -> 180 [2]
+  136 to 172 -> 180 [2]
+
+======================================================================
+CODE: discover_usb_stores  qual=discover_usb_stores  args=()
+======================================================================
+CONSTS: ["'Enumerate every mounted volume that carries a pigeon store, returning the\\n    full ``store`` path for each.  Drives without ``.pigeon.store`` are skipped.\\n\\n    Single-drive deployments yield a one"]
+ 84           0 RESUME                   0
+
+ 92           2 BUILD_LIST               0
+              4 STORE_FAST               0 (stores)
+
+ 93           6 LOAD_GLOBAL              1 (NULL + _logical_roots)
+             16 CALL                     0
+             24 GET_ITER
+        >>   26 FOR_ITER                54 (to 138)
+             30 STORE_FAST               1 (root)
+
+ 94          32 LOAD_GLOBAL              3 (NULL + Path)
+             42 LOAD_FAST                1 (root)
+             44 CALL                     1
+             52 LOAD_GLOBAL              4 (STORE_NAME)
+             62 BINARY_OP               11 (/)
+             66 STORE_FAST               2 (store)
+
+ 95          68 LOAD_FAST                2 (store)
+             70 LOAD_ATTR                7 (NULL|self + is_file)
+             90 CALL                     0
+             98 POP_JUMP_IF_TRUE         1 (to 102)
+            100 JUMP_BACKWARD           38 (to 26)
+
+ 96     >>  102 LOAD_FAST                0 (stores)
+            104 LOAD_ATTR                9 (NULL|self + append)
+            124 LOAD_FAST                2 (store)
+            126 CALL                     1
+            134 POP_TOP
+            136 JUMP_BACKWARD           56 (to 26)
+
+ 93     >>  138 END_FOR
+
+ 97         140 LOAD_FAST                0 (stores)
+            142 RETURN_VALUE
+
+======================================================================
+CODE: resolve_store  qual=resolve_store  args=('choice',)
+======================================================================
+CONSTS: ['"Resolve a user selection to a validated ``.pigeon.store`` path.\\n\\n    Accepts either a drive root (``X:\\\\`` — the value the form\'s drive combo\\n    submits) or an explicit store path.  Raises if no ', "'未检测到安全信鸽 U 盘，请插入后重试。'", "'所选位置不是安全信鸽 U 盘。'"]
+100           0 RESUME                   0
+
+108           2 LOAD_FAST                0 (choice)
+              4 POP_JUMP_IF_TRUE        11 (to 28)
+
+109           6 LOAD_GLOBAL              1 (NULL + MailboxError)
+             16 LOAD_CONST               1 ('未检测到安全信鸽 U 盘，请插入后重试。')
+             18 CALL                     1
+             26 RAISE_VARARGS            1
+
+110     >>   28 LOAD_GLOBAL              3 (NULL + Path)
+             38 LOAD_FAST                0 (choice)
+             40 CALL                     1
+             48 LOAD_ATTR                5 (NULL|self + resolve)
+             68 CALL                     0
+             76 STORE_FAST               1 (resolved)
+
+112          78 LOAD_FAST                1 (resolved)
+             80 LOAD_ATTR                6 (name)
+            100 LOAD_GLOBAL              8 (STORE_NAME)
+            110 COMPARE_OP              55 (!=)
+            114 POP_JUMP_IF_FALSE        9 (to 134)
+            116 LOAD_FAST                1 (resolved)
+            118 LOAD_GLOBAL              8 (STORE_NAME)
+            128 BINARY_OP               11 (/)
+            132 JUMP_FORWARD             1 (to 136)
+        >>  134 LOAD_FAST                1 (resolved)
+        >>  136 STORE_FAST               2 (store)
+
+113         138 LOAD_FAST                2 (store)
+            140 LOAD_ATTR               11 (NULL|self + is_file)
+            160 CALL                     0
+            168 POP_JUMP_IF_TRUE        11 (to 192)
+
+114         170 LOAD_GLOBAL              1 (NULL + MailboxError)
+            180 LOAD_CONST               2 ('所选位置不是安全信鸽 U 盘。')
+            182 CALL                     1
+            190 RAISE_VARARGS            1
+
+115     >>  192 LOAD_FAST                2 (store)
+            194 RETURN_VALUE
+
+======================================================================
+CODE: notify  qual=notify  args=('title', 'detail', 'error')
+======================================================================
+CONSTS: ['None', "'确定'", "'#34C759'", "'#FF3B30'", '"Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$accent=[Drawing.ColorTranslator]::FromHtml(\'"', '"\');$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$d=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$ok=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=285;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object W']
+123           0 RESUME                   0
+
+124           2 LOAD_GLOBAL              1 (NULL + field)
+             12 LOAD_FAST                0 (title)
+             14 CALL                     1
+             22 LOAD_GLOBAL              1 (NULL + field)
+             32 LOAD_FAST                1 (detail)
+             34 CALL                     1
+             42 STORE_FAST               4 (d)
+             44 STORE_FAST               3 (t)
+
+125          46 LOAD_GLOBAL              1 (NULL + field)
+             56 LOAD_CONST               1 ('确定')
+             58 CALL                     1
+             66 STORE_FAST               5 (ok)
+
+126          68 LOAD_FAST                2 (error)
+             70 POP_JUMP_IF_TRUE         2 (to 76)
+             72 LOAD_CONST               2 ('#34C759')
+             74 JUMP_FORWARD             1 (to 78)
+        >>   76 LOAD_CONST               3 ('#FF3B30')
+        >>   78 STORE_FAST               6 (accent)
+
+127          80 LOAD_GLOBAL              3 (NULL + ps)
+
+128          90 LOAD_CONST               4 ("Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$accent=[Drawing.ColorTranslator]::FromHtml('")
+
+129          92 LOAD_FAST                6 (accent)
+
+128          94 BINARY_OP                0 (+)
+
+129          98 LOAD_CONST               5 ("');$t=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+128         100 BINARY_OP                0 (+)
+
+130         104 LOAD_FAST                3 (t)
+
+128         106 BINARY_OP                0 (+)
+
+130         110 LOAD_CONST               6 ("'));$d=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+128         112 BINARY_OP                0 (+)
+
+131         116 LOAD_FAST                4 (d)
+
+128         118 BINARY_OP                0 (+)
+
+131         122 LOAD_CONST               7 ("'));$ok=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+128         124 BINARY_OP                0 (+)
+
+132         128 LOAD_FAST                5 (ok)
+
+128         130 BINARY_OP                0 (+)
+
+132         134 LOAD_CONST               8 ("'));$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=285;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(240,$wa.Height-24));$f=New-Object Windows.Forms.Form;$f.Text='';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.FormBorderStyle='FixedDialog';$f.MaximizeBox=$false;$f.MinimizeBox=$false;$f.ShowInTaskbar=$false;$f.BackColor=[Drawing.Color]::White;$s=New-Object Windows.Forms.Panel;$s.Size=New-Object Drawing.Size(420,4);$s.Location=New-Object Drawing.Point(0,0);$s.BackColor=$accent;$f.Controls.Add($s);$l=New-Object Windows.Forms.Label;$l.Text=$t;$l.Location=New-Object Drawing.Point(32,28);$l.Size=New-Object Drawing.Size(356,24);$l.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$l.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($l);$m=New-Object Windows.Forms.Label;$m.Text=$d;$m.Location=New-Object Drawing.Point(32,60);$m.Size=New-Object Drawing.Size(356,100);$m.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$m.ForeColor=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$f.Controls.Add($m);$k=New-Object Windows.Forms.Button;$k.Text=$ok;$k.Location=New-Object Drawing.Point(310,180);$k.Size=New-Object Drawing.Size(84,32);$k.Font=New-Object Drawing.Font('Microsoft YaHei UI',10);$k.FlatStyle='Flat';$k.BackColor=[Drawing.Color]::White;$k.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$k.FlatAppearance.BorderSize=0;$k.DialogResult=[Windows.Forms.DialogResult]::OK;$f.AcceptButton=$k;$f.Controls.Add($k);[void]$f.ShowDialog()")
+
+128         136 BINARY_OP                0 (+)
+
+127         140 CALL                     1
+            148 POP_TOP
+            150 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: RetrievalProgress  qual=RetrievalProgress  args=()
+======================================================================
+CONSTS: ["'RetrievalProgress'", "'取件进度窗口（作者导出文件时显示，无取消）。'", 'None', '(0,)', "('total', 'int', 'return', 'None')", "('state', 'str', 'current', 'int', 'return', 'None')", "('done', 'int', 'total', 'int', 'return', 'None')", "('return', 'None')"]
+149           0 RESUME                   0
+              2 LOAD_NAME                0 (__name__)
+              4 STORE_NAME               1 (__module__)
+              6 LOAD_CONST               0 ('RetrievalProgress')
+              8 STORE_NAME               2 (__qualname__)
+
+150          10 LOAD_CONST               1 ('取件进度窗口（作者导出文件时显示，无取消）。')
+             12 STORE_NAME               3 (__doc__)
+
+152          14 LOAD_CONST               7 ((0,))
+             16 LOAD_CONST               8 (('total', 'int', 'return', 'None'))
+             18 LOAD_CONST               2 (<code object __init__ at 0x000001ADA3B19660, file "retrieve.py", line 152>)
+             20 MAKE_FUNCTION            5 (defaults, annotations)
+             22 STORE_NAME               4 (__init__)
+
+185          24 LOAD_CONST               9 (('state', 'str', 'current', 'int', 'return', 'None'))
+             26 LOAD_CONST               3 (<code object _write at 0x000001ADA40D4C10, file "retrieve.py", line 185>)
+             28 MAKE_FUNCTION            4 (annotations)
+             30 STORE_NAME               5 (_write)
+
+188          32 LOAD_CONST              10 (('done', 'int', 'total', 'int', 'return', 'None'))
+             34 LOAD_CONST               4 (<code object update at 0x000001ADA40E1030, file "retrieve.py", line 188>)
+             36 MAKE_FUNCTION            4 (annotations)
+             38 STORE_NAME               6 (update)
+
+192          40 LOAD_CONST              11 (('return', 'None'))
+             42 LOAD_CONST               5 (<code object close at 0x000001ADA3F7DC70, file "retrieve.py", line 192>)
+             44 MAKE_FUNCTION            4 (annotations)
+             46 STORE_NAME               7 (close)
+             48 RETURN_CONST             6 (None)
+
+======================================================================
+CODE: __init__  qual=RetrievalProgress.__init__  args=('self', 'total')
+======================================================================
+CONSTS: ['None', "'secure-pigeon-retrieve-'", "'.status'", "'RUN'", '0', "'安全信鸽 · 正在取件'", '"$p=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));$title=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=200;$FW=[Math]::Min($DW,[Math]::Max(320,', "('creationflags', 'stdin')"]
+152           0 RESUME                   0
+
+153           2 LOAD_GLOBAL              1 (NULL + Path)
+             12 LOAD_GLOBAL              3 (NULL + tempfile)
+             22 LOAD_ATTR                4 (gettempdir)
+             42 CALL                     0
+             50 CALL                     1
+             58 LOAD_CONST               1 ('secure-pigeon-retrieve-')
+             60 LOAD_GLOBAL              7 (NULL + uuid)
+             70 LOAD_ATTR                8 (uuid4)
+             90 CALL                     0
+             98 LOAD_ATTR               10 (hex)
+            118 FORMAT_VALUE             0
+            120 LOAD_CONST               2 ('.status')
+            122 BUILD_STRING             3
+            124 BINARY_OP               11 (/)
+            128 LOAD_FAST                0 (self)
+            130 STORE_ATTR               6 (path)
+
+154         140 LOAD_FAST                1 (total)
+            142 LOAD_FAST                0 (self)
+            144 STORE_ATTR               7 (total)
+
+155         154 LOAD_FAST                0 (self)
+            156 LOAD_ATTR               17 (NULL|self + _write)
+            176 LOAD_CONST               3 ('RUN')
+            178 LOAD_CONST               4 (0)
+            180 CALL                     2
+            188 POP_TOP
+
+156         190 LOAD_CONST               0 (None)
+            192 LOAD_FAST                0 (self)
+            194 STORE_ATTR               9 (_ps_script)
+
+157         204 LOAD_GLOBAL             21 (NULL + field)
+            214 LOAD_GLOBAL             23 (NULL + str)
+            224 LOAD_FAST                0 (self)
+            226 LOAD_ATTR               12 (path)
+            246 CALL                     1
+            254 CALL                     1
+            262 STORE_FAST               2 (path64)
+
+158         264 LOAD_GLOBAL             21 (NULL + field)
+            274 LOAD_CONST               5 ('安全信鸽 · 正在取件')
+            276 CALL                     1
+            284 STORE_FAST               3 (title64)
+
+160         286 LOAD_CONST               6 ("$p=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            288 LOAD_FAST                2 (path64)
+            290 BINARY_OP                0 (+)
+            294 LOAD_CONST               7 ("'));$title=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+            296 BINARY_OP                0 (+)
+
+161         300 LOAD_FAST                3 (title64)
+
+160         302 BINARY_OP                0 (+)
+
+161         306 LOAD_CONST               8 ("'));Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing;$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea;$DW=420;$DH=200;$FW=[Math]::Min($DW,[Math]::Max(320,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(180,$wa.Height-24));$f=New-Object Windows.Forms.Form;$f.Text=$title;$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.FormBorderStyle='FixedDialog';$f.ControlBox=$false;$f.BackColor=[Drawing.Color]::White;$tl=New-Object Windows.Forms.Label;$tl.Text=$title;$tl.Location=New-Object Drawing.Point(28,20);$tl.Size=New-Object Drawing.Size(364,24);$tl.Font=New-Object Drawing.Font('Microsoft YaHei UI',13,[Drawing.FontStyle]::Bold);$tl.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$f.Controls.Add($tl);$pct=New-Object Windows.Forms.Label;$pct.Location=New-Object Drawing.Point(28,50);$pct.Size=New-Object Drawing.Size(100,36);$pct.Font=New-Object Drawing.Font('Microsoft YaHei UI',24,[Drawing.FontStyle]::Bold);$pct.ForeColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$pct.Text='0%';$f.Controls.Add($pct);$track=New-Object Windows.Forms.Panel;$track.Size=New-Object Drawing.Size(364,8);$track.Location=New-Object Drawing.Point(28,96);$track.BackColor=[Drawing.ColorTranslator]::FromHtml('#F0F0F0');$f.Controls.Add($track);$fill=New-Object Windows.Forms.Label;$fill.Size=New-Object Drawing.Size(0,8);$fill.Location=New-Object Drawing.Point(0,0);$fill.BackColor=[Drawing.ColorTranslator]::FromHtml('#1677FF');$track.Controls.Add($fill);$c=New-Object Windows.Forms.Label;$c.Location=New-Object Drawing.Point(28,112);$c.Size=New-Object Drawing.Size(364,18);$c.Font=New-Object Drawing.Font('Microsoft YaHei UI',9);$c.ForeColor=[Drawing.ColorTranslator]::FromHtml('#AEAEB2');$f.Controls.Add($c);$t=New-Object Windows.Forms.Timer;$t.Interval=180;$t.Add_Tick({if(Test-Path -LiteralPath $p){$v=(Get-Content -LiteralPath $p -Raw -Encoding UTF8).Split([char]9);if($v.Length -ge 3){$max=[int]$v[2];$cur=[Math]::Min([int]$v[1],$max);$ratio=if($max -gt 0){$cur/$max}else{0};$fillW=[Math]::Floor(364*$ratio);$fill.Size=New-Object Drawing.Size($fillW,8);$pctTxt=[Math]::Floor($ratio*100);$pct.Text=($pctTxt.ToString()+'%');$c.Text='正在导出第 '+$v[1]+' / '+$v[2]+' 个文件';if($v[0] -ne 'RUN'){$t.Stop();$f.Close()}}}});$f.Add_Shown({$t.Start()});[void]$f.ShowDialog()")
+
+160         308 BINARY_OP                0 (+)
+
+159         312 STORE_FAST               4 (script)
+
+179         314 LOAD_GLOBAL             25 (NULL + _ps_temp_file)
+            324 LOAD_FAST                4 (script)
+            326 CALL                     1
+            334 LOAD_FAST                0 (self)
+            336 STORE_ATTR               9 (_ps_script)
+
+180         346 LOAD_GLOBAL             27 (NULL + subprocess)
+            356 LOAD_ATTR               28 (Popen)
+
+181         376 LOAD_GLOBAL             31 (NULL + _ps_args)
+            386 LOAD_FAST                0 (self)
+            388 LOAD_ATTR               18 (_ps_script)
+            408 CALL                     1
+
+182         416 LOAD_GLOBAL             32 (NO_WINDOW)
+            426 LOAD_GLOBAL             26 (subprocess)
+            436 LOAD_ATTR               34 (DEVNULL)
+
+180         456 KW_NAMES                 9 (('creationflags', 'stdin'))
+            458 CALL                     3
+            466 LOAD_FAST                0 (self)
+            468 STORE_ATTR              18 (process)
+            478 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: _write  qual=RetrievalProgress._write  args=('self', 'state', 'current')
+======================================================================
+CONSTS: ['None', "'\\t'", "'utf-8'", "('encoding',)"]
+185           0 RESUME                   0
+
+186           2 LOAD_FAST                0 (self)
+              4 LOAD_ATTR                0 (path)
+             24 LOAD_ATTR                3 (NULL|self + write_text)
+             44 LOAD_FAST                1 (state)
+             46 FORMAT_VALUE             0
+             48 LOAD_CONST               1 ('\t')
+             50 LOAD_FAST                2 (current)
+             52 FORMAT_VALUE             0
+             54 LOAD_CONST               1 ('\t')
+             56 LOAD_FAST                0 (self)
+             58 LOAD_ATTR                4 (total)
+             78 FORMAT_VALUE             0
+             80 BUILD_STRING             5
+             82 LOAD_CONST               2 ('utf-8')
+             84 KW_NAMES                 3 (('encoding',))
+             86 CALL                     2
+             94 POP_TOP
+             96 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: update  qual=RetrievalProgress.update  args=('self', 'done', 'total')
+======================================================================
+CONSTS: ['None', "'RUN'"]
+188           0 RESUME                   0
+
+189           2 LOAD_FAST                2 (total)
+              4 LOAD_FAST                0 (self)
+              6 STORE_ATTR               0 (total)
+
+190          16 LOAD_FAST                0 (self)
+             18 LOAD_ATTR                3 (NULL|self + _write)
+             38 LOAD_CONST               1 ('RUN')
+             40 LOAD_FAST                1 (done)
+             42 CALL                     2
+             50 POP_TOP
+             52 RETURN_CONST             0 (None)
+
+======================================================================
+CODE: close  qual=RetrievalProgress.close  args=('self',)
+======================================================================
+CONSTS: ['None', "'DONE'", '3', "('timeout',)"]
+192           0 RESUME                   0
+
+193           2 LOAD_FAST                0 (self)
+              4 LOAD_ATTR                1 (NULL|self + _write)
+             24 LOAD_CONST               1 ('DONE')
+             26 LOAD_FAST                0 (self)
+             28 LOAD_ATTR                2 (total)
+             48 CALL                     2
+             56 POP_TOP
+
+194          58 NOP
+
+195          60 LOAD_FAST                0 (self)
+             62 LOAD_ATTR                4 (process)
+             82 LOAD_ATTR                7 (NULL|self + wait)
+            102 LOAD_CONST               2 (3)
+            104 KW_NAMES                 3 (('timeout',))
+            106 CALL                     1
+            114 POP_TOP
+
+199     >>  116 NOP
+
+200         118 LOAD_FAST                0 (self)
+            120 LOAD_ATTR               14 (path)
+            140 LOAD_ATTR               17 (NULL|self + unlink)
+            160 CALL                     0
+            168 POP_TOP
+
+203     >>  170 LOAD_FAST                0 (self)
+            172 LOAD_ATTR               20 (_ps_script)
+            192 POP_JUMP_IF_NONE        28 (to 250)
+
+204         194 NOP
+
+205         196 LOAD_FAST                0 (self)
+            198 LOAD_ATTR               20 (_ps_script)
+            218 LOAD_ATTR               17 (NULL|self + unlink)
+            238 CALL                     0
+            246 POP_TOP
+            248 RETURN_CONST             0 (None)
+
+203     >>  250 RETURN_CONST             0 (None)
+        >>  252 PUSH_EXC_INFO
+
+196         254 LOAD_GLOBAL              8 (subprocess)
+            264 LOAD_ATTR               10 (TimeoutExpired)
+            284 CHECK_EXC_MATCH
+            286 POP_JUMP_IF_FALSE       55 (to 398)
+            288 POP_TOP
+
+197         290 LOAD_FAST                0 (self)
+            292 LOAD_ATTR                4 (process)
+            312 LOAD_ATTR               13 (NULL|self + kill)
+            332 CALL                     0
+            340 POP_TOP
+
+198         342 LOAD_FAST                0 (self)
+            344 LOAD_ATTR                4 (process)
+            364 LOAD_ATTR                7 (NULL|self + wait)
+            384 CALL                     0
+            392 POP_TOP
+            394 POP_EXCEPT
+            396 JUMP_BACKWARD          141 (to 116)
+
+196     >>  398 RERAISE                  0
+        >>  400 COPY                     3
+            402 POP_EXCEPT
+            404 RERAISE                  1
+        >>  406 PUSH_EXC_INFO
+
+201         408 LOAD_GLOBAL             18 (OSError)
+            418 CHECK_EXC_MATCH
+            420 POP_JUMP_IF_FALSE        3 (to 428)
+            422 POP_TOP
+
+202         424 POP_EXCEPT
+            426 JUMP_BACKWARD          129 (to 170)
+
+201     >>  428 RERAISE                  0
+        >>  430 COPY                     3
+            432 POP_EXCEPT
+            434 RERAISE                  1
+        >>  436 PUSH_EXC_INFO
+
+206         438 LOAD_GLOBAL             18 (OSError)
+            448 CHECK_EXC_MATCH
+            450 POP_JUMP_IF_FALSE        3 (to 458)
+            452 POP_TOP
+
+207         454 POP_EXCEPT
+            456 RETURN_CONST             0 (None)
+
+206     >>  458 RERAISE                  0
+        >>  460 COPY                     3
+            462 POP_EXCEPT
+            464 RERAISE                  1
+ExceptionTable:
+  60 to 114 -> 252 [0]
+  118 to 168 -> 406 [0]
+  196 to 246 -> 436 [0]
+  252 to 392 -> 400 [1] lasti
+  398 to 398 -> 400 [1] lasti
+  406 to 422 -> 430 [1] lasti
+  428 to 428 -> 430 [1] lasti
+  436 to 452 -> 460 [1] lasti
+  458 to 458 -> 460 [1] lasti
+
+======================================================================
+CODE: request_retrieval  qual=request_retrieval  args=()
+======================================================================
+CONSTS: ['"Show a single form that accepts either private-key credentials *or* a\\n    TOTP code.  The caller determines the mode from the returned keys.\\n\\n    Returns a dict with keys ``mode`` (``\'author\'`` or', '0', "''", "'\\\\'", "'|'", "'Documents'", "'安全信鸽取件'", '"Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing\\n$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea\\n$DW=560;$DH=624\\n$FW=[Math]::Min($DW,[Math]::Max(400,$', '"\'))\\n$chosenStore=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'))\\n$outputDefault=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(\'"', '"\'))\\n$f=New-Object System.Windows.Forms.Form;$f.Text=\'安全信鸽 · 取件箱\';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition=\'CenterScreen\';$f.BackColor=$bg;$f.FormBorderStyle=\'FixedDialog\';$f.Maximiz', "'OK|'", '4', '1', '2', 'None', "'utf-16le'", "'无法取件'", 'True', '3', "('mode', 'store', 'key', 'output', 'credential')"]
+210           0 RESUME                   0
+
+221           2 LOAD_GLOBAL              1 (NULL + discover_usb_stores)
+             12 CALL                     0
+             20 STORE_FAST               0 (stores)
+
+222          22 LOAD_CONST               1 (0)
+             24 STORE_FAST               1 (default_idx)
+
+223          26 LOAD_FAST                0 (stores)
+             28 POP_JUMP_IF_TRUE        12 (to 54)
+
+225          30 LOAD_GLOBAL              3 (NULL + field)
+             40 LOAD_CONST               2 ('')
+             42 CALL                     1
+             50 STORE_FAST               2 (drive_items_b64)
+             52 JUMP_FORWARD            79 (to 212)
+
+228     >>   54 BUILD_LIST               0
+             56 STORE_FAST               3 (drive_labels)
+
+229          58 LOAD_GLOBAL              5 (NULL + enumerate)
+             68 LOAD_FAST                0 (stores)
+             70 CALL                     1
+             78 GET_ITER
+        >>   80 FOR_ITER                37 (to 158)
+             84 UNPACK_SEQUENCE          2
+             88 STORE_FAST               4 (idx)
+             90 STORE_FAST               5 (st)
+
+230          92 LOAD_FAST                5 (st)
+             94 LOAD_ATTR                6 (drive)
+            114 STORE_FAST               6 (drive)
+
+231         116 LOAD_FAST                3 (drive_labels)
+            118 LOAD_ATTR                9 (NULL|self + append)
+            138 LOAD_FAST                6 (drive)
+            140 FORMAT_VALUE             0
+            142 LOAD_CONST               3 ('\\')
+            144 BUILD_STRING             2
+            146 CALL                     1
+            154 POP_TOP
+            156 JUMP_BACKWARD           39 (to 80)
+
+229     >>  158 END_FOR
+
+232         160 LOAD_GLOBAL              3 (NULL + field)
+            170 LOAD_CONST               4 ('|')
+            172 LOAD_ATTR               11 (NULL|self + join)
+            192 LOAD_FAST                3 (drive_labels)
+            194 CALL                     1
+            202 CALL                     1
+            210 STORE_FAST               2 (drive_items_b64)
+
+233     >>  212 LOAD_GLOBAL              3 (NULL + field)
+            222 LOAD_FAST                0 (stores)
+            224 POP_JUMP_IF_FALSE       14 (to 254)
+            226 LOAD_GLOBAL             13 (NULL + str)
+            236 LOAD_FAST                0 (stores)
+            238 LOAD_FAST                1 (default_idx)
+            240 BINARY_SUBSCR
+            244 CALL                     1
+            252 JUMP_FORWARD             1 (to 256)
+        >>  254 LOAD_CONST               2 ('')
+        >>  256 CALL                     1
+            264 STORE_FAST               7 (chosen_default_b64)
+
+234         266 LOAD_GLOBAL              3 (NULL + field)
+            276 LOAD_GLOBAL             13 (NULL + str)
+            286 LOAD_GLOBAL             15 (NULL + Path)
+            296 LOAD_ATTR               16 (home)
+            316 CALL                     0
+            324 LOAD_CONST               5 ('Documents')
+            326 BINARY_OP               11 (/)
+            330 LOAD_CONST               6 ('安全信鸽取件')
+            332 BINARY_OP               11 (/)
+            336 CALL                     1
+            344 CALL                     1
+            352 STORE_FAST               8 (output)
+
+235         354 LOAD_CONST               7 ("Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing\n$wa=[System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea\n$DW=560;$DH=624\n$FW=[Math]::Min($DW,[Math]::Max(400,$wa.Width-24));$FH=[Math]::Min($DH,[Math]::Max(360,$wa.Height-24))\n$SX=$FW/$DW;$SY=$FH/$DH\nfunction P([int]$x,[int]$y){New-Object Drawing.Point([int]($x*$SX),[int]($y*$SY))}\nfunction S([int]$w,[int]$h){New-Object Drawing.Size([int]($w*$SX),[int]($h*$SY))}\nfunction F([double]$s){[float]($s*[Math]::Min($SX,$SY))}\n$bd=[Drawing.ColorTranslator]::FromHtml('#1677FF');$bg=[Drawing.Color]::White;$t1=[Drawing.ColorTranslator]::FromHtml('#1C1C1E');$t2=[Drawing.ColorTranslator]::FromHtml('#6E6E73');$card=[Drawing.Color]::FromArgb(247,248,250);$fn='Microsoft YaHei UI'\n$driveItems=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+244         356 LOAD_FAST                2 (drive_items_b64)
+            358 FORMAT_VALUE             0
+            360 LOAD_CONST               8 ("'))\n$chosenStore=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+245         362 LOAD_FAST                7 (chosen_default_b64)
+            364 FORMAT_VALUE             0
+            366 LOAD_CONST               9 ("'))\n$outputDefault=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('")
+
+246         368 LOAD_FAST                8 (output)
+            370 FORMAT_VALUE             0
+            372 LOAD_CONST              10 ("'))\n$f=New-Object System.Windows.Forms.Form;$f.Text='安全信鸽 · 取件箱';$f.Size=New-Object Drawing.Size($FW,$FH);$f.StartPosition='CenterScreen';$f.BackColor=$bg;$f.FormBorderStyle='FixedDialog';$f.MaximizeBox=$false;$f.TopMost=$true\n$tl=New-Object System.Windows.Forms.Label;$tl.Text='安全信鸽 · 取件箱';$tl.Location=(P 32 18);$tl.Size=(S 496 26);$tl.Font=New-Object Drawing.Font($fn,(F 15),[Drawing.FontStyle]::Bold);$tl.ForeColor=$t1;$f.Controls.Add($tl)\n$st=New-Object System.Windows.Forms.Label;$st.Text='选择目标 U 盘，并填写密钥文件信息或临时取件码（二选一即可）。';$st.Location=(P 32 48);$st.Size=(S 496 20);$st.Font=New-Object Drawing.Font($fn,(F 9));$st.ForeColor=$t2;$f.Controls.Add($st)\n$drvLbl=New-Object System.Windows.Forms.Label;$drvLbl.Text='U 盘';$drvLbl.Location=(P 32 72);$drvLbl.Size=(S 60 20);$drvLbl.Font=New-Object Drawing.Font($fn,(F 9));$drvLbl.ForeColor=$t2;$f.Controls.Add($drvLbl)\n$drvBox=New-Object System.Windows.Forms.ComboBox;$drvBox.Location=(P 100 70);$drvBox.Size=(S 428 28);$drvBox.DropDownStyle='DropDownList';$drvBox.Font=New-Object Drawing.Font($fn,(F 10));$drvItems=@($driveItems.Split('|')|Where-Object{$_ -ne ''});[void]$drvBox.Items.AddRange($drvItems);if($drvBox.Items.Count -gt 0){$drvBox.SelectedIndex=0};$f.Controls.Add($drvBox)\nfunction Card([int]$y,[string]$title,[int]$h){$p=New-Object System.Windows.Forms.Panel;$p.Location=(P 32 $y);$p.Size=(S 496 $h);$p.BackColor=$card;$p.BorderStyle='FixedSingle';$f.Controls.Add($p);$a=New-Object System.Windows.Forms.Label;$a.Text=$title;$a.Location=(P 18 13);$a.Size=(S 460 20);$a.Font=New-Object Drawing.Font($fn,(F 9),[Drawing.FontStyle]::Bold);$a.ForeColor=$t1;$p.Controls.Add($a);return $p}\n$c1=Card 108 '方式一：密钥取件（部署时保存的 .pem 文件 + 密码）' 140\n$keyBox=New-Object System.Windows.Forms.TextBox;$keyBox.Location=(P 18 44);$keyBox.Size=(S 358 30);$keyBox.AutoSize=$false;$keyBox.Font=New-Object Drawing.Font($fn,(F 10));$c1.Controls.Add($keyBox)\n$browse=New-Object System.Windows.Forms.Button;$browse.Text='选择密钥';$browse.Location=(P 390 44);$browse.Size=(S 90 30);$browse.Font=New-Object Drawing.Font($fn,(F 9));$browse.FlatStyle='Flat';$browse.BackColor=$bg;$browse.ForeColor=$bd;$browse.FlatAppearance.BorderColor=$bd;$browse.FlatAppearance.BorderSize=1;$c1.Controls.Add($browse);$browse.Add_Click({$d=New-Object System.Windows.Forms.OpenFileDialog;$d.Filter='PEM 密钥文件 (*.pem)|*.pem|所有文件|*.*';if($d.ShowDialog() -eq 'OK'){$keyBox.Text=$d.FileName}})\n$pwl=New-Object System.Windows.Forms.Label;$pwl.Text='密钥密码';$pwl.Location=(P 18 78);$pwl.Size=(S 80 16);$pwl.ForeColor=$t2;$pwl.Font=New-Object Drawing.Font($fn,(F 8));$c1.Controls.Add($pwl)\n$password=New-Object System.Windows.Forms.TextBox;$password.Location=(P 18 96);$password.Size=(S 460 30);$password.AutoSize=$false;$password.UseSystemPasswordChar=$true;$password.Font=New-Object Drawing.Font($fn,(F 10));$c1.Controls.Add($password)\n$div=New-Object System.Windows.Forms.Label;$div.Text='—— 或 ——';$div.Location=(P 32 256);$div.Size=(S 496 16);$div.TextAlign='MiddleCenter';$div.ForeColor=$t2;$div.Font=New-Object Drawing.Font($fn,(F 9));$f.Controls.Add($div)\n$c2=Card 280 '方式二：临时取件（输入作者提供的 6 位动态验证码）' 88\n$totpBox=New-Object System.Windows.Forms.TextBox;$totpBox.Location=(P 18 44);$totpBox.Size=(S 280 30);$totpBox.AutoSize=$false;$totpBox.Font=New-Object Drawing.Font($fn,(F 10));$totpBox.TextAlign='Center';$totpBox.MaxLength=6;$totpBox.Add_KeyPress({if($_.KeyChar -ge [char]32 -and -not [char]::IsDigit($_.KeyChar)){$_.Handled=$true}});$c2.Controls.Add($totpBox)\n$c3=Card 376 '导出位置' 88\n$outputBox=New-Object System.Windows.Forms.TextBox;$outputBox.Text=$outputDefault;$outputBox.Location=(P 18 44);$outputBox.Size=(S 358 30);$outputBox.AutoSize=$false;$outputBox.Font=New-Object Drawing.Font($fn,(F 10));$c3.Controls.Add($outputBox)\n$outBrowse=New-Object System.Windows.Forms.Button;$outBrowse.Text='选择';$outBrowse.Location=(P 390 44);$outBrowse.Size=(S 90 30);$outBrowse.Font=New-Object Drawing.Font($fn,(F 9));$outBrowse.FlatStyle='Flat';$outBrowse.BackColor=$bg;$outBrowse.ForeColor=$bd;$outBrowse.FlatAppearance.BorderColor=$bd;$outBrowse.FlatAppearance.BorderSize=1;$c3.Controls.Add($outBrowse);$outBrowse.Add_Click({$d=New-Object System.Windows.Forms.FolderBrowserDialog;if($d.ShowDialog() -eq 'OK'){$outputBox.Text=$d.SelectedPath}})\n$go=New-Object System.Windows.Forms.Button;$go.Text='开始取件';$go.Location=(P 32 478);$go.Size=(S 496 46);$go.FlatStyle='Flat';$go.BackColor=$bd;$go.ForeColor=$bg;$go.Font=New-Object Drawing.Font($fn,(F 11),[Drawing.FontStyle]::Bold);$go.FlatAppearance.BorderSize=0;$f.AcceptButton=$go;$f.Controls.Add($go)\n$go.Add_Click({\nif($drvBox.Items.Count -eq 0 -or $null -eq $drvBox.SelectedItem){[Windows.Forms.MessageBox]::Show('未检测到安全信鸽 U 盘，请插入后重试。','还差一步')|Out-Null;return}\n$storeSel=$drvBox.SelectedItem\nif([string]::IsNullOrWhiteSpace($outputBox.Text)){[Windows.Forms.MessageBox]::Show('请填写导出位置。','还差一步')|Out-Null;$outputBox.Select();return}\n$hasKey=(-not [string]::IsNullOrWhiteSpace($keyBox.Text)) -and (-not [string]::IsNullOrWhiteSpace($password.Text))\n$hasTotp=(-not [string]::IsNullOrWhiteSpace($totpBox.Text))\nif(-not $hasKey -and -not $hasTotp){[Windows.Forms.MessageBox]::Show('请填写密钥文件+密码，或输入验证码。','还差一步')|Out-Null;if([string]::IsNullOrWhiteSpace($keyBox.Text)){$keyBox.Select()}else{$totpBox.Select()};return}\nif($hasKey){\n$f.Tag='OK|author|'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($storeSel))+'|'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($keyBox.Text))+'|'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($outputBox.Text))+'|'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($password.Text))\n}else{\n$f.Tag='OK|temporary|'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($storeSel))+'||'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($outputBox.Text))+'|'+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($totpBox.Text))\n}\n$f.Close()\n})\n$f.Add_Shown({if([string]::IsNullOrWhiteSpace($keyBox.Text)){$totpBox.Select()}else{$password.Select()}})\n[void]$f.ShowDialog();if($f.Tag){Write-Output $f.Tag}\n")
+
+235         374 BUILD_STRING             7
+            376 STORE_FAST               9 (script)
+
+282         378 LOAD_GLOBAL             19 (NULL + ps)
+            388 LOAD_FAST                9 (script)
+            390 CALL                     1
+            398 STORE_FAST              10 (result)
+
+283         400 LOAD_FAST               10 (result)
+            402 LOAD_ATTR               20 (stdout)
+            422 LOAD_ATTR               23 (NULL|self + splitlines)
+            442 CALL                     0
+            450 GET_ITER
+        >>  452 FOR_ITER               200 (to 856)
+            456 STORE_FAST              11 (line)
+
+284         458 LOAD_FAST               11 (line)
+            460 LOAD_ATTR               25 (NULL|self + strip)
+            480 CALL                     0
+            488 STORE_FAST              11 (line)
+
+285         490 LOAD_FAST               11 (line)
+            492 LOAD_ATTR               27 (NULL|self + startswith)
+            512 LOAD_CONST              11 ('OK|')
+            514 CALL                     1
+            522 POP_JUMP_IF_TRUE         1 (to 526)
+            524 JUMP_BACKWARD           37 (to 452)
+
+286     >>  526 NOP
+
+287         528 LOAD_FAST               11 (line)
+            530 LOAD_ATTR               29 (NULL|self + split)
+            550 LOAD_CONST               4 ('|')
+            552 CALL                     1
+            560 STORE_FAST              12 (parts)
+
+288         562 LOAD_GLOBAL             31 (NULL + len)
+            572 LOAD_FAST               12 (parts)
+            574 CALL                     1
+            582 LOAD_CONST              12 (4)
+            584 COMPARE_OP               2 (<)
+            588 POP_JUMP_IF_FALSE        1 (to 592)
+
+289         590 JUMP_BACKWARD           70 (to 452)
+
+290     >>  592 LOAD_FAST               12 (parts)
+            594 LOAD_CONST              13 (1)
+            596 BINARY_SUBSCR
+            600 STORE_FAST              13 (mode)
+
+291         602 LOAD_FAST               12 (parts)
+            604 LOAD_CONST              14 (2)
+            606 LOAD_CONST              15 (None)
+            608 BINARY_SLICE
+            610 GET_ITER
+            612 LOAD_FAST_AND_CLEAR     14 (v)
+            614 SWAP                     2
+            616 BUILD_LIST               0
+            618 SWAP                     2
+        >>  620 FOR_ITER                38 (to 700)
+            624 STORE_FAST              14 (v)
+            626 LOAD_GLOBAL             33 (NULL + base64)
+            636 LOAD_ATTR               34 (b64decode)
+            656 LOAD_FAST               14 (v)
+            658 CALL                     1
+            666 LOAD_ATTR               37 (NULL|self + decode)
+            686 LOAD_CONST              16 ('utf-16le')
+            688 CALL                     1
+            696 LIST_APPEND              2
+            698 JUMP_BACKWARD           40 (to 620)
+        >>  700 END_FOR
+            702 STORE_FAST              15 (values)
+            704 STORE_FAST              14 (v)
+
+292         706 LOAD_GLOBAL             31 (NULL + len)
+            716 LOAD_FAST               15 (values)
+            718 CALL                     1
+            726 LOAD_CONST              12 (4)
+            728 COMPARE_OP               2 (<)
+            732 POP_JUMP_IF_FALSE        1 (to 736)
+
+293         734 JUMP_BACKWARD          142 (to 452)
+
+292     >>  736 NOP
+
+299         738 NOP
+
+300         740 LOAD_GLOBAL             45 (NULL + resolve_store)
+            750 LOAD_FAST               15 (values)
+            752 LOAD_CONST               1 (0)
+            754 BINARY_SUBSCR
+            758 CALL                     1
+            766 STORE_FAST              16 (store_path)
+
+305         768 LOAD_FAST               13 (mode)
+
+306         770 LOAD_FAST               16 (store_path)
+
+307         772 LOAD_FAST               15 (values)
+            774 LOAD_CONST              13 (1)
+            776 BINARY_SUBSCR
+            780 POP_JUMP_IF_FALSE       14 (to 810)
+            782 LOAD_GLOBAL             15 (NULL + Path)
+            792 LOAD_FAST               15 (values)
+            794 LOAD_CONST              13 (1)
+            796 BINARY_SUBSCR
+            800 CALL                     1
+            808 JUMP_FORWARD             1 (to 812)
+        >>  810 LOAD_CONST              15 (None)
+
+308     >>  812 LOAD_GLOBAL             15 (NULL + Path)
+            822 LOAD_FAST               15 (values)
+            824 LOAD_CONST              14 (2)
+            826 BINARY_SUBSCR
+            830 CALL                     1
+
+309         838 LOAD_FAST               15 (values)
+            840 LOAD_CONST              19 (3)
+            842 BINARY_SUBSCR
+
+304         846 LOAD_CONST              20 (('mode', 'store', 'key', 'output', 'credential'))
+            848 BUILD_CONST_KEY_MAP      5
+            850 SWAP                     2
+            852 POP_TOP
+            854 RETURN_VALUE
+
+283     >>  856 END_FOR
+
+311         858 RETURN_CONST            15 (None)
+        >>  860 SWAP                     2
+            862 POP_TOP
+
+291         864 SWAP                     2
+            866 STORE_FAST              14 (v)
+            868 RERAISE                  0
+        >>  870 PUSH_EXC_INFO
+
+294         872 LOAD_GLOBAL             38 (ValueError)
+            882 LOAD_GLOBAL             40 (IndexError)
+            892 LOAD_GLOBAL             42 (UnicodeDecodeError)
+            902 BUILD_TUPLE              3
+            904 CHECK_EXC_MATCH
+            906 POP_JUMP_IF_FALSE        3 (to 914)
+            908 POP_TOP
+
+295         910 POP_EXCEPT
+            912 JUMP_BACKWARD          231 (to 452)
+
+294     >>  914 RERAISE                  0
+        >>  916 COPY                     3
+            918 POP_EXCEPT
+            920 RERAISE                  1
+        >>  922 PUSH_EXC_INFO
+
+301         924 LOAD_GLOBAL             46 (MailboxError)
+            934 CHECK_EXC_MATCH
+            936 POP_JUMP_IF_FALSE       33 (to 1004)
+            938 STORE_FAST              17 (exc)
+
+302         940 LOAD_GLOBAL             49 (NULL + notify)
+            950 LOAD_CONST              17 ('无法取件')
+            952 LOAD_GLOBAL             13 (NULL + str)
+            962 LOAD_FAST               17 (exc)
+            964 CALL                     1
+            972 LOAD_CONST              18 (True)
+            974 CALL                     3
+            982 POP_TOP
+
+303         984 POP_EXCEPT
+            986 LOAD_CONST              15 (None)
+            988 STORE_FAST              17 (exc)
+            990 DELETE_FAST             17 (exc)
+            992 POP_TOP
+            994 RETURN_CONST            15 (None)
+        >>  996 LOAD_CONST              15 (None)
+            998 STORE_FAST              17 (exc)
+           1000 DELETE_FAST             17 (exc)
+           1002 RERAISE                  1
+
+301     >> 1004 RERAISE                  0
+        >> 1006 COPY                     3
+           1008 POP_EXCEPT
+           1010 RERAISE                  1
+ExceptionTable:
+  528 to 588 -> 870 [1]
+  592 to 614 -> 870 [1]
+  616 to 700 -> 860 [3]
+  702 to 732 -> 870 [1]
+  740 to 766 -> 922 [1]
+  860 to 868 -> 870 [1]
+  870 to 908 -> 916 [2] lasti
+  914 to 914 -> 916 [2] lasti
+  922 to 938 -> 1006 [2] lasti
+  940 to 982 -> 996 [2] lasti
+  996 to 1004 -> 1006 [2] lasti
+
+======================================================================
+CODE: main  qual=main  args=()
+======================================================================
+CONSTS: ['None', '0', "'store'", "'output'", "'mode'", "'author'", "'key'", "'credential'", "('progress',)", "'无法取件'", 'True', '1', "'已安全导出 '", "' 个文件。\\n\\n保存位置：\\n'", "'\\n\\n（另有 '", "' 个记录损坏已跳过，可联系作者处理。）'", "'取件完成'", "'temporary'", "'U 盘已拔出，本次取件权限已失效。'", "('temporary', 'progress')", "'已安全复制 '", "' 个文件。拔出 U 盘后，临时取件码即失效。'", "'取件已结束'"]
+319           0 RESUME                   0
+
+320           2 LOAD_GLOBAL              1 (NULL + request_retrieval)
+             12 CALL                     0
+             20 STORE_FAST               0 (params)
+
+321          22 LOAD_FAST                0 (params)
+             24 POP_JUMP_IF_NOT_NONE     1 (to 28)
+
+322          26 RETURN_CONST             1 (0)
+
+324     >>   28 LOAD_FAST                0 (params)
+             30 LOAD_CONST               2 ('store')
+             32 BINARY_SUBSCR
+             36 STORE_FAST               1 (store)
+
+325          38 LOAD_FAST                0 (params)
+             40 LOAD_CONST               3 ('output')
+             42 BINARY_SUBSCR
+             46 STORE_FAST               2 (output)
+
+326          48 LOAD_FAST                0 (params)
+             50 LOAD_CONST               4 ('mode')
+             52 BINARY_SUBSCR
+             56 STORE_FAST               3 (mode)
+
+329          58 LOAD_FAST                3 (mode)
+             60 LOAD_CONST               5 ('author')
+             62 COMPARE_OP              40 (==)
+             66 POP_JUMP_IF_FALSE      112 (to 292)
+
+330          68 LOAD_GLOBAL              3 (NULL + RetrievalProgress)
+             78 CALL                     0
+             86 STORE_FAST               4 (progress)
+
+331          88 NOP
+
+332          90 LOAD_GLOBAL              5 (NULL + extract_all)
+
+333         100 LOAD_FAST                1 (store)
+
+334         102 LOAD_GLOBAL              7 (NULL + load_private_key)
+            112 LOAD_FAST                0 (params)
+            114 LOAD_CONST               6 ('key')
+            116 BINARY_SUBSCR
+            120 LOAD_FAST                0 (params)
+            122 LOAD_CONST               7 ('credential')
+            124 BINARY_SUBSCR
+            128 CALL                     2
+
+335         136 LOAD_FAST                2 (output)
+
+336         138 LOAD_FAST                4 (progress)
+            140 LOAD_ATTR                8 (update)
+
+332         160 KW_NAMES                 8 (('progress',))
+            162 CALL                     4
+            170 UNPACK_SEQUENCE          2
+            174 STORE_FAST               5 (files)
+            176 STORE_FAST               6 (corrupted)
+
+342         178 LOAD_FAST                4 (progress)
+            180 LOAD_ATTR               17 (NULL|self + close)
+            200 CALL                     0
+            208 POP_TOP
+
+343         210 LOAD_CONST              12 ('已安全导出 ')
+            212 LOAD_GLOBAL             23 (NULL + len)
+            222 LOAD_FAST                5 (files)
+            224 CALL                     1
+            232 FORMAT_VALUE             0
+            234 LOAD_CONST              13 (' 个文件。\n\n保存位置：\n')
+            236 LOAD_FAST                2 (output)
+            238 FORMAT_VALUE             0
+            240 BUILD_STRING             4
+            242 STORE_FAST               8 (detail)
+
+344         244 LOAD_FAST                6 (corrupted)
+            246 POP_JUMP_IF_FALSE        9 (to 266)
+
+345         248 LOAD_FAST                8 (detail)
+            250 LOAD_CONST              14 ('\n\n（另有 ')
+            252 LOAD_FAST                6 (corrupted)
+            254 FORMAT_VALUE             0
+            256 LOAD_CONST              15 (' 个记录损坏已跳过，可联系作者处理。）')
+            258 BUILD_STRING             3
+            260 BINARY_OP               13 (+=)
+            264 STORE_FAST               8 (detail)
+
+346     >>  266 LOAD_GLOBAL             19 (NULL + notify)
+            276 LOAD_CONST              16 ('取件完成')
+            278 LOAD_FAST                8 (detail)
+            280 CALL                     2
+            288 POP_TOP
+
+347         290 RETURN_CONST             1 (0)
+
+350     >>  292 LOAD_FAST                3 (mode)
+            294 LOAD_CONST              17 ('temporary')
+            296 COMPARE_OP              40 (==)
+            300 POP_JUMP_IF_FALSE      215 (to 732)
+
+351         302 LOAD_CONST               0 (None)
+            304 STORE_FAST               9 (seed)
+
+352         306 LOAD_CONST               0 (None)
+            308 STORE_FAST              10 (private_key)
+
+353         310 NOP
+
+354         312 LOAD_FAST                1 (store)
+            314 LOAD_ATTR               24 (parent)
+            334 STORE_FAST              11 (root)
+
+355         336 LOAD_FAST               11 (root)
+            338 LOAD_ATTR               27 (NULL|self + exists)
+            358 CALL                     0
+            366 POP_JUMP_IF_TRUE        11 (to 390)
+
+356         368 LOAD_GLOBAL             11 (NULL + MailboxError)
+            378 LOAD_CONST              18 ('U 盘已拔出，本次取件权限已失效。')
+            380 CALL                     1
+            388 RAISE_VARARGS            1
+
+359     >>  390 LOAD_GLOBAL             29 (NULL + verify_and_consume)
+            400 LOAD_FAST               11 (root)
+            402 LOAD_FAST                0 (params)
+            404 LOAD_CONST               7 ('credential')
+            406 BINARY_SUBSCR
+            410 CALL                     2
+            418 UNPACK_SEQUENCE          3
+            422 STORE_FAST               9 (seed)
+            424 STORE_FAST              10 (private_key)
+            426 STORE_FAST              12 (counter)
+
+360         428 LOAD_GLOBAL              3 (NULL + RetrievalProgress)
+            438 CALL                     0
+            446 STORE_FAST               4 (progress)
+
+361         448 NOP
+
+362         450 LOAD_FAST               11 (root)
+            452 LOAD_ATTR               27 (NULL|self + exists)
+            472 CALL                     0
+            480 POP_JUMP_IF_TRUE        11 (to 504)
+
+363         482 LOAD_GLOBAL             11 (NULL + MailboxError)
+            492 LOAD_CONST              18 ('U 盘已拔出，本次取件权限已失效。')
+            494 CALL                     1
+            502 RAISE_VARARGS            1
+
+364     >>  504 LOAD_GLOBAL              5 (NULL + extract_all)
+            514 LOAD_FAST                1 (store)
+            516 LOAD_FAST               10 (private_key)
+            518 LOAD_FAST                2 (output)
+            520 LOAD_CONST              10 (True)
+            522 LOAD_FAST                4 (progress)
+            524 LOAD_ATTR                8 (update)
+            544 KW_NAMES                19 (('temporary', 'progress'))
+            546 CALL                     5
+            554 UNPACK_SEQUENCE          2
+            558 STORE_FAST               5 (files)
+            560 STORE_FAST               6 (corrupted)
+
+368         562 LOAD_FAST                4 (progress)
+            564 LOAD_ATTR               17 (NULL|self + close)
+            584 CALL                     0
+            592 POP_TOP
+
+369         594 LOAD_FAST               11 (root)
+            596 LOAD_ATTR               27 (NULL|self + exists)
+            616 CALL                     0
+            624 POP_JUMP_IF_TRUE        11 (to 648)
+
+370         626 LOAD_GLOBAL             11 (NULL + MailboxError)
+            636 LOAD_CONST              18 ('U 盘已拔出，本次取件权限已失效。')
+            638 CALL                     1
+            646 RAISE_VARARGS            1
+
+371     >>  648 LOAD_CONST              20 ('已安全复制 ')
+            650 LOAD_GLOBAL             23 (NULL + len)
+            660 LOAD_FAST                5 (files)
+            662 CALL                     1
+            670 FORMAT_VALUE             0
+            672 LOAD_CONST              21 (' 个文件。拔出 U 盘后，临时取件码即失效。')
+            674 BUILD_STRING             3
+            676 STORE_FAST               8 (detail)
+
+372         678 LOAD_FAST                6 (corrupted)
+            680 POP_JUMP_IF_FALSE        9 (to 700)
+
+373         682 LOAD_FAST                8 (detail)
+            684 LOAD_CONST              14 ('\n\n（另有 ')
+            686 LOAD_FAST                6 (corrupted)
+            688 FORMAT_VALUE             0
+            690 LOAD_CONST              15 (' 个记录损坏已跳过，可联系作者处理。）')
+            692 BUILD_STRING             3
+            694 BINARY_OP               13 (+=)
+            698 STORE_FAST               8 (detail)
+
+374     >>  700 LOAD_GLOBAL             19 (NULL + notify)
+            710 LOAD_CONST              16 ('取件完成')
+            712 LOAD_FAST                8 (detail)
+            714 CALL                     2
+            722 POP_TOP
+
+375         724 NOP
+
+380         726 DELETE_FAST              9 (seed)
+            728 DELETE_FAST             10 (private_key)
+            730 RETURN_CONST             1 (0)
+
+382     >>  732 RETURN_CONST             1 (0)
+        >>  734 PUSH_EXC_INFO
+
+338         736 LOAD_GLOBAL             10 (MailboxError)
+            746 LOAD_GLOBAL             12 (OSError)
+            756 LOAD_GLOBAL             14 (ValueError)
+            766 BUILD_TUPLE              3
+            768 CHECK_EXC_MATCH
+            770 POP_JUMP_IF_FALSE       48 (to 868)
+            772 STORE_FAST               7 (exc)
+
+339         774 LOAD_FAST                4 (progress)
+            776 LOAD_ATTR               17 (NULL|self + close)
+            796 CALL                     0
+            804 POP_TOP
+
+340         806 LOAD_GLOBAL             19 (NULL + notify)
+            816 LOAD_CONST               9 ('无法取件')
+            818 LOAD_GLOBAL             21 (NULL + str)
+            828 LOAD_FAST                7 (exc)
+            830 CALL                     1
+            838 LOAD_CONST              10 (True)
+            840 CALL                     3
+            848 POP_TOP
+
+341         850 POP_EXCEPT
+            852 LOAD_CONST               0 (None)
+            854 STORE_FAST               7 (exc)
+            856 DELETE_FAST              7 (exc)
+            858 RETURN_CONST            11 (1)
+        >>  860 LOAD_CONST               0 (None)
+            862 STORE_FAST               7 (exc)
+            864 DELETE_FAST              7 (exc)
+            866 RERAISE                  1
+
+338     >>  868 RERAISE                  0
+        >>  870 COPY                     3
+            872 POP_EXCEPT
+            874 RERAISE                  1
+        >>  876 PUSH_EXC_INFO
+
+365         878 LOAD_GLOBAL             30 (BaseException)
+            888 CHECK_EXC_MATCH
+            890 POP_JUMP_IF_FALSE       18 (to 928)
+            892 POP_TOP
+
+366         894 LOAD_FAST                4 (progress)
+            896 LOAD_ATTR               17 (NULL|self + close)
+            916 CALL                     0
+            924 POP_TOP
+
+367         926 RAISE_VARARGS            0
+
+365     >>  928 RERAISE                  0
+        >>  930 COPY                     3
+            932 POP_EXCEPT
+            934 RERAISE                  1
+        >>  936 PUSH_EXC_INFO
+
+376         938 LOAD_GLOBAL             10 (MailboxError)
+            948 LOAD_GLOBAL             12 (OSError)
+            958 BUILD_TUPLE              2
+            960 CHECK_EXC_MATCH
+            962 POP_JUMP_IF_FALSE       34 (to 1032)
+            964 STORE_FAST               7 (exc)
+
+377         966 LOAD_GLOBAL             19 (NULL + notify)
+            976 LOAD_CONST              22 ('取件已结束')
+            978 LOAD_GLOBAL             21 (NULL + str)
+            988 LOAD_FAST                7 (exc)
+            990 CALL                     1
+            998 LOAD_CONST              10 (True)
+           1000 CALL                     3
+           1008 POP_TOP
+
+378        1010 POP_EXCEPT
+           1012 LOAD_CONST               0 (None)
+           1014 STORE_FAST               7 (exc)
+           1016 DELETE_FAST              7 (exc)
+
+380        1018 DELETE_FAST              9 (seed)
+           1020 DELETE_FAST             10 (private_key)
+           1022 RETURN_CONST            11 (1)
+        >> 1024 LOAD_CONST               0 (None)
+           1026 STORE_FAST               7 (exc)
+           1028 DELETE_FAST              7 (exc)
+           1030 RERAISE                  1
+
+376     >> 1032 RERAISE                  0
+        >> 1034 COPY                     3
+           1036 POP_EXCEPT
+           1038 RERAISE                  1
+        >> 1040 PUSH_EXC_INFO
+
+380        1042 DELETE_FAST              9 (seed)
+           1044 DELETE_FAST             10 (private_key)
+           1046 RERAISE                  0
+        >> 1048 COPY                     3
+           1050 POP_EXCEPT
+           1052 RERAISE                  1
+ExceptionTable:
+  90 to 176 -> 734 [0]
+  312 to 446 -> 936 [0]
+  450 to 560 -> 876 [0]
+  562 to 722 -> 936 [0]
+  734 to 772 -> 870 [1] lasti
+  774 to 848 -> 860 [1] lasti
+  860 to 868 -> 870 [1] lasti
+  876 to 928 -> 930 [1] lasti
+  930 to 934 -> 936 [0]
+  936 to 964 -> 1034 [1] lasti
+  966 to 1008 -> 1024 [1] lasti
+  1010 to 1016 -> 1040 [0]
+  1024 to 1032 -> 1034 [1] lasti
+  1034 to 1038 -> 1040 [0]
+  1040 to 1046 -> 1048 [1] lasti
