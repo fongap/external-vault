@@ -21,13 +21,18 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-
 from activation import generate_activation_code
 
 # subprocess.CREATE_NO_WINDOW (0x08000000)
 NO_WINDOW = 134217728
 
-# PowerShell UI 脚本固定写在赋码工具所在目录，每次运行时原地重写
+# The GUI is a PowerShell WinForms script.  It is written next to the tool
+# as a kept product file and launched with ``-File``, so the UI code stays
+# inspectable on disk and no %TEMP% litter is created or left behind.
+#
+# Chinese UI text is passed to the script as UTF-16LE base64 blobs which
+# the script decodes at runtime (helper S), keeping the quoting safe; the
+# script file itself is written as UTF-8 with BOM for Windows PowerShell.
 PS_UI_SCRIPT_NAME = "pigeon_ui.ps1"
 
 
@@ -35,8 +40,11 @@ def _ps_temp_file(script: str) -> str:
     """Write *script* to the activation tool's own folder as a product ``.ps1``.
 
     This replaces the previous %TEMP% + random-name + unlink pattern.  Using
-    ``-File`` instead of ``-EncodedCommand`` keeps the payload inspectable and
-    lets the UTF-8 BOM carry the Chinese UI text on any ANSI code page.
+    ``-File`` instead of ``-EncodedCommand`` keeps the payload inspectable
+    on disk and avoids the command-line length limit; the UTF-8 BOM makes
+    Windows PowerShell 5.1 read the file as UTF-8 so the Chinese UI text
+    survives any ANSI code page.  The file is a kept product artifact: it
+    is simply rewritten in-place on each run, never deleted.
     """
     directory = Path(sys.argv[0]).resolve().parent
     directory.mkdir(parents=True, exist_ok=True)
@@ -51,33 +59,19 @@ def ps(script: str) -> subprocess.CompletedProcess[str]:
     """Run a PowerShell script (UTF-8-BOM product file, ``-File``) and wait.
 
     ``pigeon_ui.ps1`` is a kept product file in the activation tool's folder
-    and is rewritten in-place on each run; it is executed synchronously with
-    all windows suppressed.
+    and is rewritten in-place on each run; it is executed synchronously.
     """
     path = _ps_temp_file(script)
-    command = [
-        "powershell.exe",
-        "-NoProfile",
-        "-STA",
-        "-ExecutionPolicy",
-        "RemoteSigned",
-        "-File",
-        path,
-    ]
+    command = ["powershell.exe", "-NoProfile", "-STA", "-ExecutionPolicy",
+               "RemoteSigned", "-File", path]
     try:
-        return subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            creationflags=NO_WINDOW,
-            stdin=subprocess.DEVNULL,
-        )
-    except FileNotFoundError:
-        return subprocess.CompletedProcess(
-            command, -1, stdout="", stderr="PowerShell not found"
-        )
+        try:
+            return subprocess.run(command, capture_output=True, text=True, encoding="utf-8",
+                                  errors="replace", creationflags=NO_WINDOW, stdin=subprocess.DEVNULL)
+        except FileNotFoundError:
+            return subprocess.CompletedProcess(command, -1, stdout="", stderr="PowerShell not found")
+    finally:
+        pass
 
 
 def field(value: str) -> str:
@@ -135,8 +129,8 @@ $d=New-Object System.Windows.Forms.OpenFileDialog;$d.Filter='授权密钥文件 
 if($d.ShowDialog() -eq 'OK'){
 $lines=Get-Content -LiteralPath $d.FileName -Encoding UTF8
 foreach($ln in $lines){
-if($ln -match '设备 ID：\\s*([0-9A-Fa-f]{8})'){$devBox.Text=$Matches[1]}
-if($ln -match '授权密钥 \\(HEX\\)：\\s*([0-9A-Fa-f]{64})'){$keyBox.Text=$Matches[1]}
+if($ln -match '设备 ID：\s*([0-9A-Fa-f]{8})'){$devBox.Text=$Matches[1]}
+if($ln -match '授权密钥 \(HEX\)：\s*([0-9A-Fa-f]{64})'){$keyBox.Text=$Matches[1]}
 }
 }
 })
@@ -157,15 +151,12 @@ $f.Close()
     result = ps(script)
     for line in result.stdout.splitlines():
         line = line.strip()
-        if not line.startswith("OK|"):
-            continue
+        if not line.startswith("OK|"): continue
         parts = line.split("|")
-        if len(parts) < 6:
-            continue
+        if len(parts) < 6: continue
+
         try:
-            values_decoded = [
-                base64.b64decode(v).decode("utf-16le") for v in parts[1:6]
-            ]
+            values_decoded = [base64.b64decode(v).decode("utf-16le") for v in parts[1:6]]
         except (ValueError, UnicodeDecodeError):
             continue
         return {
@@ -214,11 +205,7 @@ $ok=New-Object System.Windows.Forms.Button;$ok.Text=(S '@OK@');$ok.Location=New-
 
 
 def gui_error(message: str) -> None:
-    values = {
-        "@E_T@": field("安全信鸽 · 赋码工具"),
-        "@E_B@": field(message),
-        "@OK@": field("确定"),
-    }
+    values = {"@E_T@": field("安全信鸽 · 赋码工具"), "@E_B@": field(message), "@OK@": field("确定")}
     script = """
 Add-Type -AssemblyName System.Windows.Forms;Add-Type -AssemblyName System.Drawing
 function S([string]$b){[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($b))}
@@ -290,9 +277,10 @@ def write_csv(path: str, device_id: str, code: str, order: str, note: str) -> No
         writer = csv.writer(f)
         if write_header:
             writer.writerow(["时间", "订单号", "设备ID", "激活码", "备注"])
-        writer.writerow(
-            [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), order, device_id, code, note]
-        )
+        writer.writerow([
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            order, device_id, code, note,
+        ])
 
 
 def main() -> int:
@@ -303,6 +291,7 @@ def main() -> int:
     parser.add_argument("--output", default="", help="记录文件路径（选填，追加 CSV）")
     parser.add_argument("--note", default="", help="备注（选填）")
     args = parser.parse_args()
+
 
     if args.device_id and args.master_key:
         return run_cli(args)
