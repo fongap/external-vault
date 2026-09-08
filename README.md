@@ -1,18 +1,49 @@
 # external-vault
 
-`external-vault` is a small monorepo for independently maintained utilities and generated resources from Fongap. Each project keeps its own documentation and build instructions while sharing one repository-level license policy.
+公开项目、可复用规则与生成资源集合。
 
-## Projects
+## 目录
 
-| Project | Description | Status |
-| --- | --- | --- |
-| [AgentDock](AgentDock/) | A lightweight Windows launcher and configuration manager for AI coding agents — delegates sessions to the native Claude Code and OpenAI Codex CLIs. | [![Build](https://img.shields.io/github/actions/workflow/status/Fongap/external-vault/agentdock.yml?label=build&logo=githubactions)](https://github.com/Fongap/external-vault/actions/workflows/agentdock.yml) [![Release](https://img.shields.io/github/v/release/Fongap/external-vault?filter=agentdock*&label=release&logo=github)](https://github.com/Fongap/external-vault/releases) |
-| [ADFilter](ADFilter/) | An automatically generated, deduplicated advertising and annoyance filter list aggregated from multiple upstream sources. | [![Build](https://img.shields.io/github/actions/workflow/status/Fongap/external-vault/adfilter.yml?label=build&logo=githubactions)](https://github.com/Fongap/external-vault/actions/workflows/adfilter.yml) [![Rules](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Fongap/external-vault/main/ADFilter/stats.json&label=rules&logo=adguard)](https://github.com/Fongap/external-vault/tree/main/ADFilter) |
+```text
+external-vault/
+├─ projects/   独立项目
+├─ skills/     通用规则与可复用内容
+├─ output/     生成产物
+└─ .github/    自动化
+```
+
+## 内容
+
+### Projects
+
+独立维护的工具和项目。
+
+详见 [`projects/`](projects/)。
+
+### Skills
+
+可复用的开发规则、提示词、规范和参考内容。
+
+详见 [`skills/`](skills/)。
+
+### Output
+
+自动生成或可直接使用的资源与产物。
+
+详见 [`output/`](output/)。
+
+## 约定
+
+* 独立项目放入 `projects/<name>/`
+* 通用内容放入 `skills/`
+* 生成产物放入 `output/`
+* 项目说明、构建和使用方法放在各自目录
+* 根 README 只作为仓库入口和索引
 
 ## License
 
-This repository's original code and documentation are licensed under the [MIT License](LICENSE).
+原创代码与文档采用 [MIT License](LICENSE)。
 
-Third-party aggregated data (e.g., filter rules in `ADFilter/`) remains subject to the terms, notices, attribution requirements, and copyright of their respective upstream projects. The MIT License in this repository does not replace or relicense third-party data.
+第三方数据、规则及其他内容仍受其原始许可约束。
 
-See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.
+详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
