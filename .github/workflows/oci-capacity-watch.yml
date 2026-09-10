@@ -1,9 +1,9 @@
 name: OCI Capacity Watch
 
 on:
+  repository_dispatch:
+    types: [oci-capacity-watch]
   workflow_dispatch:
-  schedule:
-    - cron: '17 * * * *'
 
 permissions:
   contents: read
