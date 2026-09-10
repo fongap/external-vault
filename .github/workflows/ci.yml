@@ -1,0 +1,66 @@
+name: Repository CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  layout:
+    name: Validate repository layout
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate workflow source paths
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          required_paths=(
+            "projects/AgentDock"
+            "projects/AgentDock/build.ps1"
+            "output/adfilter"
+          )
+
+          for path in "${required_paths[@]}"; do
+            if [ ! -e "$path" ]; then
+              echo "::error::Repository layout drift: missing $path"
+              exit 1
+            fi
+          done
+
+          workflow=".github/workflows/agentdock.yml"
+
+          grep -Fq "'projects/AgentDock/**'" "$workflow" || {
+            echo "::error::AgentDock trigger path is not aligned with projects/AgentDock."
+            exit 1
+          }
+
+          grep -Fq "working-directory: ./projects/AgentDock" "$workflow" || {
+            echo "::error::AgentDock working-directory is not aligned with projects/AgentDock."
+            exit 1
+          }
+
+          grep -Fq "path: projects/AgentDock/dist/AgentDock.exe" "$workflow" || {
+            echo "::error::AgentDock artifact path is not aligned with projects/AgentDock."
+            exit 1
+          }
+
+          if grep -RFn \
+            -e "'AgentDock/**'" \
+            -e "working-directory: ./AgentDock" \
+            -e "path: AgentDock/" \
+            -e "'ADFilter/**'" \
+            -e "working-directory: ./ADFilter" \
+            -e "path: ADFilter/" \
+            .github/workflows; then
+            echo "::error::Legacy root-level workflow path detected."
+            exit 1
+          fi
