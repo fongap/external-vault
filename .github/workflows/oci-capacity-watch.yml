@@ -1,0 +1,92 @@
+name: OCI Capacity Watch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: oci-capacity-watch
+  cancel-in-progress: true
+
+env:
+  OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+  OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+  OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+  OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+  OCI_CLI_REGION: ${{ vars.OCI_CLI_REGION }}
+  OCI_SHAPE: ${{ vars.OCI_SHAPE }}
+  OCI_OCPUS: ${{ vars.OCI_OCPUS }}
+  OCI_MEMORY_GB: ${{ vars.OCI_MEMORY_GB }}
+  OCI_AVAILABILITY_DOMAINS: ${{ vars.OCI_AVAILABILITY_DOMAINS }}
+  OCI_CLI_VERSION: ${{ vars.OCI_CLI_VERSION || '3.92.1' }}
+
+jobs:
+  check:
+    name: Check A1.Flex capacity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install OCI CLI
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 -m venv "$RUNNER_TEMP/oci-cli"
+          "$RUNNER_TEMP/oci-cli/bin/pip" install --quiet "oci-cli==$OCI_CLI_VERSION"
+          echo "$RUNNER_TEMP/oci-cli/bin" >> "$GITHUB_PATH"
+
+      - name: Check capacity
+        id: capacity
+        shell: bash
+        run: bash projects/oci-capacity-watch/check-capacity.sh
+
+      - name: Notify when capacity is available
+        if: steps.capacity.outputs.available == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVAILABLE_ADS: ${{ steps.capacity.outputs.available_ads }}
+        run: |
+          set -Eeuo pipefail
+
+          title="[OCI] $OCI_SHAPE capacity available"
+          existing="$({
+            gh issue list \
+              --state open \
+              --limit 100 \
+              --json number,title \
+              --jq ".[] | select(.title == \"$title\") | .number" \
+              | head -n 1
+          })"
+
+          if [[ -n "$existing" ]]; then
+            echo "Alert issue already open: #$existing"
+            exit 0
+          fi
+
+          body_file="$RUNNER_TEMP/oci-capacity-alert.md"
+          {
+            echo "Oracle Cloud capacity is available for the configured shape."
+            echo
+            echo "- Region: \`$OCI_CLI_REGION\`"
+            echo "- Shape: \`$OCI_SHAPE\`"
+            echo "- Configuration: \`$OCI_OCPUS OCPU / $OCI_MEMORY_GB GB\`"
+            echo "- Availability Domain(s):"
+            while IFS= read -r ad; do
+              [[ -n "$ad" ]] && printf '  - `%s`\n' "$ad"
+            done <<< "$AVAILABLE_ADS"
+            echo
+            echo "Capacity reports are point-in-time signals and do not reserve capacity."
+          } > "$body_file"
+
+          gh issue create --title "$title" --body-file "$body_file"
