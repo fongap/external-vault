@@ -1,6 +1,6 @@
 /*
  * AgentDock - probe body fix, credential scoping, console attach
- * Copyright (c) 2026 Fongap
+ * Copyright (c) 2026 Fongap Studio
  * SPDX-License-Identifier: MIT
  *
  * No external runtime required. Built with clang/lld in freestanding mode.
