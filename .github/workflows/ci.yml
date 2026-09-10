@@ -3,27 +3,39 @@ name: Repository CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'output/adfilter/**'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'output/adfilter/**'
 
 permissions:
   contents: read
+
+concurrency:
+  group: repository-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   layout:
     name: Validate repository layout
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Validate workflow source paths
+      - name: Validate repository layout
         shell: bash
         run: |
           set -Eeuo pipefail
 
           required_paths=(
+            ".github/workflows/agentdock.yml"
             "projects/AgentDock"
             "projects/AgentDock/build.ps1"
             "output/adfilter"
@@ -36,31 +48,42 @@ jobs:
             fi
           done
 
+          legacy_roots=(
+            "AgentDock"
+            "ADFilter"
+          )
+
+          for path in "${legacy_roots[@]}"; do
+            if [ -e "$path" ]; then
+              echo "::error::Legacy root-level path detected: $path"
+              exit 1
+            fi
+          done
+
           workflow=".github/workflows/agentdock.yml"
 
-          grep -Fq "'projects/AgentDock/**'" "$workflow" || {
-            echo "::error::AgentDock trigger path is not aligned with projects/AgentDock."
-            exit 1
-          }
+          required_fragments=(
+            "'projects/AgentDock/**'"
+            "working-directory: ./projects/AgentDock"
+            "path: projects/AgentDock/dist/AgentDock.exe"
+          )
 
-          grep -Fq "working-directory: ./projects/AgentDock" "$workflow" || {
-            echo "::error::AgentDock working-directory is not aligned with projects/AgentDock."
-            exit 1
-          }
+          for fragment in "${required_fragments[@]}"; do
+            if ! grep -Fq -- "$fragment" "$workflow"; then
+              echo "::error::AgentDock workflow is not aligned with projects/AgentDock: $fragment"
+              exit 1
+            fi
+          done
 
-          grep -Fq "path: projects/AgentDock/dist/AgentDock.exe" "$workflow" || {
-            echo "::error::AgentDock artifact path is not aligned with projects/AgentDock."
-            exit 1
-          }
+          legacy_fragments=(
+            "'AgentDock/**'"
+            "working-directory: ./AgentDock"
+            "path: AgentDock/"
+          )
 
-          if grep -RFn \
-            -e "'AgentDock/**'" \
-            -e "working-directory: ./AgentDock" \
-            -e "path: AgentDock/" \
-            -e "'ADFilter/**'" \
-            -e "working-directory: ./ADFilter" \
-            -e "path: ADFilter/" \
-            .github/workflows; then
-            echo "::error::Legacy root-level workflow path detected."
-            exit 1
-          fi
+          for fragment in "${legacy_fragments[@]}"; do
+            if grep -Fq -- "$fragment" "$workflow"; then
+              echo "::error::Legacy AgentDock workflow path detected: $fragment"
+              exit 1
+            fi
+          done
