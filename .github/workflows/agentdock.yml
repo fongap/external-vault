@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'AgentDock/**'
+      - 'projects/AgentDock/**'
       - '.github/workflows/agentdock.yml'
   workflow_dispatch:
 
@@ -23,13 +23,13 @@ jobs:
 
       - name: Build
         shell: powershell
-        working-directory: ./AgentDock
+        working-directory: ./projects/AgentDock
         run: |
           powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -ZigPath zig -Configuration release
 
       - name: Verify output
         shell: powershell
-        working-directory: ./AgentDock
+        working-directory: ./projects/AgentDock
         run: |
           Get-Item .\dist\AgentDock.exe | Select-Object FullName, Length, LastWriteTime
 
@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: AgentDock-windows-x64
-          path: AgentDock/dist/AgentDock.exe
+          path: projects/AgentDock/dist/AgentDock.exe
           retention-days: 7
 
   release:
