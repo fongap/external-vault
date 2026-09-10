@@ -1,21 +1,85 @@
 # OCI Capacity Watch
 
-通过 GitHub Actions 定时查询 Oracle Cloud Compute Capacity Report，在指定 `VM.Standard.A1.Flex` 配置出现容量时创建 GitHub Issue 提醒。
+通过 Cloudflare Cron 定时触发 GitHub `repository_dispatch`，由 GitHub Actions 查询 Oracle Cloud Compute Capacity Report；当指定 `VM.Standard.A1.Flex` 配置出现容量时创建 GitHub Issue 提醒。
+
+Cloudflare 只负责触发。OCI 检测、凭据、判断和通知全部留在 GitHub。
 
 只做容量查询，不创建、修改或删除 OCI 实例。
 
-## 运行方式
+## 架构
 
-Workflow：`.github/workflows/oci-capacity-watch.yml`
+```text
+Cloudflare Cron
+      ↓
+trigger-worker
+      ↓ repository_dispatch: oci-capacity-watch
+GitHub Actions
+      ↓
+OCI Capacity Report
+      ↓
+AVAILABLE → GitHub Issue
+```
 
-- 每小时检查一次（UTC 每小时第 17 分钟）
-- 支持 `workflow_dispatch` 手动执行
-- 默认自动枚举当前 Region 的全部 Availability Domain
-- 检测到 `AVAILABLE` 时创建提醒 Issue
-- 同一提醒 Issue 仍为 open 时不重复创建
-- 未检测到容量时正常结束，不创建 Issue
+## 目录
 
-## 环境变量
+```text
+projects/oci-capacity-watch/
+├─ README.md
+├─ check-capacity.sh
+└─ trigger-worker/
+   ├─ wrangler.toml
+   └─ src/index.js
+```
+
+GitHub Workflow：`.github/workflows/oci-capacity-watch.yml`
+
+## Cloudflare Trigger
+
+`trigger-worker` 只向 GitHub 发送 `repository_dispatch`，不接触 OCI。
+
+Cloudflare Secret：
+
+| 名称 | 用途 |
+| --- | --- |
+| `GITHUB_TOKEN` | 仅用于向 `fongap/external-vault` 创建 `repository_dispatch` |
+
+Cloudflare Variables：
+
+| 名称 | 用途 |
+| --- | --- |
+| `GITHUB_REPOSITORY` | 目标仓库，默认 `fongap/external-vault` |
+| `GITHUB_EVENT_TYPE` | 事件类型，默认 `oci-capacity-watch` |
+
+细粒度 GitHub Token 仅授权 `fongap/external-vault`，Repository permissions 设置 `Contents: Read and write`。
+
+Cron 当前为：
+
+```text
+17 * * * *
+```
+
+即 UTC 每小时第 17 分钟触发一次。
+
+部署：
+
+```bash
+cd projects/oci-capacity-watch/trigger-worker
+npx wrangler secret put GITHUB_TOKEN
+npx wrangler deploy
+```
+
+## GitHub Actions
+
+Workflow 仅接受：
+
+- `repository_dispatch`：`oci-capacity-watch`
+- `workflow_dispatch`：手动测试
+
+GitHub 本身不再配置 `schedule`。
+
+检测到 `AVAILABLE` 时创建提醒 Issue；同一提醒 Issue 仍为 open 时不重复创建。未检测到容量时正常结束，不创建 Issue。
+
+## OCI 环境变量
 
 认证直接使用 OCI CLI 原生环境变量，不生成 `~/.oci/config`。
 
