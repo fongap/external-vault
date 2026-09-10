@@ -1,0 +1,11 @@
+name = "oci-capacity-watch-trigger"
+main = "src/index.js"
+compatibility_date = "2026-09-10"
+workers_dev = false
+
+[vars]
+GITHUB_REPOSITORY = "fongap/external-vault"
+GITHUB_EVENT_TYPE = "oci-capacity-watch"
+
+[triggers]
+crons = ["17 * * * *"]
