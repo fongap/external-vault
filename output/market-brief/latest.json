@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "project": "MarketBrief",
+  "generated_at": "2026-09-12T13:37:01+00:00",
+  "model": "SenseNova",
+  "status": "skip",
+  "usage": {
+    "calls": 5,
+    "total_tokens": 15282
+  },
+  "sources": [
+    {
+      "name": "eastmoney-hot",
+      "kind": "community",
+      "url": "https://hfmgb.eastmoney.com/",
+      "ok": true,
+      "fetcher": "eastmoney-hot",
+      "fetch_url": "https://hfmgb.eastmoney.com/",
+      "chars": 2551,
+      "quality_score": 65,
+      "content_hash": "c9712b70ec648feb986df5f3262c0d950478a40a3a6a4b3e390452a49679ebb3",
+      "cache_hit": false,
+      "elapsed_sec": 0.915,
+      "analysis_ok": true
+    },
+    {
+      "name": "xueqiu-hot",
+      "kind": "community",
+      "url": "https://xueqiu.com/hot/stock",
+      "ok": true,
+      "fetcher": "xueqiu-hot",
+      "fetch_url": "https://xueqiu.com/hot/stock",
+      "chars": 2071,
+      "quality_score": 60,
+      "content_hash": "1d16cdc32ec7a1c9a0fdcb47a917f17c6f3c548dda1c7c0b51ce01dd665fe841",
+      "cache_hit": false,
+      "elapsed_sec": 1.232,
+      "analysis_ok": false,
+      "analysis_error": "LLM_STREAM_ERROR: 流式响应没有正文"
+    },
+    {
+      "name": "10jqka-community",
+      "kind": "community",
+      "url": "https://t.10jqka.com.cn/",
+      "ok": true,
+      "fetcher": "10jqka-community",
+      "fetch_url": "https://t.10jqka.com.cn/",
+      "chars": 6000,
+      "quality_score": 100,
+      "content_hash": "8130fcdfb29ee26fbeb753cf04d39bcc66cc69b3f2939eb7c5ed5a5228fd1aeb",
+      "cache_hit": false,
+      "elapsed_sec": 2.757,
+      "analysis_ok": false,
+      "analysis_error": "LLM_STREAM_ERROR: 无效 SSE JSON: {\"id\":\"935699bc-8f3d-41ce-9aac-23233fc33f3d\",\"created\":1789220126,\"model\":\"SenseNova\",\"object\":\"chat.completion.chunk\",\"choices\":[{\"index\":0,\"delta\":{\"content\":"
+    },
+    {
+      "name": "eastmoney-report",
+      "kind": "research",
+      "url": "https://data.eastmoney.com/report/",
+      "ok": true,
+      "fetcher": "eastmoney-report",
+      "fetch_url": "https://data.eastmoney.com/report/",
+      "chars": 1240,
+      "quality_score": 52,
+      "content_hash": "fe86d91bdac79ad0042e69d2a43ea508eb65353e85448d39cb5079545bd33296",
+      "cache_hit": false,
+      "elapsed_sec": 2.333,
+      "analysis_ok": true
+    },
+    {
+      "name": "eastmoney-industry",
+      "kind": "research",
+      "url": "https://data.eastmoney.com/report/industry.jshtml",
+      "ok": true,
+      "fetcher": "eastmoney-industry",
+      "fetch_url": "https://data.eastmoney.com/report/industry.jshtml",
+      "chars": 1240,
+      "quality_score": 52,
+      "content_hash": "25ba408b4adefde2690d558d0a44e814a88999995060d9e793b3f582a75ac912",
+      "cache_hit": false,
+      "elapsed_sec": 0.844,
+      "analysis_ok": true
+    },
+    {
+      "name": "eastmoney-strategy",
+      "kind": "research",
+      "url": "https://data.eastmoney.com/report/strategyreport.jshtml",
+      "ok": true,
+      "fetcher": "eastmoney-strategy",
+      "fetch_url": "https://data.eastmoney.com/report/strategyreport.jshtml",
+      "chars": 1240,
+      "quality_score": 52,
+      "content_hash": "cdbcd6aa811071c6a85a82749705c175a01e22914f0cc56e8957df3768ef1e7f",
+      "cache_hit": false,
+      "elapsed_sec": 0.65,
+      "analysis_ok": false,
+      "analysis_error": "LLM_STREAM_ERROR: 流式响应没有正文"
+    },
+    {
+      "name": "cninfo",
+      "kind": "official",
+      "url": "https://www.cninfo.com.cn/new/index",
+      "ok": true,
+      "fetcher": "cninfo-official",
+      "fetch_url": "https://www.cninfo.com.cn/new/index",
+      "chars": 2047,
+      "quality_score": 60,
+      "content_hash": "a8630e3dda353107afb318ce75e7ca6fee26816a7c66e9c17a573fee94372a22",
+      "cache_hit": false,
+      "elapsed_sec": 2.841,
+      "analysis_ok": true
+    }
+  ],
+  "content": {
+    "status": "skip",
+    "reason": "åä¸ªæ¥æºä¸­ï¼eastmoney-reportä¸eastmoney-industryåä¸ºçº¯å¯¼èªç´¢å¼é¡µï¼ä¸å«ä»»ä½ç æ¥æ­£æãæºæè¯çº§æå¸åºè§ç¹ï¼æ æ³æä¾å®è´¨æ§ç æ¥ä¿¡å·ï¼eastmoney-hotè½å«ç¤¾åºæç»ªï¼ä½æç¡®æ æ³¨å­å¨è½¯æ/æåå«çãæ¶ææ§ä¸ä¸ãä»ä¸ºæ£æ·ä¸»è§è§ç¹ï¼ä¸å·å¤è·¨æ¥æºéªè¯ä»·å¼ï¼cninfoè½å«å®æ¹å¬åï¼é£æ·ç§æéäº¤Hè¡ç³è¯·ãä¸­å¾®å¬å¸é«ç®¡åæç­ï¼ï¼ä½æ°æ®æ¥ææ æ³¨ä¸º2026-09-11ï¼æªæ¥æ¥æï¼ï¼å­å¨æ¨¡æ/æµè¯æ°æ®é£é©ï¼ä¸ä»ææ é¢çº§ä¿¡æ¯ãæ å¬åå¨æï¼æ æ³ææå¯éªè¯çäºå®éãåä¸ªæ¥æºä¹é´æ ä»»ä½äº¤åéªè¯å¯è½ââç æ¥æºä¸ºç©ºå£³ãç¤¾åºæºä¸å®æ¹æºè®¨è®ºæ çå®å¨ä¸éå ãå®æ¹æºæ¥æå¼å¸¸ãä¸æ»¡è¶³'å­å¨ä¿¡æ¯å¢éæè·¨æ¥æºéªè¯'çpublishæ¡ä»¶ï¼å¤å®skipã"
+  }
+}
