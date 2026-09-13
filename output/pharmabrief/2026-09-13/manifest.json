@@ -1,0 +1,466 @@
+{
+  "schema_version": 2,
+  "project": "PharmaBrief",
+  "date": "2026-09-13",
+  "week_start": "2026-09-07",
+  "week_end": "2026-09-13",
+  "generated_at": "2026-09-13T22:37:11+08:00",
+  "model": "Pro",
+  "status": "publish",
+  "signal": "disruption",
+  "usage": {
+    "calls": 12,
+    "requests": 30,
+    "total_tokens": 38833
+  },
+  "source_health": {
+    "configured": 32,
+    "successful": 22,
+    "failed": 10,
+    "success_rate": 0.688
+  },
+  "sources": [
+    {
+      "name": "FDA",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.fda.gov/drugs/news-events-human-drugs",
+      "ok": true,
+      "quality_score": 91,
+      "error": null
+    },
+    {
+      "name": "EMA",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.ema.europa.eu/en/news-events",
+      "ok": true,
+      "quality_score": 76,
+      "error": null
+    },
+    {
+      "name": "NMPA",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.nmpa.gov.cn/yaopin/index.html",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.nmpa.gov.cn/yaopin/index.html: 412 Client Error: Precondition Failed for url: https://www.nmpa.gov.cn/yaopin/index.html"
+    },
+    {
+      "name": "CDE",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.cde.org.cn/main/news/listpage",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.cde.org.cn/main/news/listpage: 正文过短: 0"
+    },
+    {
+      "name": "Pfizer",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.pfizer.com/newsroom/press-releases",
+      "ok": true,
+      "quality_score": 76,
+      "error": null
+    },
+    {
+      "name": "AstraZeneca",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.astrazeneca.com/media-centre.html",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.astrazeneca.com/media-centre.html: 403 Client Error: Forbidden for url: https://www.astrazeneca.com/media-centre.html"
+    },
+    {
+      "name": "Novartis",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.novartis.com/news/newsroom",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "Roche",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.roche.com/media/releases",
+      "ok": true,
+      "quality_score": 59,
+      "error": null
+    },
+    {
+      "name": "Lilly",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://investor.lilly.com/news-releases",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://investor.lilly.com/news-releases: 404 Client Error: Not Found for url: https://investor.lilly.com/news-releases"
+    },
+    {
+      "name": "NovoNordisk",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.novonordisk.com/news-and-media/latest-news.html",
+      "ok": true,
+      "quality_score": 58,
+      "error": null
+    },
+    {
+      "name": "Sanofi",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.sanofi.com/en/media-room/press-releases",
+      "ok": true,
+      "quality_score": 84,
+      "error": null
+    },
+    {
+      "name": "SEC",
+      "priority": "P2",
+      "kind": "capital",
+      "url": "https://www.sec.gov/edgar/search/",
+      "ok": true,
+      "quality_score": 54,
+      "error": null
+    },
+    {
+      "name": "ClinicalTrialsGov",
+      "priority": "P2",
+      "kind": "clinical",
+      "url": "https://clinicaltrials.gov/",
+      "ok": true,
+      "quality_score": 41,
+      "error": null
+    },
+    {
+      "name": "PharmCube",
+      "priority": "P2",
+      "kind": "industry",
+      "url": "https://bydrug.pharmcube.com/",
+      "ok": true,
+      "quality_score": 77,
+      "error": null
+    },
+    {
+      "name": "YaoZh",
+      "priority": "P2",
+      "kind": "industry",
+      "url": "https://www.yaozh.com/",
+      "ok": true,
+      "quality_score": 77,
+      "error": null
+    },
+    {
+      "name": "FiercePharma",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.fiercepharma.com/",
+      "ok": true,
+      "quality_score": 57,
+      "error": null
+    },
+    {
+      "name": "FierceBiotech",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.fiercebiotech.com/",
+      "ok": true,
+      "quality_score": 57,
+      "error": null
+    },
+    {
+      "name": "EndpointsNews",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://endpts.com/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://endpts.com/: 403 Client Error: Forbidden for url: https://endpoints.news/"
+    },
+    {
+      "name": "STATNews",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.statnews.com/",
+      "ok": true,
+      "quality_score": 95,
+      "error": null
+    },
+    {
+      "name": "STATNews_Pharmalittle",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.statnews.com/category/pharmalittle/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.statnews.com/category/pharmalittle/: 404 Client Error: Not Found for url: https://www.statnews.com/category/pharmalittle/"
+    },
+    {
+      "name": "BioCentury",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.biocentury.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "BioSpace",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.biospace.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "BioPharmaDive",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.biopharmadive.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "WuXiAppTec",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.wuxiapptec.cn/",
+      "ok": true,
+      "quality_score": 60,
+      "error": null
+    },
+    {
+      "name": "TongXieYi",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.tongxieyi.com/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.tongxieyi.com/: HTTPSConnectionPool(host='www.tongxieyi.com', port=443): Max retries exceeded with url: / (Caused by ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))"
+    },
+    {
+      "name": "EYJLR",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.eyjlr.com/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.eyjlr.com/: HTTPSConnectionPool(host='www.eyjlr.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.eyjlr.com', port=443) at 0x7f99e23d9760>, 'Connection to www.eyjlr.com timed out. (connect timeout=30)'))"
+    },
+    {
+      "name": "NatureBiotech",
+      "priority": "P4",
+      "kind": "technology",
+      "url": "https://www.nature.com/nbt/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "SIMM",
+      "priority": "P4",
+      "kind": "technology",
+      "url": "https://www.simm.cas.cn/web/jgsz/gjsbjyjzx/xyyj/kydt_170104/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.simm.cas.cn/web/jgsz/gjsbjyjzx/xyyj/kydt_170104/: HTTPSConnectionPool(host='www.simm.cas.cn', port=443): Max retries exceeded with url: /web/jgsz/gjsbjyjzx/xyyj/kydt_170104/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1000)')))"
+    },
+    {
+      "name": "IMM",
+      "priority": "P4",
+      "kind": "technology",
+      "url": "https://www.imm.ac.cn/",
+      "ok": true,
+      "quality_score": 91,
+      "error": null
+    },
+    {
+      "name": "Gelonghui",
+      "priority": "P4",
+      "kind": "sentiment",
+      "url": "https://www.gelonghui.com/",
+      "ok": true,
+      "quality_score": 83,
+      "error": null
+    },
+    {
+      "name": "XueQiu_Pharma",
+      "priority": "P4",
+      "kind": "sentiment",
+      "url": "https://xueqiu.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "NikkeiHealthcare",
+      "priority": "P4",
+      "kind": "regional",
+      "url": "https://asia.nikkei.com/Business/Health",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://asia.nikkei.com/Business/Health: 404 Client Error: Not Found for url: https://asia.nikkei.com/business/health"
+    }
+  ],
+  "candidate_event_count": 3,
+  "deep_analysis_event_count": 3,
+  "content": {
+    "status": "publish",
+    "hook_title": "Semaglutide aids kid",
+    "overview": "Novo Nordisk’s semaglutide shows strong pediatric obesity efficacy; Novartis faces three late‑stage setbacks dragging shares down; Takeda’s",
+    "events": [
+      {
+        "id": "E01",
+        "event_key": "novonordisk|semaglutide|phase3_trial_result",
+        "category": "clinical",
+        "title": "Novo Nordisk reports STEP Young phase 3 results: 40.4% of ch",
+        "fact": "In the STEP Young phase 3 trial, 40.4% of children living with obesity achieved a BMI below the obesity threshold when treated with semaglutide and lifestyle modification.",
+        "why_it_matters": "Demonstrates meaningful weight‑loss efficacy in a pediatric population, opening a new growth avenue for GLP‑1 therapies beyond adults.",
+        "industry_implication": "Accelerates competition in the pediatric obesity market, likely prompting label‑expansion rushes from rivals and increased payer scrutiny.",
+        "company_implication": "Positions Novo Nordisk to capture early‑share in a high‑value pediatric indication, boosting long‑term revenue potential.",
+        "capital_implication": "Supports premium valuation; modest upside to share price as analysts model expanded TAM.",
+        "next_watch": [
+          "FDA/EMA pediatric label expansion decision",
+          "Real‑world safety and adherence data in adolescents"
+        ],
+        "source_refs": [
+          "NovoNordisk"
+        ],
+        "evidence": [
+          {
+            "source": "NovoNordisk",
+            "priority": "P1",
+            "kind": "company",
+            "url": "https://www.novonordisk.com/news-and-media/latest-news.html",
+            "role": "primary"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 9,
+          "industry_impact": 9,
+          "capital_impact": 7,
+          "execution_risk": 5,
+          "confidence": 8,
+          "scope": 8,
+          "novelty": 6,
+          "overall_score": 8.2
+        },
+        "signal": "disruption",
+        "black_swan": false,
+        "alert_level": "ALERT",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E02",
+        "event_key": "novartis|late-stage assets|setback",
+        "category": "clinical",
+        "title": "Novartis shares fall 13% after three late-stage asset setbac",
+        "fact": "Novartis’ shares fell 13% this week after the report of three separate late-stage asset setbacks.",
+        "why_it_matters": "Multiple late‑stage failures signal heightened pipeline risk and could force strategic re‑prioritization.",
+        "industry_implication": "Raises investor caution about big‑pharma R&D productivity, potentially affecting sector‑wide valuation multiples.",
+        "company_implication": "Pressures Novartis to either rescue, divest, or write down the affected assets, impacting near‑term earnings.",
+        "capital_implication": "Sharp share‑price decline reflects immediate capital‑market loss of confidence; may increase cost of capital.",
+        "next_watch": [
+          "Update on each late‑stage asset’s clinical hold or trial outcome",
+          "Potential divestiture or partnership announcements"
+        ],
+        "source_refs": [
+          "BioSpace"
+        ],
+        "evidence": [
+          {
+            "source": "BioSpace",
+            "priority": "P3",
+            "kind": "industry",
+            "url": "https://www.biospace.com/",
+            "role": "context"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 7,
+          "industry_impact": 6,
+          "capital_impact": 8,
+          "execution_risk": 7,
+          "confidence": 6,
+          "scope": 5,
+          "novelty": 4,
+          "overall_score": 6.4
+        },
+        "signal": "caution",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E03",
+        "event_key": "takeda|r&d head|exit",
+        "category": "technology",
+        "title": "Takeda’s long-term R&D head announces exit after major pipel",
+        "fact": "Takeda’s long-term R&D head announces exit after major pipeline reorganization.",
+        "why_it_matters": "Leadership turnover at the R&D helm can disrupt pipeline momentum and strategic direction.",
+        "industry_implication": "Highlights ongoing turbulence in pharma R&D leadership, potentially influencing talent mobility across the sector.",
+        "company_implication": "Creates uncertainty over execution of Takeda’s pipeline refresh; may delay key milestones until a successor is appointed.",
+        "capital_implication": "Limited immediate market impact, but perceived governance risk could weigh on valuation over the medium term.",
+        "next_watch": [
+          "Appointment of new R&D head and timeline",
+          "Impact on key pipeline programs’ milestones"
+        ],
+        "source_refs": [
+          "BioSpace"
+        ],
+        "evidence": [
+          {
+            "source": "BioSpace",
+            "priority": "P3",
+            "kind": "industry",
+            "url": "https://www.biospace.com/",
+            "role": "context"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 6,
+          "industry_impact": 5,
+          "capital_impact": 4,
+          "execution_risk": 6,
+          "confidence": 6,
+          "scope": 4,
+          "novelty": 3,
+          "overall_score": 4.7
+        },
+        "signal": "neutral",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      }
+    ],
+    "executive_view": {
+      "industry": "Pediatric obesity is emerging as a high‑growth niche for GLP‑1 therapies, while late‑stage setbacks across big pharma remind investors of R&D volatility. Leadership churn at Takeda underscores the importance of stable R&D governance for sustained innovation.",
+      "business": "Novo Nordisk can leverage the STEP Young data to expand its semaglutide franchise and justify premium pricing. Novartis must address its late‑stage weaknesses—either through trial redesign, partnerships, or asset sales—to stem share‑price erosion. Takeda’s upcoming R&D leadership decision will be critical to maintaining confidence in its pipeline revitalization plan.",
+      "watch_3_12m": [
+        "Pediatric semaglutide label approval (6‑12mo)",
+        "Novartis asset resolution or divestiture (3‑9mo)",
+        "Takeda new R&D leadership impact on pipeline (6‑12mo)"
+      ]
+    },
+    "signal": "disruption"
+  }
+}
