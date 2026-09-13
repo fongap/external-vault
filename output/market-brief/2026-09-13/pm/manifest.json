@@ -1,0 +1,213 @@
+{
+  "schema_version": 2,
+  "project": "MarketBrief",
+  "date": "2026-09-13",
+  "edition": "pm",
+  "generated_at": "2026-09-13T12:59:57+08:00",
+  "model": "SenseNova",
+  "status": "publish",
+  "visual_tone": "divergent",
+  "usage": {
+    "calls": 7,
+    "total_tokens": 29027
+  },
+  "sources": [
+    {
+      "kind": "community",
+      "ok": true,
+      "fetcher": "eastmoney-hot",
+      "transport": "html",
+      "chars": 2551,
+      "quality_score": 65,
+      "cache_hit": false,
+      "elapsed_sec": 1.703,
+      "analysis_ok": true
+    },
+    {
+      "kind": "community",
+      "ok": true,
+      "fetcher": "xueqiu-hot",
+      "transport": "html",
+      "chars": 2064,
+      "quality_score": 60,
+      "cache_hit": false,
+      "elapsed_sec": 0.843,
+      "analysis_ok": false,
+      "analysis_error": "LLM_STREAM_ERROR: 流式响应没有正文"
+    },
+    {
+      "kind": "community",
+      "ok": true,
+      "fetcher": "10jqka-community",
+      "transport": "html",
+      "chars": 6000,
+      "quality_score": 100,
+      "cache_hit": false,
+      "elapsed_sec": 2.566,
+      "analysis_ok": true
+    },
+    {
+      "kind": "research",
+      "ok": true,
+      "fetcher": "eastmoney-report",
+      "transport": "api",
+      "chars": 3922,
+      "quality_score": 95,
+      "cache_hit": false,
+      "elapsed_sec": 1.765,
+      "analysis_ok": true
+    },
+    {
+      "kind": "research",
+      "ok": true,
+      "fetcher": "eastmoney-industry",
+      "transport": "api",
+      "chars": 3853,
+      "quality_score": 95,
+      "cache_hit": false,
+      "elapsed_sec": 0.577,
+      "analysis_ok": true
+    },
+    {
+      "kind": "research",
+      "ok": true,
+      "fetcher": "eastmoney-strategy",
+      "transport": "api",
+      "chars": 3244,
+      "quality_score": 95,
+      "cache_hit": false,
+      "elapsed_sec": 0.554,
+      "analysis_ok": true
+    },
+    {
+      "kind": "official",
+      "ok": true,
+      "fetcher": "cninfo-official",
+      "transport": "api",
+      "chars": 4037,
+      "quality_score": 95,
+      "cache_hit": false,
+      "elapsed_sec": 2.326,
+      "analysis_ok": true
+    }
+  ],
+  "content": {
+    "status": "publish",
+    "headline": "缩量调整第九日，AI硬件逆势活跃，CPI落地在即",
+    "dek": "市场情绪与研究观点显著分化，海外通胀数据构成短期关键变量",
+    "editor_note": "当日市场呈现缩量调整与结构性机会并存格局，社区情绪偏谨慎而机构研报普遍看多AI与资源主线，海外CPI数据构成短期关键催化，信息增量与跨来源验证充分，具备发布价值。",
+    "market_sentiment": {
+      "tone": "divergent",
+      "emotion_score": 3,
+      "risk_level": 6,
+      "dispersion_level": 7,
+      "confidence_level": 5
+    },
+    "topics": [
+      {
+        "title": "AI硬件主线震荡回暖",
+        "score": 8,
+        "why_now": "调整期资金抱团科技成长，PCB/MLCC/光通信轮动活跃，机构持续加仓AI算力产业链",
+        "community_signal": "超声电子5天3板，崇达技术、风华高科涨停，昀冢科技涨超18%，社区情绪偏多",
+        "research_view": "多家机构看好AI算力产业链加速布局，顺络电子TLVR电感与钽电容AI增量、英维克液冷龙头股权激励等获推荐",
+        "fact_anchor": "成交额1.97万亿，AI硬件方向逆势活跃，PCB/MLCC板块多股涨停",
+        "uncertainty": "美国对华AI限制收紧构成外部压力，高位科技股震荡分化，持续性待验证"
+      },
+      {
+        "title": "市场调整与情绪低迷",
+        "score": 7,
+        "why_now": "沪指调整第9天跌破3915前低，超4800只个股下跌，放量下跌格局下情绪修复尚需时日",
+        "community_signal": "多帖反映焦虑、割肉讨论，北向抛盘承接无力，'五穷六绝七翻身'质疑再起",
+        "research_view": "多家券商指出缩量观望，科技仍是结构性主线，但短期反弹依赖权重拉动",
+        "fact_anchor": "沪指跌1.18%，最低3852点，成交额1.97万亿放量约3248亿",
+        "uncertainty": "放量下跌但个股普跌，反弹靠拉权重，情绪未实质好转，调整是否结束存疑"
+      },
+      {
+        "title": "海外通胀与美联储路径",
+        "score": 8,
+        "why_now": "8月CPI数据公布在即，加息路径明确化将直接影响短期市场情绪与估值水平",
+        "community_signal": "社区关注CPI对A股影响，部分看好加息落地后估值修复窗口",
+        "research_view": "中银证券指出美债收益率逼近5%，东吴证券认为CPI是'恰到好处'的加息前奏，暗示美联储加息路径明确",
+        "fact_anchor": "8月CPI数据公布，美债收益率接近5%",
+        "uncertainty": "通胀预期升温与加息路径明确化对A股影响方向存分歧，部分观点认为利好估值修复，部分担忧全球风险资产承压"
+      },
+      {
+        "title": "铜价与资源品景气",
+        "score": 7,
+        "why_now": "矿端供给约束强化，铜价中枢上移预期升温，钨资源国产替代加速",
+        "community_signal": "社区关注镓锗出口管制预期，看好8月1日管制政策落地",
+        "research_view": "多家机构看好铜价中枢上移与矿端约束，钨资源国产替代加速，氟化工高景气兑现",
+        "fact_anchor": "矿端供给约束数据，铜价中枢上移趋势",
+        "uncertainty": "宏观需求不确定性，海外通胀对工业品需求影响，价格修复持续性存疑"
+      },
+      {
+        "title": "光伏与存储产业链修复",
+        "score": 6,
+        "why_now": "半年报显示产业链价格修复与业绩改善，存储芯片提价驱动业绩超预期",
+        "community_signal": "储能板块业绩超预期引发关注，科士达中报净利同比增106%-152%",
+        "research_view": "隆基绿能BC组件高增、通威股份组件出海及反内卷修复价格获推荐，存储芯片提价驱动业绩超预期",
+        "fact_anchor": "半年报数据，存储芯片提价趋势",
+        "uncertainty": "价格修复持续性存疑，海外贸易政策风险，部分公司受汇兑损失或股份支付等非经常性因素影响"
+      }
+    ],
+    "article": {
+      "title": "缩量调整第九日，AI硬件逆势活跃，CPI落地在即",
+      "summary": "沪指调整第9天跌破前低，超4800只个股下跌，但AI硬件方向逆势活跃，PCB/MLCC轮动。成交额1.97万亿放量下跌，市场情绪偏谨慎。海外8月CPI数据公布在即，加息路径明确化构成短期关键变量。机构研报普遍看多AI算力、铜价与光伏修复，社区情绪与研究观点显著分化。",
+      "body_markdown": "## 市场表现：放量下跌，情绪承压\n\n沪指调整进入第9天，当日跌1.18%，最低触及3852点，跌破3915前低。超4800只个股下跌，市场情绪明显承压。成交额达1.97万亿，较前日放量约3248亿，但放量下跌的格局说明抛压并未减轻，反弹主要依赖权重股拉动，个股层面普跌。\n\n社区情绪方面，焦虑与割肉讨论增多，\"五穷六绝七翻身\"的质疑声再起，北向资金抛盘承接力度不足。整体来看，市场处于缩量调整后的放量下跌阶段，情绪修复尚需时日。\n\n## 主线强弱：AI硬件逆势活跃，资源品景气延续\n\n尽管大盘调整，AI硬件方向逆势活跃。PCB板块中超声电子录得5天3板，崇达技术、风华高科等涨停，昀冢科技涨超18%。MLCC方向机构看多供需缺口，光通信板块受FCC靴子落地和CIOE光博会开幕催化。\n\n机构研报层面，多家券商看好AI算力产业链加速布局。顺络电子TLVR电感与钽电容AI增量、英维克液冷龙头股权激励、广电运通AI机器人及算力业务等获推荐。同时，铜价中枢上移与矿端约束强化、光伏产业链价格修复预期、存储芯片提价驱动业绩超预期等方向也获机构关注。\n\n## 情绪与研究观点分歧\n\n社区情绪与研究观点呈现显著分化。社区端，调整第9天的焦虑情绪主导，对反弹持续性存疑；研究端，多家券商虽指出缩量观望，但仍将科技成长视为结构性主线，对AI算力、资源品、光伏修复等方向普遍看多。\n\n海外通胀预期升温构成分歧焦点。中银证券指出美债收益率逼近5%，东吴证券认为8月CPI是\"恰到好处\"的加息前奏，暗示美联储加息路径明确。部分观点认为加息落地后短期无估值压制，有利于A股估值修复；但也有观点担忧通胀预期升温对全球风险资产的压制。\n\n## 次日观察变量\n\n1. **海外CPI数据**：8月CPI公布后，美联储加息路径的明确化程度将直接影响短期市场情绪与估值水平。\n\n2. **AI硬件持续性**：高位科技股震荡分化后，PCB/MLCC等轮动方向能否延续，需关注成交量配合与龙头股表现。\n\n3. **风格再平衡**：高位科技股进入震荡期后，低位传统行业（有色/化工/券商/创新药/储能）补涨机会是否兑现。\n\n4. **地缘风险**：胡塞武装逼近曼德海峡，地缘局势升级可能对油价与风险偏好构成扰动。\n\n## 风险提示\n\n市场处于调整期，放量下跌格局下情绪修复需要时间。海外通胀与加息路径、地缘风险、美国对华AI限制收紧等外部变量构成不确定性。机构研报评级存在乐观偏差，社区情绪代表性有限。以上信息基于公开信息整理，不构成投资建议，股市有风险，投资需谨慎。",
+      "disclaimer": "本文基于公开信息整理，不构成任何投资建议。市场有风险，投资需谨慎。文中提及的个股仅为信息示例，不代表推荐。"
+    },
+    "cards": [
+      {
+        "kicker": "晚刊",
+        "title": "缩量调整第九日",
+        "subtitle": "放量下跌1.97万亿，AI硬件逆势活跃",
+        "bullets": [
+          "沪指跌破3915前低，超4800只个股下跌",
+          "成交额放量3248亿，但个股普跌",
+          "CPI数据公布在即，短期关键变量"
+        ]
+      },
+      {
+        "kicker": "主线追踪",
+        "title": "AI硬件逆势活跃",
+        "subtitle": "PCB/MLCC/光通信轮动，机构持续看多",
+        "bullets": [
+          "超声电子5天3板，崇达技术、风华高科涨停",
+          "MLCC机构看多供需缺口，光通信受FCC催化",
+          "AI算力产业链加速布局，多家机构推荐"
+        ]
+      },
+      {
+        "kicker": "研究视角",
+        "title": "机构普遍看多AI与资源",
+        "subtitle": "铜价中枢上移，光伏修复，存储提价",
+        "bullets": [
+          "铜价中枢上移与矿端约束强化",
+          "光伏产业链价格修复预期，隆基/通威获推荐",
+          "存储芯片提价驱动业绩超预期"
+        ]
+      },
+      {
+        "kicker": "分歧点",
+        "title": "社区焦虑vs机构乐观",
+        "subtitle": "情绪与观点显著分化",
+        "bullets": [
+          "社区：调整第9天焦虑情绪主导，割肉讨论增多",
+          "机构：缩量观望但科技仍是结构性主线",
+          "海外通胀预期升温，加息路径影响存分歧"
+        ]
+      },
+      {
+        "kicker": "次日观察",
+        "title": "CPI落地与风格再平衡",
+        "subtitle": "关注四个关键变量",
+        "bullets": [
+          "海外CPI数据：加息路径明确化程度",
+          "AI硬件持续性：成交量配合与龙头表现",
+          "风格再平衡：低位传统行业补涨机会",
+          "地缘风险：胡塞武装与油价扰动"
+        ]
+      }
+    ]
+  }
+}
