@@ -1,0 +1,646 @@
+{
+  "schema_version": 2,
+  "project": "PharmaBrief",
+  "date": "2026-09-13",
+  "week_start": "2026-09-07",
+  "week_end": "2026-09-13",
+  "generated_at": "2026-09-13T20:24:01+08:00",
+  "model": "Air",
+  "status": "publish",
+  "signal": "mixed",
+  "usage": {
+    "calls": 9,
+    "requests": 32,
+    "total_tokens": 26670
+  },
+  "source_health": {
+    "configured": 32,
+    "successful": 22,
+    "failed": 10,
+    "success_rate": 0.688
+  },
+  "sources": [
+    {
+      "name": "FDA",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.fda.gov/drugs/news-events-human-drugs",
+      "ok": true,
+      "quality_score": 91,
+      "error": null
+    },
+    {
+      "name": "EMA",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.ema.europa.eu/en/news-events",
+      "ok": true,
+      "quality_score": 76,
+      "error": null
+    },
+    {
+      "name": "NMPA",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.nmpa.gov.cn/yaopin/index.html",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.nmpa.gov.cn/yaopin/index.html: 412 Client Error: Precondition Failed for url: https://www.nmpa.gov.cn/yaopin/index.html"
+    },
+    {
+      "name": "CDE",
+      "priority": "P0",
+      "kind": "regulatory",
+      "url": "https://www.cde.org.cn/main/news/listpage",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.cde.org.cn/main/news/listpage: 正文过短: 0"
+    },
+    {
+      "name": "Pfizer",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.pfizer.com/newsroom/press-releases",
+      "ok": true,
+      "quality_score": 76,
+      "error": null
+    },
+    {
+      "name": "AstraZeneca",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.astrazeneca.com/media-centre.html",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.astrazeneca.com/media-centre.html: 403 Client Error: Forbidden for url: https://www.astrazeneca.com/media-centre.html"
+    },
+    {
+      "name": "Novartis",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.novartis.com/news/newsroom",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "Roche",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.roche.com/media/releases",
+      "ok": true,
+      "quality_score": 59,
+      "error": null
+    },
+    {
+      "name": "Lilly",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://investor.lilly.com/news-releases",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://investor.lilly.com/news-releases: 404 Client Error: Not Found for url: https://investor.lilly.com/news-releases"
+    },
+    {
+      "name": "NovoNordisk",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.novonordisk.com/news-and-media/latest-news.html",
+      "ok": true,
+      "quality_score": 58,
+      "error": null
+    },
+    {
+      "name": "Sanofi",
+      "priority": "P1",
+      "kind": "company",
+      "url": "https://www.sanofi.com/en/media-room/press-releases",
+      "ok": true,
+      "quality_score": 84,
+      "error": null
+    },
+    {
+      "name": "SEC",
+      "priority": "P2",
+      "kind": "capital",
+      "url": "https://www.sec.gov/edgar/search/",
+      "ok": true,
+      "quality_score": 54,
+      "error": null
+    },
+    {
+      "name": "ClinicalTrialsGov",
+      "priority": "P2",
+      "kind": "clinical",
+      "url": "https://clinicaltrials.gov/",
+      "ok": true,
+      "quality_score": 41,
+      "error": null
+    },
+    {
+      "name": "PharmCube",
+      "priority": "P2",
+      "kind": "industry",
+      "url": "https://bydrug.pharmcube.com/",
+      "ok": true,
+      "quality_score": 70,
+      "error": null
+    },
+    {
+      "name": "YaoZh",
+      "priority": "P2",
+      "kind": "industry",
+      "url": "https://www.yaozh.com/",
+      "ok": true,
+      "quality_score": 77,
+      "error": null
+    },
+    {
+      "name": "FiercePharma",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.fiercepharma.com/",
+      "ok": true,
+      "quality_score": 57,
+      "error": null
+    },
+    {
+      "name": "FierceBiotech",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.fiercebiotech.com/",
+      "ok": true,
+      "quality_score": 57,
+      "error": null
+    },
+    {
+      "name": "EndpointsNews",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://endpts.com/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://endpts.com/: 403 Client Error: Forbidden for url: https://endpoints.news/"
+    },
+    {
+      "name": "STATNews",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.statnews.com/",
+      "ok": true,
+      "quality_score": 95,
+      "error": null
+    },
+    {
+      "name": "STATNews_Pharmalittle",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.statnews.com/category/pharmalittle/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.statnews.com/category/pharmalittle/: 404 Client Error: Not Found for url: https://www.statnews.com/category/pharmalittle/"
+    },
+    {
+      "name": "BioCentury",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.biocentury.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "BioSpace",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.biospace.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "BioPharmaDive",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.biopharmadive.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "WuXiAppTec",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.wuxiapptec.cn/",
+      "ok": true,
+      "quality_score": 60,
+      "error": null
+    },
+    {
+      "name": "TongXieYi",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.tongxieyi.com/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.tongxieyi.com/: HTTPSConnectionPool(host='www.tongxieyi.com', port=443): Max retries exceeded with url: / (Caused by ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))"
+    },
+    {
+      "name": "EYJLR",
+      "priority": "P3",
+      "kind": "industry",
+      "url": "https://www.eyjlr.com/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.eyjlr.com/: HTTPSConnectionPool(host='www.eyjlr.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.eyjlr.com', port=443) at 0x7f854a09cfe0>, 'Connection to www.eyjlr.com timed out. (connect timeout=30)'))"
+    },
+    {
+      "name": "NatureBiotech",
+      "priority": "P4",
+      "kind": "technology",
+      "url": "https://www.nature.com/nbt/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "SIMM",
+      "priority": "P4",
+      "kind": "technology",
+      "url": "https://www.simm.cas.cn/web/jgsz/gjsbjyjzx/xyyj/kydt_170104/",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://www.simm.cas.cn/web/jgsz/gjsbjyjzx/xyyj/kydt_170104/: HTTPSConnectionPool(host='www.simm.cas.cn', port=443): Max retries exceeded with url: /web/jgsz/gjsbjyjzx/xyyj/kydt_170104/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1000)')))"
+    },
+    {
+      "name": "IMM",
+      "priority": "P4",
+      "kind": "technology",
+      "url": "https://www.imm.ac.cn/",
+      "ok": true,
+      "quality_score": 91,
+      "error": null
+    },
+    {
+      "name": "Gelonghui",
+      "priority": "P4",
+      "kind": "sentiment",
+      "url": "https://www.gelonghui.com/",
+      "ok": true,
+      "quality_score": 91,
+      "error": null
+    },
+    {
+      "name": "XueQiu_Pharma",
+      "priority": "P4",
+      "kind": "sentiment",
+      "url": "https://xueqiu.com/",
+      "ok": true,
+      "quality_score": 100,
+      "error": null
+    },
+    {
+      "name": "NikkeiHealthcare",
+      "priority": "P4",
+      "kind": "regional",
+      "url": "https://asia.nikkei.com/Business/Health",
+      "ok": false,
+      "quality_score": null,
+      "error": "https://asia.nikkei.com/Business/Health: 404 Client Error: Not Found for url: https://asia.nikkei.com/business/health"
+    }
+  ],
+  "candidate_event_count": 7,
+  "deep_analysis_event_count": 7,
+  "content": {
+    "status": "publish",
+    "hook_title": "监管与研发动态",
+    "overview": "本周行业监管、研发进展与资本市场动态集中在FDA批准、Novo Nordisk儿童肥胖疗效、Novartis资产挫折、Takeda R&D重组、Moderna流感疫苗获批等关键事件。",
+    "events": [
+      {
+        "id": "E07",
+        "event_key": "moderna|flu vaccine|fda approval",
+        "category": "regulatory",
+        "title": "Moderna流感疫苗获FDA批准",
+        "fact": "Moderna季节性流感疫苗于9月10日获得FDA批准。",
+        "why_it_matters": "首次获批将开启Moderna在流感疫苗市场的竞争，提升收入来源。",
+        "industry_implication": "行业将面临新的流感疫苗竞争，促使其他公司加速研发。",
+        "company_implication": "Moderna将获得新产品线，提升股东价值。",
+        "capital_implication": "股价可能因新产品上市预期而上升。",
+        "next_watch": [
+          "Moderna流感疫苗上市销售数据",
+          "全球流感季节表现"
+        ],
+        "source_refs": [
+          "NatureBiotech"
+        ],
+        "evidence": [
+          {
+            "source": "NatureBiotech",
+            "priority": "P4",
+            "kind": "technology",
+            "url": "https://www.nature.com/nbt/",
+            "role": "lead"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 9,
+          "industry_impact": 9,
+          "capital_impact": 8,
+          "execution_risk": 2,
+          "confidence": 5,
+          "scope": 9,
+          "novelty": 8,
+          "overall_score": 8.7
+        },
+        "signal": "disruption",
+        "black_swan": false,
+        "alert_level": "ALERT",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E02",
+        "event_key": "novo nordisk | step young phase 3 data",
+        "category": "clinical",
+        "title": "Novo Nordisk儿童肥胖疗效突破",
+        "fact": "STEP Young 3期试验显示40.4%儿童BMI降至肥胖阈值以下。",
+        "why_it_matters": "若获监管批准，将开启儿童肥胖治疗新市场，提升公司产品组合与市场份额。",
+        "industry_implication": "行业将加速儿童肥胖药物研发，竞争加剧。",
+        "company_implication": "Novo Nordisk将获得新收入来源，提升股东价值。",
+        "capital_implication": "股价可能因预期监管批准而上升，投资者关注后续审批进展。",
+        "next_watch": [
+          "监管机构对儿童肥胖药物的审批进度",
+          "后期4期试验数据公布"
+        ],
+        "source_refs": [
+          "NovoNordisk"
+        ],
+        "evidence": [
+          {
+            "source": "NovoNordisk",
+            "priority": "P1",
+            "kind": "company",
+            "url": "https://www.novonordisk.com/news-and-media/latest-news.html",
+            "role": "primary"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 8,
+          "industry_impact": 8,
+          "capital_impact": 7,
+          "execution_risk": 3,
+          "confidence": 8,
+          "scope": 8,
+          "novelty": 7,
+          "overall_score": 7.7
+        },
+        "signal": "disruption",
+        "black_swan": false,
+        "alert_level": "ALERT",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E05",
+        "event_key": "novartis|shares|triple asset stumble",
+        "category": "competition",
+        "title": "Novartis资产挫折导致股价下跌",
+        "fact": "Novartis股价下跌13%，因三项晚期资产出现挫折。",
+        "why_it_matters": "资产挫折可能削弱公司研发管线与未来收入预期。",
+        "industry_implication": "行业对晚期资产风险的关注度提升，可能影响并购与合作。",
+        "company_implication": "Novartis需调整研发策略与资源配置。",
+        "capital_implication": "股价下跌导致市值缩水，投资者信心受挫。",
+        "next_watch": [
+          "Novartis后续资产评估报告",
+          "市场对Novartis股价的恢复情况"
+        ],
+        "source_refs": [
+          "BioSpace"
+        ],
+        "evidence": [
+          {
+            "source": "BioSpace",
+            "priority": "P3",
+            "kind": "industry",
+            "url": "https://www.biospace.com/",
+            "role": "context"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 7,
+          "industry_impact": 7,
+          "capital_impact": 8,
+          "execution_risk": 5,
+          "confidence": 6,
+          "scope": 7,
+          "novelty": 6,
+          "overall_score": 7.1
+        },
+        "signal": "opportunity",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E06",
+        "event_key": "takeda|r&d head|exit",
+        "category": "capital",
+        "title": "Takeda R&D负责人离职",
+        "fact": "Takeda长期R&D负责人因管线重组宣布离职。",
+        "why_it_matters": "高层离职可能导致研发方向与执行力受影响。",
+        "industry_implication": "行业需关注Takeda未来研发重点与人才流动。",
+        "company_implication": "公司需快速补位，保持研发连续性。",
+        "capital_implication": "股价可能因管理层变动出现波动。",
+        "next_watch": [
+          "Takeda新R&D负责人任命",
+          "Takeda管线重组进展"
+        ],
+        "source_refs": [
+          "BioSpace"
+        ],
+        "evidence": [
+          {
+            "source": "BioSpace",
+            "priority": "P3",
+            "kind": "industry",
+            "url": "https://www.biospace.com/",
+            "role": "context"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 6,
+          "industry_impact": 6,
+          "capital_impact": 6,
+          "execution_risk": 4,
+          "confidence": 6,
+          "scope": 6,
+          "novelty": 5,
+          "overall_score": 5.9
+        },
+        "signal": "neutral",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E01",
+        "event_key": "fallback|fda|newseventsforhumandrugsfda",
+        "category": "regulatory",
+        "title": "FDA新药监管动态",
+        "fact": "FDA发布人类药物新闻与事件更新，提示即将出台新监管政策。",
+        "why_it_matters": "FDA政策变动可能影响全球上市时间与审批路径，直接影响企业研发与上市策略。",
+        "industry_implication": "行业需提前评估监管风险，调整研发管线与合规流程。",
+        "company_implication": "企业需加强监管监测，优化审批策略以降低延误风险。",
+        "capital_implication": "监管不确定性可能导致股价波动，投资者需关注监管动态。",
+        "next_watch": [
+          "FDA公布新药审批指南",
+          "FDA公布本周新药批准名单"
+        ],
+        "source_refs": [
+          "FDA"
+        ],
+        "evidence": [
+          {
+            "source": "FDA",
+            "priority": "P0",
+            "kind": "regulatory",
+            "url": "https://www.fda.gov/drugs/news-events-human-drugs",
+            "role": "fact_anchor"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 5,
+          "industry_impact": 5,
+          "capital_impact": 4,
+          "execution_risk": 6,
+          "confidence": 4,
+          "scope": 5,
+          "novelty": 6,
+          "overall_score": 4.9
+        },
+        "signal": "neutral",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E04",
+        "event_key": "fallback|pharmcube|bydrug一站式医药资源共享中心医药魔方",
+        "category": "competition",
+        "title": "ByDrug平台发布",
+        "fact": "ByDrug提供全球药品信息与研发情报服务。",
+        "why_it_matters": "平台可能改变行业信息获取方式，提升研发效率与决策速度。",
+        "industry_implication": "竞争对手需评估平台对信息壁垒的冲击。",
+        "company_implication": "企业可利用平台加速研发与市场分析。",
+        "capital_implication": "平台商业模式成熟度影响投资者信心。",
+        "next_watch": [
+          "ByDrug平台用户增长数据",
+          "竞争对手对平台的回应"
+        ],
+        "source_refs": [
+          "PharmCube"
+        ],
+        "evidence": [
+          {
+            "source": "PharmCube",
+            "priority": "P2",
+            "kind": "industry",
+            "url": "https://bydrug.pharmcube.com/",
+            "role": "confirmation"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 4,
+          "industry_impact": 4,
+          "capital_impact": 3,
+          "execution_risk": 4,
+          "confidence": 7,
+          "scope": 4,
+          "novelty": 5,
+          "overall_score": 3.9
+        },
+        "signal": "neutral",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E03",
+        "event_key": "pfizer|webcast|healthcare conference",
+        "category": "regulatory",
+        "title": "Pfizer医疗会议直播",
+        "fact": "9月8日Pfizer宣布将直播其在医疗会议的讨论。",
+        "why_it_matters": "直播内容可能透露公司战略方向与研发重点，影响投资者预期。",
+        "industry_implication": "行业观察Pfizer的战略调整，可能影响竞争格局。",
+        "company_implication": "Pfizer需通过公开沟通维护股东信心。",
+        "capital_implication": "直播后股价波动可能出现，需关注市场反应。",
+        "next_watch": [
+          "Pfizer直播内容摘要",
+          "投资者对直播的市场反应"
+        ],
+        "source_refs": [
+          "Pfizer"
+        ],
+        "evidence": [
+          {
+            "source": "Pfizer",
+            "priority": "P1",
+            "kind": "company",
+            "url": "https://www.pfizer.com/newsroom/press-releases",
+            "role": "primary"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 3,
+          "industry_impact": 3,
+          "capital_impact": 2,
+          "execution_risk": 2,
+          "confidence": 8,
+          "scope": 3,
+          "novelty": 2,
+          "overall_score": 2.7
+        },
+        "signal": "neutral",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      }
+    ],
+    "executive_view": {
+      "industry": "监管政策变动与研发突破并行，行业面临新药审批与竞争加剧。",
+      "business": "企业需提升监管监测与研发灵活性，抓住新市场机遇，同时关注高层变动与资产风险。",
+      "watch_3_12m": [
+        "FDA新药审批指南发布",
+        "Novo Nordisk儿童肥胖药物监管审批",
+        "Novartis资产恢复与股价回升"
+      ]
+    },
+    "signal": "mixed"
+  }
+}
