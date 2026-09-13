@@ -3,7 +3,7 @@
   "project": "MarketBrief",
   "date": "2026-09-14",
   "edition": "am",
-  "generated_at": "2026-09-14T00:50:50+08:00",
+  "generated_at": "2026-09-14T02:04:21+08:00",
   "model": "SenseNova",
   "status": "skip",
   "hook_title": "本期暂缓发布",
@@ -11,27 +11,27 @@
   "visual_tone": "neutral",
   "usage": {
     "calls": 7,
-    "total_tokens": 24153
+    "total_tokens": 23982
   },
   "sources": [
     {
       "kind": "community",
       "ok": true,
       "transport": "html",
-      "chars": 2551,
+      "chars": 2552,
       "quality_score": 65,
       "cache_hit": false,
-      "elapsed_sec": 1.575,
+      "elapsed_sec": 0.685,
       "analysis_ok": true
     },
     {
       "kind": "community",
       "ok": true,
       "transport": "html",
-      "chars": 2057,
+      "chars": 2015,
       "quality_score": 60,
       "cache_hit": false,
-      "elapsed_sec": 1.21,
+      "elapsed_sec": 1.168,
       "analysis_ok": false
     },
     {
@@ -41,7 +41,7 @@
       "chars": 6000,
       "quality_score": 100,
       "cache_hit": false,
-      "elapsed_sec": 2.234,
+      "elapsed_sec": 2.603,
       "analysis_ok": true
     },
     {
@@ -51,7 +51,7 @@
       "chars": 4058,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 2.013,
+      "elapsed_sec": 0.983,
       "analysis_ok": true
     },
     {
@@ -61,7 +61,7 @@
       "chars": 4005,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 2.283,
+      "elapsed_sec": 0.624,
       "analysis_ok": true
     },
     {
@@ -71,7 +71,7 @@
       "chars": 3526,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 2.722,
+      "elapsed_sec": 2.407,
       "analysis_ok": true
     },
     {
@@ -81,7 +81,7 @@
       "chars": 6000,
       "quality_score": 100,
       "cache_hit": false,
-      "elapsed_sec": 0.223,
+      "elapsed_sec": 0.589,
       "analysis_ok": true
     },
     {
@@ -91,7 +91,7 @@
       "chars": 3674,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 2.511,
+      "elapsed_sec": 2.53,
       "analysis_ok": true
     }
   ],
