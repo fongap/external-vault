@@ -4,20 +4,20 @@
   "date": "2026-09-13",
   "week_start": "2026-09-07",
   "week_end": "2026-09-13",
-  "generated_at": "2026-09-13T22:37:11+08:00",
+  "generated_at": "2026-09-13T23:19:27+08:00",
   "model": "Pro",
   "status": "publish",
   "signal": "disruption",
   "usage": {
-    "calls": 12,
-    "requests": 30,
-    "total_tokens": 38833
+    "calls": 10,
+    "requests": 23,
+    "total_tokens": 37278
   },
   "source_health": {
     "configured": 32,
-    "successful": 22,
-    "failed": 10,
-    "success_rate": 0.688
+    "successful": 23,
+    "failed": 9,
+    "success_rate": 0.719
   },
   "sources": [
     {
@@ -96,10 +96,10 @@
       "name": "Lilly",
       "priority": "P1",
       "kind": "company",
-      "url": "https://investor.lilly.com/news-releases",
+      "url": "https://www.lilly.com/news",
       "ok": false,
       "quality_score": null,
-      "error": "https://investor.lilly.com/news-releases: 404 Client Error: Not Found for url: https://investor.lilly.com/news-releases"
+      "error": "https://www.lilly.com/news: 403 Client Error: Forbidden for url: https://www.lilly.com/news"
     },
     {
       "name": "NovoNordisk",
@@ -143,7 +143,7 @@
       "kind": "industry",
       "url": "https://bydrug.pharmcube.com/",
       "ok": true,
-      "quality_score": 77,
+      "quality_score": 79,
       "error": null
     },
     {
@@ -186,19 +186,19 @@
       "name": "STATNews",
       "priority": "P3",
       "kind": "industry",
-      "url": "https://www.statnews.com/",
+      "url": "https://www.statnews.com/category/pharma/",
       "ok": true,
-      "quality_score": 95,
+      "quality_score": 90,
       "error": null
     },
     {
       "name": "STATNews_Pharmalittle",
       "priority": "P3",
       "kind": "industry",
-      "url": "https://www.statnews.com/category/pharmalittle/",
-      "ok": false,
-      "quality_score": null,
-      "error": "https://www.statnews.com/category/pharmalittle/: 404 Client Error: Not Found for url: https://www.statnews.com/category/pharmalittle/"
+      "url": "https://www.statnews.com/category/pharma/pharmalot/",
+      "ok": true,
+      "quality_score": 91,
+      "error": null
     },
     {
       "name": "BioCentury",
@@ -252,7 +252,7 @@
       "url": "https://www.eyjlr.com/",
       "ok": false,
       "quality_score": null,
-      "error": "https://www.eyjlr.com/: HTTPSConnectionPool(host='www.eyjlr.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.eyjlr.com', port=443) at 0x7f99e23d9760>, 'Connection to www.eyjlr.com timed out. (connect timeout=30)'))"
+      "error": "https://www.eyjlr.com/: HTTPSConnectionPool(host='www.eyjlr.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.eyjlr.com', port=443) at 0x7f5a8008c560>, 'Connection to www.eyjlr.com timed out. (connect timeout=30)'))"
     },
     {
       "name": "NatureBiotech",
@@ -287,7 +287,7 @@
       "kind": "sentiment",
       "url": "https://www.gelonghui.com/",
       "ok": true,
-      "quality_score": 83,
+      "quality_score": 86,
       "error": null
     },
     {
@@ -309,26 +309,116 @@
       "error": "https://asia.nikkei.com/Business/Health: 404 Client Error: Not Found for url: https://asia.nikkei.com/business/health"
     }
   ],
-  "candidate_event_count": 3,
-  "deep_analysis_event_count": 3,
+  "candidate_event_count": 16,
+  "deep_analysis_event_count": 16,
   "content": {
     "status": "publish",
-    "hook_title": "Semaglutide aids kid",
-    "overview": "Novo Nordisk’s semaglutide shows strong pediatric obesity efficacy; Novartis faces three late‑stage setbacks dragging shares down; Takeda’s",
+    "hook_title": "诺和诺德儿童减重数据亮眼，",
+    "overview": "诺和诺德STEP Young试验显示儿童减重显著获益；诺华因三项晚期资产挫折股价大跌；WCLC会议小细胞肺癌新药OS数据积极；FDA暂停Biohaven癫痫试验入组。",
     "events": [
       {
-        "id": "E01",
-        "event_key": "novonordisk|semaglutide|phase3_trial_result",
+        "id": "E03",
+        "event_key": "宜联生物|tam-peli (yl201)|clinical",
         "category": "clinical",
-        "title": "Novo Nordisk reports STEP Young phase 3 results: 40.4% of ch",
-        "fact": "In the STEP Young phase 3 trial, 40.4% of children living with obesity achieved a BMI below the obesity threshold when treated with semaglutide and lifestyle modification.",
-        "why_it_matters": "Demonstrates meaningful weight‑loss efficacy in a pediatric population, opening a new growth avenue for GLP‑1 therapies beyond adults.",
-        "industry_implication": "Accelerates competition in the pediatric obesity market, likely prompting label‑expansion rushes from rivals and increased payer scrutiny.",
-        "company_implication": "Positions Novo Nordisk to capture early‑share in a high‑value pediatric indication, boosting long‑term revenue potential.",
-        "capital_implication": "Supports premium valuation; modest upside to share price as analysts model expanded TAM.",
+        "title": "宜联生物Tam-Peli复发小细胞肺癌III期研究OS获…",
+        "fact": "WCLC 2026主席研讨会公布，宜联生物与罗氏联合的TAISHAN-302 III期研究显示，Tam-Peli对比topotecan治疗复发小细胞肺癌获得总生存期（OS）获益。",
+        "why_it_matters": "复发小细胞肺癌缺乏有效标准疗法，OS获益是注册关键终点，有望成为该领域首个突破性疗法。",
+        "industry_implication": "小细胞肺癌治疗格局可能改变，topotecan作为现有标准疗法面临替代压力。",
+        "company_implication": "宜联生物核心资产价值提升，罗氏合作管线前景看好，利好双方后续商业化合作。",
+        "capital_implication": "临床成功可能提升宜联生物估值，罗氏管线组合价值增强。",
         "next_watch": [
-          "FDA/EMA pediatric label expansion decision",
-          "Real‑world safety and adherence data in adolescents"
+          "FDA/NMPA加速审批申请进展",
+          "安全性数据长期随访结果"
+        ],
+        "source_refs": [
+          "PharmCube"
+        ],
+        "evidence": [
+          {
+            "source": "PharmCube",
+            "priority": "P2",
+            "kind": "industry",
+            "url": "https://bydrug.pharmcube.com/",
+            "role": "confirmation"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 9,
+          "industry_impact": 8,
+          "capital_impact": 8,
+          "execution_risk": 3,
+          "confidence": 7,
+          "scope": 7,
+          "novelty": 8,
+          "overall_score": 8.1
+        },
+        "signal": "disruption",
+        "black_swan": false,
+        "alert_level": "ALERT",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E04",
+        "event_key": "翰森制药|risvutatug rezetecan (hs-20093)|clinical",
+        "category": "clinical",
+        "title": "翰森制药Ris-Rez复发小细胞肺癌III期研究OS获益",
+        "fact": "WCLC 2026主席研讨会公布，翰森制药与GSK联合的ARTEMIS-008 III期研究显示，risvutatug rezetecan对比topotecan治疗复发小细胞肺癌获得总生存期（OS）获益。",
+        "why_it_matters": "与宜联生物数据同期公布，显示该领域竞争白热化，两款新药均有望挑战现有标准疗法。",
+        "industry_implication": "复发小细胞肺癌市场将形成双寡头竞争，topotecan市场份额可能被大幅侵蚀。",
+        "company_implication": "翰森制药核心创新药价值凸显，GSK管线布局加强，双方合作深化。",
+        "capital_implication": "临床成功支撑翰森制药创新转型叙事，GSK管线价值重估。",
+        "next_watch": [
+          "两款新药头对头比较数据",
+          "全球监管申报策略差异"
+        ],
+        "source_refs": [
+          "PharmCube"
+        ],
+        "evidence": [
+          {
+            "source": "PharmCube",
+            "priority": "P2",
+            "kind": "industry",
+            "url": "https://bydrug.pharmcube.com/",
+            "role": "confirmation"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 9,
+          "industry_impact": 8,
+          "capital_impact": 8,
+          "execution_risk": 3,
+          "confidence": 7,
+          "scope": 7,
+          "novelty": 8,
+          "overall_score": 8.1
+        },
+        "signal": "disruption",
+        "black_swan": false,
+        "alert_level": "ALERT",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E01",
+        "event_key": "novonordisk|semaglutide|clinical_trial_result",
+        "category": "clinical",
+        "title": "诺和诺德司美格鲁肽儿童肥胖III期试验显示显著减重获益",
+        "fact": "2026年9月7日，诺和诺德宣布STEP Young III期试验结果，40.4%的肥胖儿童在使用司美格鲁肽联合生活方式干预后，BMI降至肥胖阈值以下。",
+        "why_it_matters": "儿童肥胖治疗市场长期缺乏有效药物，该数据确立了司美格鲁肽在儿科领域的领先地位，可能重塑减重药市场格局。",
+        "industry_implication": "GLP-1类药物向儿科适应症拓展成为新竞争焦点，其他药企需加速儿科临床试验布局。",
+        "company_implication": "诺和诺德巩固其在减重领域的护城河，预计将推动儿科适应症监管申报及商业化准备。",
+        "capital_implication": "市场关注其儿科适应症获批后的收入增量，可能提升长期估值预期。",
+        "next_watch": [
+          "FDA儿科适应症审批时间表",
+          "竞争对手儿科GLP-1试验进展"
         ],
         "source_refs": [
           "NovoNordisk"
@@ -347,13 +437,58 @@
         "conflict_note": "",
         "scores": {
           "strategic_impact": 9,
-          "industry_impact": 9,
+          "industry_impact": 8,
           "capital_impact": 7,
-          "execution_risk": 5,
+          "execution_risk": 2,
           "confidence": 8,
           "scope": 8,
+          "novelty": 7,
+          "overall_score": 8.0
+        },
+        "signal": "disruption",
+        "black_swan": false,
+        "alert_level": "ALERT",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E06",
+        "event_key": "中国医保局|drg/dip 3.0|regulatory",
+        "category": "regulatory",
+        "title": "DRG/DIP 3.0版本发布，支付标准进入精细化调整阶…",
+        "fact": "2026年9月第1周，DRG/DIP 3.0版本正式发布，行业周报指出支付标准进入精细化调整阶段，医药中报业绩逐步修复。",
+        "why_it_matters": "医保支付改革深化，直接影响医院用药行为和药企销售策略，是行业基本面反转的关键信号。",
+        "industry_implication": "药企需适应更精细的支付标准，创新药和高值耗材面临新的准入挑战。",
+        "company_implication": "头部药企凭借产品组合优势可能受益，中小药企需优化成本结构。",
+        "capital_implication": "行业估值逻辑从政策担忧转向业绩修复，资金可能回流医药板块。",
+        "next_watch": [
+          "DRG/DIP 3.0具体分组调整细节",
+          "主要药企中报业绩指引更新"
+        ],
+        "source_refs": [
+          "PharmCube"
+        ],
+        "evidence": [
+          {
+            "source": "PharmCube",
+            "priority": "P2",
+            "kind": "industry",
+            "url": "https://bydrug.pharmcube.com/",
+            "role": "confirmation"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 8,
+          "industry_impact": 9,
+          "capital_impact": 7,
+          "execution_risk": 4,
+          "confidence": 7,
+          "scope": 9,
           "novelty": 6,
-          "overall_score": 8.2
+          "overall_score": 8.0
         },
         "signal": "disruption",
         "black_swan": false,
@@ -363,17 +498,62 @@
       },
       {
         "id": "E02",
-        "event_key": "novartis|late-stage assets|setback",
+        "event_key": "novartis|晚期管线资产|临床挫折",
         "category": "clinical",
-        "title": "Novartis shares fall 13% after three late-stage asset setbac",
-        "fact": "Novartis’ shares fell 13% this week after the report of three separate late-stage asset setbacks.",
-        "why_it_matters": "Multiple late‑stage failures signal heightened pipeline risk and could force strategic re‑prioritization.",
-        "industry_implication": "Raises investor caution about big‑pharma R&D productivity, potentially affecting sector‑wide valuation multiples.",
-        "company_implication": "Pressures Novartis to either rescue, divest, or write down the affected assets, impacting near‑term earnings.",
-        "capital_implication": "Sharp share‑price decline reflects immediate capital‑market loss of confidence; may increase cost of capital.",
+        "title": "诺华三项晚期资产遭遇挫折，股价单周下跌13%",
+        "fact": "本周诺华报告了三项独立的晚期资产临床挫折，导致公司股价下跌13%，并波及同行股价。",
+        "why_it_matters": "多管线同时受挫暴露了大型药企在后期研发中的集中风险，对投资者信心造成显著冲击。",
+        "industry_implication": "提示大型药企需优化管线组合，避免过度依赖少数高风险资产，行业研发效率面临审视。",
+        "company_implication": "诺华短期面临业绩压力，需重新评估相关资产价值及后续研发策略。",
+        "capital_implication": "股价大幅回调反映市场对研发失败风险的重新定价，可能引发机构仓位调整。",
         "next_watch": [
-          "Update on each late‑stage asset’s clinical hold or trial outcome",
-          "Potential divestiture or partnership announcements"
+          "诺华后续管线调整公告",
+          "受影响资产的具体失败原因披露"
+        ],
+        "source_refs": [
+          "BioSpace"
+        ],
+        "evidence": [
+          {
+            "source": "BioSpace",
+            "priority": "P3",
+            "kind": "industry",
+            "url": "https://www.biospace.com/",
+            "role": "context"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 8,
+          "industry_impact": 7,
+          "capital_impact": 9,
+          "execution_risk": 8,
+          "confidence": 6,
+          "scope": 7,
+          "novelty": 6,
+          "overall_score": 7.6
+        },
+        "signal": "caution",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E05",
+        "event_key": "biohaven|bhv-7000|监管行动",
+        "category": "regulatory",
+        "title": "FDA暂停Biohaven癫痫药物关键试验入组",
+        "fact": "FDA暂停Biohaven关键癫痫试验入组，此前BHV-7000在中阶抑郁症试验中未显示疗效，这是该公司遭遇的又一监管打击。",
+        "why_it_matters": "连续临床失败和监管干预严重打击公司信誉，可能影响其融资能力和后续研发推进。",
+        "industry_implication": "提示Biotech公司在多适应症拓展中需审慎评估风险，避免资源分散。",
+        "company_implication": "Biohaven面临生存压力，需重新评估管线优先级，可能寻求资产剥离或合作。",
+        "capital_implication": "股价承压，融资渠道收紧，投资者信心受挫。",
+        "next_watch": [
+          "FDA暂停原因详细披露",
+          "Biohaven后续管线调整计划"
         ],
         "source_refs": [
           "BioSpace"
@@ -394,11 +574,11 @@
           "strategic_impact": 7,
           "industry_impact": 6,
           "capital_impact": 8,
-          "execution_risk": 7,
+          "execution_risk": 9,
           "confidence": 6,
-          "scope": 5,
-          "novelty": 4,
-          "overall_score": 6.4
+          "scope": 6,
+          "novelty": 7,
+          "overall_score": 6.8
         },
         "signal": "caution",
         "black_swan": false,
@@ -407,18 +587,18 @@
         "status": "developing"
       },
       {
-        "id": "E03",
-        "event_key": "takeda|r&d head|exit",
-        "category": "technology",
-        "title": "Takeda’s long-term R&D head announces exit after major pipel",
-        "fact": "Takeda’s long-term R&D head announces exit after major pipeline reorganization.",
-        "why_it_matters": "Leadership turnover at the R&D helm can disrupt pipeline momentum and strategic direction.",
-        "industry_implication": "Highlights ongoing turbulence in pharma R&D leadership, potentially influencing talent mobility across the sector.",
-        "company_implication": "Creates uncertainty over execution of Takeda’s pipeline refresh; may delay key milestones until a successor is appointed.",
-        "capital_implication": "Limited immediate market impact, but perceived governance risk could weigh on valuation over the medium term.",
+        "id": "E07",
+        "event_key": "takeda|研发负责人|人事变动",
+        "category": "competition",
+        "title": "武田制药长期研发负责人在管线重组后宣布离职",
+        "fact": "武田制药长期研发负责人在主要管线重组后宣布退出，此举可能影响公司研发战略连续性。",
+        "why_it_matters": "核心研发高管离职往往伴随战略调整，可能引发内部动荡或人才流失，影响长期竞争力。",
+        "industry_implication": "大型药企研发领导力稳定性成为投资者关注焦点，人才竞争加剧。",
+        "company_implication": "武田制药需确保研发战略平稳过渡，避免关键项目延误。",
+        "capital_implication": "高管离职可能引发短期市场担忧，但长期影响取决于继任者能力。",
         "next_watch": [
-          "Appointment of new R&D head and timeline",
-          "Impact on key pipeline programs’ milestones"
+          "武田制药新任研发负责人任命",
+          "关键管线项目进展是否受影响"
         ],
         "source_refs": [
           "BioSpace"
@@ -436,29 +616,109 @@
         "evidence_conflict": false,
         "conflict_note": "",
         "scores": {
-          "strategic_impact": 6,
-          "industry_impact": 5,
-          "capital_impact": 4,
-          "execution_risk": 6,
+          "strategic_impact": 7,
+          "industry_impact": 6,
+          "capital_impact": 6,
+          "execution_risk": 7,
           "confidence": 6,
-          "scope": 4,
-          "novelty": 3,
-          "overall_score": 4.7
+          "scope": 6,
+          "novelty": 5,
+          "overall_score": 6.2
         },
-        "signal": "neutral",
+        "signal": "caution",
         "black_swan": false,
         "alert_level": "WATCH",
         "change": "new",
         "status": "developing"
       }
     ],
+    "sections": {
+      "rd": [
+        {
+          "title": "小细胞肺癌治疗格局重塑",
+          "summary": "宜联生物和翰森制药两款新药在WCLC公布OS获益，挑战topotecan标准疗法，领域竞争白热化。",
+          "watch": "关注两款新药头对头比较及全球监管申报进展。",
+          "source_refs": [
+            "PharmCube"
+          ]
+        },
+        {
+          "title": "GLP-1儿科适应症突破",
+          "summary": "诺和诺德司美格鲁肽在儿童肥胖试验中显示显著获益，开启儿科减重治疗新市场。",
+          "watch": "跟踪FDA儿科适应症审批时间表及竞争对手布局。",
+          "source_refs": [
+            "NovoNordisk"
+          ]
+        },
+        {
+          "title": "医保支付改革深化",
+          "summary": "DRG/DIP 3.0发布，支付标准精细化，医药行业进入业绩修复周期。",
+          "watch": "分析DRG/DIP 3.0对高值耗材和创新药准入的具体影响。",
+          "source_refs": [
+            "PharmCube"
+          ]
+        }
+      ],
+      "capital": [
+        {
+          "title": "诺华研发挫折引发估值重估",
+          "summary": "诺华三项晚期资产受挫致股价跌13%，市场重新评估其管线风险。",
+          "watch": "观察机构对诺华仓位调整及后续管线调整公告。",
+          "source_refs": [
+            "BioSpace"
+          ]
+        },
+        {
+          "title": "Biotech融资环境收紧",
+          "summary": "Biohaven因临床失败和监管干预面临融资压力，Biotech板块风险偏好下降。",
+          "watch": "关注Biohaven后续融资动作及Biotech板块整体融资数据。",
+          "source_refs": [
+            "BioSpace"
+          ]
+        },
+        {
+          "title": "CDMO产能扩张加速",
+          "summary": "Samsung Biologics签署2.62亿美元制造协议，扩大韩国制造版图，反映全球产能需求旺盛。",
+          "watch": "跟踪Samsung Biologics产能利用率及新订单获取情况。",
+          "source_refs": [
+            "BioSpace"
+          ]
+        }
+      ],
+      "risk": [
+        {
+          "title": "大型药企研发集中度风险",
+          "summary": "诺华多管线同时受挫，暴露后期研发集中风险，需优化管线组合。",
+          "watch": "评估其他大型药企管线集中度及潜在风险点。",
+          "source_refs": [
+            "BioSpace"
+          ]
+        },
+        {
+          "title": "高管离职与战略连续性",
+          "summary": "武田制药研发负责人离职，可能影响研发战略连续性，需关注人才流失风险。",
+          "watch": "跟踪武田制药新任负责人任命及关键项目进展。",
+          "source_refs": [
+            "BioSpace"
+          ]
+        },
+        {
+          "title": "小细胞肺癌市场竞争加剧",
+          "summary": "两款新药同期公布OS获益，topotecan面临替代压力，市场格局快速变化。",
+          "watch": "分析两款新药安全性差异及商业化策略。",
+          "source_refs": [
+            "PharmCube"
+          ]
+        }
+      ]
+    },
     "executive_view": {
-      "industry": "Pediatric obesity is emerging as a high‑growth niche for GLP‑1 therapies, while late‑stage setbacks across big pharma remind investors of R&D volatility. Leadership churn at Takeda underscores the importance of stable R&D governance for sustained innovation.",
-      "business": "Novo Nordisk can leverage the STEP Young data to expand its semaglutide franchise and justify premium pricing. Novartis must address its late‑stage weaknesses—either through trial redesign, partnerships, or asset sales—to stem share‑price erosion. Takeda’s upcoming R&D leadership decision will be critical to maintaining confidence in its pipeline revitalization plan.",
+      "industry": "本周行业焦点集中在临床突破与监管风险。小细胞肺癌领域出现双新药OS获益，GLP-1向儿科拓展，医保支付改革深化。同时，诺华研发挫折和Biohaven监管暂停提示后期研发风险不容忽视。",
+      "business": "企业需关注管线组合优化，避免过度依赖单一资产。创新药企应加速儿科等新适应症布局，大型药企需加强研发风险管理。CDMO产能扩张反映全球供应链需求持续旺盛。",
       "watch_3_12m": [
-        "Pediatric semaglutide label approval (6‑12mo)",
-        "Novartis asset resolution or divestiture (3‑9mo)",
-        "Takeda new R&D leadership impact on pipeline (6‑12mo)"
+        "小细胞肺癌新药全球监管审批进展",
+        "诺华管线调整及后续研发策略",
+        "DRG/DIP 3.0对药企销售策略的具体影响"
       ]
     },
     "signal": "disruption"
