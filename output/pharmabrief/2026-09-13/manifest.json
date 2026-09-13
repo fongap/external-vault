@@ -4,14 +4,14 @@
   "date": "2026-09-13",
   "week_start": "2026-09-07",
   "week_end": "2026-09-13",
-  "generated_at": "2026-09-13T20:24:01+08:00",
-  "model": "Air",
+  "generated_at": "2026-09-13T21:09:34+08:00",
+  "model": "Pro",
   "status": "publish",
-  "signal": "mixed",
+  "signal": "disruption",
   "usage": {
-    "calls": 9,
-    "requests": 32,
-    "total_tokens": 26670
+    "calls": 12,
+    "requests": 30,
+    "total_tokens": 42246
   },
   "source_health": {
     "configured": 32,
@@ -143,7 +143,7 @@
       "kind": "industry",
       "url": "https://bydrug.pharmcube.com/",
       "ok": true,
-      "quality_score": 70,
+      "quality_score": 74,
       "error": null
     },
     {
@@ -252,7 +252,7 @@
       "url": "https://www.eyjlr.com/",
       "ok": false,
       "quality_score": null,
-      "error": "https://www.eyjlr.com/: HTTPSConnectionPool(host='www.eyjlr.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.eyjlr.com', port=443) at 0x7f854a09cfe0>, 'Connection to www.eyjlr.com timed out. (connect timeout=30)'))"
+      "error": "https://www.eyjlr.com/: HTTPSConnectionPool(host='www.eyjlr.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.eyjlr.com', port=443) at 0x7f6fa3d50bc0>, 'Connection to www.eyjlr.com timed out. (connect timeout=30)'))"
     },
     {
       "name": "NatureBiotech",
@@ -287,7 +287,7 @@
       "kind": "sentiment",
       "url": "https://www.gelonghui.com/",
       "ok": true,
-      "quality_score": 91,
+      "quality_score": 94,
       "error": null
     },
     {
@@ -309,71 +309,26 @@
       "error": "https://asia.nikkei.com/Business/Health: 404 Client Error: Not Found for url: https://asia.nikkei.com/business/health"
     }
   ],
-  "candidate_event_count": 7,
-  "deep_analysis_event_count": 7,
+  "candidate_event_count": 5,
+  "deep_analysis_event_count": 5,
   "content": {
     "status": "publish",
-    "hook_title": "监管与研发动态",
-    "overview": "本周行业监管、研发进展与资本市场动态集中在FDA批准、Novo Nordisk儿童肥胖疗效、Novartis资产挫折、Takeda R&D重组、Moderna流感疫苗获批等关键事件。",
+    "hook_title": "Semaglutide kids",
+    "overview": "Novo Nordisk shows 40.4% pediatric obesity response with semaglutide; Novartis shares drop 13% after late‑stage setbacks; Takeda R&D head ex",
     "events": [
       {
-        "id": "E07",
-        "event_key": "moderna|flu vaccine|fda approval",
-        "category": "regulatory",
-        "title": "Moderna流感疫苗获FDA批准",
-        "fact": "Moderna季节性流感疫苗于9月10日获得FDA批准。",
-        "why_it_matters": "首次获批将开启Moderna在流感疫苗市场的竞争，提升收入来源。",
-        "industry_implication": "行业将面临新的流感疫苗竞争，促使其他公司加速研发。",
-        "company_implication": "Moderna将获得新产品线，提升股东价值。",
-        "capital_implication": "股价可能因新产品上市预期而上升。",
-        "next_watch": [
-          "Moderna流感疫苗上市销售数据",
-          "全球流感季节表现"
-        ],
-        "source_refs": [
-          "NatureBiotech"
-        ],
-        "evidence": [
-          {
-            "source": "NatureBiotech",
-            "priority": "P4",
-            "kind": "technology",
-            "url": "https://www.nature.com/nbt/",
-            "role": "lead"
-          }
-        ],
-        "independent_sources": 1,
-        "evidence_conflict": false,
-        "conflict_note": "",
-        "scores": {
-          "strategic_impact": 9,
-          "industry_impact": 9,
-          "capital_impact": 8,
-          "execution_risk": 2,
-          "confidence": 5,
-          "scope": 9,
-          "novelty": 8,
-          "overall_score": 8.7
-        },
-        "signal": "disruption",
-        "black_swan": false,
-        "alert_level": "ALERT",
-        "change": "new",
-        "status": "developing"
-      },
-      {
-        "id": "E02",
-        "event_key": "novo nordisk | step young phase 3 data",
+        "id": "E01",
+        "event_key": "novonordisk|semaglutide|clinical",
         "category": "clinical",
-        "title": "Novo Nordisk儿童肥胖疗效突破",
-        "fact": "STEP Young 3期试验显示40.4%儿童BMI降至肥胖阈值以下。",
-        "why_it_matters": "若获监管批准，将开启儿童肥胖治疗新市场，提升公司产品组合与市场份额。",
-        "industry_implication": "行业将加速儿童肥胖药物研发，竞争加剧。",
-        "company_implication": "Novo Nordisk将获得新收入来源，提升股东价值。",
-        "capital_implication": "股价可能因预期监管批准而上升，投资者关注后续审批进展。",
+        "title": "Novo Nordisk STEP Young phase 3 data shows 40.4% of children",
+        "fact": "In the STEP Young phase 3 trial, 40.4% of children living with obesity achieved a BMI below the obesity threshold when treated with semaglutide plus lifestyle modification.",
+        "why_it_matters": "First large‑scale phase 3 evidence that semaglutide can meaningfully reduce obesity in children, opening a new pediatric indication and expanding the drug’s market.",
+        "industry_implication": "Accelerates competition in pediatric obesity therapeutics; may prompt rivals to advance GLP‑1 or combination trials in this age group.",
+        "company_implication": "Novo Nordisk can file for pediatric label extension, driving future revenue and reinforcing its leadership in metabolic disease.",
+        "capital_implication": "Positive data supports premium valuation and may attract additional investment in obesity franchises.",
         "next_watch": [
-          "监管机构对儿童肥胖药物的审批进度",
-          "后期4期试验数据公布"
+          "FDA submission for pediatric semaglutide label (expected Q1 2027)",
+          "Publication of full STEP Young results in peer‑reviewed journal (Q4 2026)"
         ],
         "source_refs": [
           "NovoNordisk"
@@ -391,14 +346,14 @@
         "evidence_conflict": false,
         "conflict_note": "",
         "scores": {
-          "strategic_impact": 8,
+          "strategic_impact": 9,
           "industry_impact": 8,
           "capital_impact": 7,
-          "execution_risk": 3,
+          "execution_risk": 4,
           "confidence": 8,
           "scope": 8,
           "novelty": 7,
-          "overall_score": 7.7
+          "overall_score": 8.0
         },
         "signal": "disruption",
         "black_swan": false,
@@ -407,63 +362,63 @@
         "status": "developing"
       },
       {
-        "id": "E05",
-        "event_key": "novartis|shares|triple asset stumble",
-        "category": "competition",
-        "title": "Novartis资产挫折导致股价下跌",
-        "fact": "Novartis股价下跌13%，因三项晚期资产出现挫折。",
-        "why_it_matters": "资产挫折可能削弱公司研发管线与未来收入预期。",
-        "industry_implication": "行业对晚期资产风险的关注度提升，可能影响并购与合作。",
-        "company_implication": "Novartis需调整研发策略与资源配置。",
-        "capital_implication": "股价下跌导致市值缩水，投资者信心受挫。",
+        "id": "E04",
+        "event_key": "moderna|流感疫苗|监管批准",
+        "category": "regulatory",
+        "title": "Moderna流感疫苗获FDA批准",
+        "fact": "Moderna流感疫苗在美国获得FDA批准，日期为2026年9月10日",
+        "why_it_matters": "First mRNA‑based influenza vaccine to receive FDA approval, validating the platform beyond COVID‑19 and opening a new preventive market.",
+        "industry_implication": "Sets precedent for mRNA flu vaccines, likely accelerating similar programs from competitors and reshaping flu vaccine R&D.",
+        "company_implication": "Moderna gains a diversified revenue stream, reducing reliance on COVID vaccines and strengthening its infectious disease franchise.",
+        "capital_implication": "Anticipated peak‑season sales could add several billion dollars annually; supports continued investment in mRNA technology.",
         "next_watch": [
-          "Novartis后续资产评估报告",
-          "市场对Novartis股价的恢复情况"
+          "Launch and early uptake data for Moderna flu vaccine (2026‑2027 season)",
+          "Potential label expansions or combination flu‑COVID mRNA vaccines (2027)"
         ],
         "source_refs": [
-          "BioSpace"
+          "NatureBiotech"
         ],
         "evidence": [
           {
-            "source": "BioSpace",
-            "priority": "P3",
-            "kind": "industry",
-            "url": "https://www.biospace.com/",
-            "role": "context"
+            "source": "NatureBiotech",
+            "priority": "P4",
+            "kind": "technology",
+            "url": "https://www.nature.com/nbt/",
+            "role": "lead"
           }
         ],
         "independent_sources": 1,
         "evidence_conflict": false,
         "conflict_note": "",
         "scores": {
-          "strategic_impact": 7,
+          "strategic_impact": 8,
           "industry_impact": 7,
-          "capital_impact": 8,
-          "execution_risk": 5,
-          "confidence": 6,
-          "scope": 7,
+          "capital_impact": 7,
+          "execution_risk": 3,
+          "confidence": 5,
+          "scope": 8,
           "novelty": 6,
-          "overall_score": 7.1
+          "overall_score": 7.4
         },
-        "signal": "opportunity",
+        "signal": "neutral",
         "black_swan": false,
         "alert_level": "WATCH",
         "change": "new",
         "status": "developing"
       },
       {
-        "id": "E06",
-        "event_key": "takeda|r&d head|exit",
-        "category": "capital",
-        "title": "Takeda R&D负责人离职",
-        "fact": "Takeda长期R&D负责人因管线重组宣布离职。",
-        "why_it_matters": "高层离职可能导致研发方向与执行力受影响。",
-        "industry_implication": "行业需关注Takeda未来研发重点与人才流动。",
-        "company_implication": "公司需快速补位，保持研发连续性。",
-        "capital_implication": "股价可能因管理层变动出现波动。",
+        "id": "E02",
+        "event_key": "novartis|late-stage pipeline|clinical setback",
+        "category": "clinical",
+        "title": "Novartis shares fall 13% after three late-stage asset setbac",
+        "fact": "On September 11, 2026, Novartis’ shares fell 13% following reports of three separate late-stage asset setbacks.",
+        "why_it_matters": "Multiple late‑stage failures signal heightened execution risk in Novartis’ pipeline and could delay near‑term revenue contributions.",
+        "industry_implication": "Highlights vulnerability of large pharma to late‑stage attrition, encouraging more cautious investment in similar therapeutic areas.",
+        "company_implication": "Novartis may need to reallocate capital, prioritize earlier‑stage assets, and consider strategic partnerships to mitigate pipeline gaps.",
+        "capital_implication": "Share price drop reflects immediate capital impact; potential cost of impaired assets and increased financing pressure.",
         "next_watch": [
-          "Takeda新R&D负责人任命",
-          "Takeda管线重组进展"
+          "Novartis pipeline update meeting (H2 2026) detailing status of the three assets",
+          "Any announced remedial actions or asset divestitures (Q1 2027)"
         ],
         "source_refs": [
           "BioSpace"
@@ -482,105 +437,15 @@
         "conflict_note": "",
         "scores": {
           "strategic_impact": 6,
-          "industry_impact": 6,
-          "capital_impact": 6,
-          "execution_risk": 4,
-          "confidence": 6,
-          "scope": 6,
-          "novelty": 5,
-          "overall_score": 5.9
-        },
-        "signal": "neutral",
-        "black_swan": false,
-        "alert_level": "WATCH",
-        "change": "new",
-        "status": "developing"
-      },
-      {
-        "id": "E01",
-        "event_key": "fallback|fda|newseventsforhumandrugsfda",
-        "category": "regulatory",
-        "title": "FDA新药监管动态",
-        "fact": "FDA发布人类药物新闻与事件更新，提示即将出台新监管政策。",
-        "why_it_matters": "FDA政策变动可能影响全球上市时间与审批路径，直接影响企业研发与上市策略。",
-        "industry_implication": "行业需提前评估监管风险，调整研发管线与合规流程。",
-        "company_implication": "企业需加强监管监测，优化审批策略以降低延误风险。",
-        "capital_implication": "监管不确定性可能导致股价波动，投资者需关注监管动态。",
-        "next_watch": [
-          "FDA公布新药审批指南",
-          "FDA公布本周新药批准名单"
-        ],
-        "source_refs": [
-          "FDA"
-        ],
-        "evidence": [
-          {
-            "source": "FDA",
-            "priority": "P0",
-            "kind": "regulatory",
-            "url": "https://www.fda.gov/drugs/news-events-human-drugs",
-            "role": "fact_anchor"
-          }
-        ],
-        "independent_sources": 1,
-        "evidence_conflict": false,
-        "conflict_note": "",
-        "scores": {
-          "strategic_impact": 5,
           "industry_impact": 5,
-          "capital_impact": 4,
-          "execution_risk": 6,
-          "confidence": 4,
-          "scope": 5,
-          "novelty": 6,
-          "overall_score": 4.9
-        },
-        "signal": "neutral",
-        "black_swan": false,
-        "alert_level": "WATCH",
-        "change": "new",
-        "status": "developing"
-      },
-      {
-        "id": "E04",
-        "event_key": "fallback|pharmcube|bydrug一站式医药资源共享中心医药魔方",
-        "category": "competition",
-        "title": "ByDrug平台发布",
-        "fact": "ByDrug提供全球药品信息与研发情报服务。",
-        "why_it_matters": "平台可能改变行业信息获取方式，提升研发效率与决策速度。",
-        "industry_implication": "竞争对手需评估平台对信息壁垒的冲击。",
-        "company_implication": "企业可利用平台加速研发与市场分析。",
-        "capital_implication": "平台商业模式成熟度影响投资者信心。",
-        "next_watch": [
-          "ByDrug平台用户增长数据",
-          "竞争对手对平台的回应"
-        ],
-        "source_refs": [
-          "PharmCube"
-        ],
-        "evidence": [
-          {
-            "source": "PharmCube",
-            "priority": "P2",
-            "kind": "industry",
-            "url": "https://bydrug.pharmcube.com/",
-            "role": "confirmation"
-          }
-        ],
-        "independent_sources": 1,
-        "evidence_conflict": false,
-        "conflict_note": "",
-        "scores": {
-          "strategic_impact": 4,
-          "industry_impact": 4,
-          "capital_impact": 3,
-          "execution_risk": 4,
-          "confidence": 7,
-          "scope": 4,
+          "capital_impact": 8,
+          "execution_risk": 7,
+          "confidence": 6,
+          "scope": 7,
           "novelty": 5,
-          "overall_score": 3.9
+          "overall_score": 6.2
         },
-        "signal": "neutral",
+        "signal": "caution",
         "black_swan": false,
         "alert_level": "WATCH",
         "change": "new",
@@ -588,17 +453,62 @@
       },
       {
         "id": "E03",
-        "event_key": "pfizer|webcast|healthcare conference",
-        "category": "regulatory",
-        "title": "Pfizer医疗会议直播",
-        "fact": "9月8日Pfizer宣布将直播其在医疗会议的讨论。",
-        "why_it_matters": "直播内容可能透露公司战略方向与研发重点，影响投资者预期。",
-        "industry_implication": "行业观察Pfizer的战略调整，可能影响竞争格局。",
-        "company_implication": "Pfizer需通过公开沟通维护股东信心。",
-        "capital_implication": "直播后股价波动可能出现，需关注市场反应。",
+        "event_key": "takeda|r&d leadership|leadership change",
+        "category": "capital",
+        "title": "Takeda’s long-term R&D head announces exit after major pipel",
+        "fact": "On September 10, 2026, Takeda announced that its long-term R&D head is exiting following a major pipeline reorganization.",
+        "why_it_matters": "Leadership turnover at the top of R&D can disrupt strategic continuity and affect morale during a critical pipeline overhaul.",
+        "industry_implication": "May signal broader industry trend of leadership churn as companies restructure R&D to focus on high‑potential modalities.",
+        "company_implication": "Takeda faces integration risk; success depends on swift appointment of a capable successor and clear communication of revised R&D priorities.",
+        "capital_implication": "Potential short‑term uncertainty for investors; could affect perception of Takeda’s innovation pipeline stability.",
         "next_watch": [
-          "Pfizer直播内容摘要",
-          "投资者对直播的市场反应"
+          "Announcement of new R&D chief (expected Q4 2026)",
+          "Update on reorganized pipeline milestones (Q1 2027)"
+        ],
+        "source_refs": [
+          "BioSpace"
+        ],
+        "evidence": [
+          {
+            "source": "BioSpace",
+            "priority": "P3",
+            "kind": "industry",
+            "url": "https://www.biospace.com/",
+            "role": "context"
+          }
+        ],
+        "independent_sources": 1,
+        "evidence_conflict": false,
+        "conflict_note": "",
+        "scores": {
+          "strategic_impact": 5,
+          "industry_impact": 4,
+          "capital_impact": 6,
+          "execution_risk": 5,
+          "confidence": 6,
+          "scope": 6,
+          "novelty": 4,
+          "overall_score": 5.0
+        },
+        "signal": "neutral",
+        "black_swan": false,
+        "alert_level": "WATCH",
+        "change": "new",
+        "status": "developing"
+      },
+      {
+        "id": "E05",
+        "event_key": "pfizer|webcast|announcement",
+        "category": "technology",
+        "title": "Pfizer invites public to webcast of healthcare conference di",
+        "fact": "Pfizer invites the public to listen to a webcast of its discussion at a healthcare conference on September 8, 2026.",
+        "why_it_matters": "Provides transparency into Pfizer’s strategic messaging and pipeline updates, though primarily informational.",
+        "industry_implication": "Limited; reflects broader trend of companies using public webcasts to engage stakeholders.",
+        "company_implication": "Allows investors and analysts to gauge Pfizer’s near‑term priorities without material impact on operations.",
+        "capital_implication": "Negligible direct capital effect; serves as a communication channel.",
+        "next_watch": [
+          "Content of the webcast – focus on pipeline or capital allocation hints (immediate)",
+          "Any subsequent announcements tied to discussed topics (Q4 2026)"
         ],
         "source_refs": [
           "Pfizer"
@@ -617,13 +527,13 @@
         "conflict_note": "",
         "scores": {
           "strategic_impact": 3,
-          "industry_impact": 3,
+          "industry_impact": 2,
           "capital_impact": 2,
-          "execution_risk": 2,
+          "execution_risk": 1,
           "confidence": 8,
-          "scope": 3,
+          "scope": 5,
           "novelty": 2,
-          "overall_score": 2.7
+          "overall_score": 2.8
         },
         "signal": "neutral",
         "black_swan": false,
@@ -633,14 +543,14 @@
       }
     ],
     "executive_view": {
-      "industry": "监管政策变动与研发突破并行，行业面临新药审批与竞争加剧。",
-      "business": "企业需提升监管监测与研发灵活性，抓住新市场机遇，同时关注高层变动与资产风险。",
+      "industry": "Pediatric obesity treatment gains a potent new option with semaglutide, while mRNA flu vaccine approval validates a disruptive platform. Late‑stage setbacks at Novartis underscore pipeline fragility, prompting cautious investment across large‑cap pharma.",
+      "business": "Novo Nordisk can leverage pediatric data for label expansion and revenue growth; Moderna secures a durable non‑COVID vaccine franchise. Takeda’s R&D leadership change introduces execution risk that must be managed to sustain pipeline momentum. Pfizer’s webcast offers a low‑stakes view of its strategic outlook.",
       "watch_3_12m": [
-        "FDA新药审批指南发布",
-        "Novo Nordisk儿童肥胖药物监管审批",
-        "Novartis资产恢复与股价回升"
+        "FDA decision on pediatric semaglutide label (Q1 2027)",
+        "Novartis pipeline update on the three late‑stage assets (H2 2026)",
+        "Moderna flu vaccine launch performance and market share (2026‑2027 season)"
       ]
     },
-    "signal": "mixed"
+    "signal": "disruption"
   }
 }
