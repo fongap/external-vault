@@ -3,15 +3,15 @@
   "project": "MarketBrief",
   "date": "2026-09-14",
   "edition": "am",
-  "generated_at": "2026-09-14T02:04:21+08:00",
+  "generated_at": "2026-09-14T02:18:20+08:00",
   "model": "SenseNova",
-  "status": "skip",
-  "hook_title": "本期暂缓发布",
-  "overview": "最终综合服务暂不可用，为避免不完整或未经核实的信息进入公开成品，本期暂缓发布。",
-  "visual_tone": "neutral",
+  "status": "publish",
+  "hook_title": "AI算力与半导体产业链、美联储加息预期成",
+  "overview": "基于7份有效公开信息分析，当前焦点集中在AI算力与半导体产业链、美联储加息预期。以下内容保留事实、研究观点与市场情绪的边界，并对缺失数据保持空缺。",
+  "visual_tone": "divergent",
   "usage": {
     "calls": 7,
-    "total_tokens": 23982
+    "total_tokens": 24350
   },
   "sources": [
     {
@@ -21,17 +21,17 @@
       "chars": 2552,
       "quality_score": 65,
       "cache_hit": false,
-      "elapsed_sec": 0.685,
+      "elapsed_sec": 0.717,
       "analysis_ok": true
     },
     {
       "kind": "community",
       "ok": true,
       "transport": "html",
-      "chars": 2015,
+      "chars": 2018,
       "quality_score": 60,
       "cache_hit": false,
-      "elapsed_sec": 1.168,
+      "elapsed_sec": 1.096,
       "analysis_ok": false
     },
     {
@@ -41,7 +41,7 @@
       "chars": 6000,
       "quality_score": 100,
       "cache_hit": false,
-      "elapsed_sec": 2.603,
+      "elapsed_sec": 2.32,
       "analysis_ok": true
     },
     {
@@ -51,7 +51,7 @@
       "chars": 4058,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 0.983,
+      "elapsed_sec": 1.229,
       "analysis_ok": true
     },
     {
@@ -61,7 +61,7 @@
       "chars": 4005,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 0.624,
+      "elapsed_sec": 0.839,
       "analysis_ok": true
     },
     {
@@ -71,7 +71,7 @@
       "chars": 3526,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 2.407,
+      "elapsed_sec": 0.882,
       "analysis_ok": true
     },
     {
@@ -81,7 +81,7 @@
       "chars": 6000,
       "quality_score": 100,
       "cache_hit": false,
-      "elapsed_sec": 0.589,
+      "elapsed_sec": 0.362,
       "analysis_ok": true
     },
     {
@@ -91,65 +91,95 @@
       "chars": 3674,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 2.53,
+      "elapsed_sec": 2.015,
       "analysis_ok": true
     }
   ],
   "content": {
-    "status": "skip",
-    "hook_title": "本期暂缓发布",
-    "overview": "最终综合服务暂不可用，为避免不完整或未经核实的信息进入公开成品，本期暂缓发布。",
+    "status": "publish",
+    "hook_title": "AI算力与半导体产业链、美联储加息预期成",
+    "overview": "基于7份有效公开信息分析，当前焦点集中在AI算力与半导体产业链、美联储加息预期。以下内容保留事实、研究观点与市场情绪的边界，并对缺失数据保持空缺。",
     "market_sentiment": {
-      "tone": "neutral",
-      "emotion_score": 50,
-      "risk_level": 50,
-      "dispersion_level": 50,
-      "confidence_level": 0
+      "tone": "divergent",
+      "emotion_score": 75,
+      "risk_level": 85,
+      "dispersion_level": 70,
+      "confidence_level": 85
     },
     "cards": [
       {
         "kicker": "今日简报",
-        "title": "本期暂缓发布",
-        "subtitle": "最终综合服务暂不可用，为避免不完整或未经核实的信息进入公开成品，本期暂缓发布。",
-        "bullets": []
+        "title": "AI算力与半导体产业链、美联储加息预期成",
+        "subtitle": "基于7份有效公开信息分析，当前焦点集中在AI算力与半导体产业链、美联储加息预期。以下内容保留事实、研究观点与市场情绪的边界，并对缺失数据保持空缺。",
+        "bullets": [
+          "AI算力与半导体产业链：华为韬定律芯片落地、台积电营收新高、MLCC供给紧张、光博会供不应求、Rubin升级驱动硬件扩散、DeepSeek V4.1发布",
+          "美联储加息预期：美国8月CPI数据引发加息讨论，多家券商分析对A股及港股影响",
+          "霍尔木兹海峡船只遇袭，美伊外交前景渺茫：UKMTO确认袭击事件，地缘风险持续发酵"
+        ]
       },
       {
         "kicker": "全球市场",
-        "title": "全球市场",
-        "subtitle": "本期公开信息不足，等待更多有效信息确认。",
-        "bullets": []
+        "title": "隔夜外部变量",
+        "subtitle": "只保留已有公开信息支持的海外市场与宏观线索。",
+        "bullets": [
+          "美联储加息预期：美国8月CPI数据引发加息讨论，多家券商分析对A股及港股影响",
+          "美联储CPI与加息预期：今晚CPI数据公布为加息最后一块拼图，加息落地后短期无估值压制，市场迎修复窗口",
+          "道指涨500点终结四连跌：油价回落+通胀报告被市场消化，风险偏好回升"
+        ]
       },
       {
         "kicker": "市场概览",
-        "title": "市场概览",
-        "subtitle": "本期公开信息不足，等待更多有效信息确认。",
-        "bullets": []
+        "title": "A股结构与资金",
+        "subtitle": "聚合指数、成交、涨跌结构和资金特征中的已确认线索。",
+        "bullets": [
+          "美联储加息预期：美国8月CPI数据引发加息讨论，多家券商分析对A股及港股影响",
+          "市场连续调整：指数跌1.18%，超4800只个股下跌，调整第9天，成交额1.97万亿放量3248亿",
+          "AI硬件方向反弹：PCB板块5天3板，MLCC概念拉升，CPO/半导体材料领涨，科创50率先反弹"
+        ]
       },
       {
         "kicker": "热点追踪",
-        "title": "热点追踪",
-        "subtitle": "本期公开信息不足，等待更多有效信息确认。",
-        "bullets": []
+        "title": "高权重线索集中",
+        "subtitle": "按来源分析中的重要性排序，不把热度直接等同于投资结论。",
+        "bullets": [
+          "AI算力与半导体产业链：华为韬定律芯片落地、台积电营收新高、MLCC供给紧张、光博会供不应求、Rubin升级驱动硬件扩散、DeepSeek V4.1发布",
+          "霍尔木兹海峡船只遇袭，美伊外交前景渺茫：UKMTO确认袭击事件，地缘风险持续发酵",
+          "AI算力产业链（光通信/电子布/MLCC）：FCC靴子落地、电子布提价加速、MLCC机构看多供需缺口、CIOE光博会开幕"
+        ]
       },
       {
         "kicker": "事实分歧",
-        "title": "事实分歧",
-        "subtitle": "本期公开信息不足，等待更多有效信息确认。",
-        "bullets": []
+        "title": "事实、观点与情绪分开看",
+        "subtitle": "同一市场叙事中，事实锚、研究判断和市场情绪不应混为一谈。",
+        "bullets": [
+          "股份回购：天安新材、三一重工、中炬高新、永茂泰等多家公司回购进展或首次回购",
+          "AI算力与半导体产业链：华为韬定律芯片落地、台积电营收新高、MLCC供给紧张、光博会供不应求、Rubin升级驱动硬件扩散、DeepSeek V4.1发布",
+          "AI算力产业链（光通信/电子布/MLCC）：FCC靴子落地、电子布提价加速、MLCC机构看多供需缺口、CIOE光博会开幕"
+        ]
       },
       {
         "kicker": "风险提示",
-        "title": "风险提示",
-        "subtitle": "本期公开信息不足，等待更多有效信息确认。",
-        "bullets": []
+        "title": "后续变量仍需确认",
+        "subtitle": "风险项只来自已有来源分析与其明确限制，不额外推演。",
+        "bullets": [
+          "社区内容含大量个股推荐与情绪化表达，部分帖子疑似软文或托，不可作为投资决策依据",
+          "热帖时间跨度从2023年7月至2024年7月，时效性不一，需结合当前市场验证",
+          "用户评论中负面反馈较多（如称软文、垃圾股），反映社区信任度低"
+        ]
       }
     ],
     "article": {
-      "title": "本期暂缓发布",
-      "summary": "最终综合服务暂不可用，为避免不完整或未经核实的信息进入公开成品，本期暂缓发布。",
-      "body_markdown": "## 全球市场\n\n本期公开信息不足，等待更多有效信息确认。\n\n\n## 市场概览\n\n本期公开信息不足，等待更多有效信息确认。\n\n\n## 热点追踪\n\n本期公开信息不足，等待更多有效信息确认。\n\n\n## 事实分歧\n\n本期公开信息不足，等待更多有效信息确认。\n\n\n## 风险提示\n\n本期公开信息不足，等待更多有效信息确认。",
+      "title": "AI算力与半导体产业链、美联储加息预期成",
+      "summary": "基于7份有效公开信息分析，当前焦点集中在AI算力与半导体产业链、美联储加息预期。以下内容保留事实、研究观点与市场情绪的边界，并对缺失数据保持空缺。",
+      "body_markdown": "## 隔夜外部变量\n\n只保留已有公开信息支持的海外市场与宏观线索。\n\n- 美联储加息预期：美国8月CPI数据引发加息讨论，多家券商分析对A股及港股影响\n- 美联储CPI与加息预期：今晚CPI数据公布为加息最后一块拼图，加息落地后短期无估值压制，市场迎修复窗口\n- 道指涨500点终结四连跌：油价回落+通胀报告被市场消化，风险偏好回升\n\n## A股结构与资金\n\n聚合指数、成交、涨跌结构和资金特征中的已确认线索。\n\n- 美联储加息预期：美国8月CPI数据引发加息讨论，多家券商分析对A股及港股影响\n- 市场连续调整：指数跌1.18%，超4800只个股下跌，调整第9天，成交额1.97万亿放量3248亿\n- AI硬件方向反弹：PCB板块5天3板，MLCC概念拉升，CPO/半导体材料领涨，科创50率先反弹\n\n## 高权重线索集中\n\n按来源分析中的重要性排序，不把热度直接等同于投资结论。\n\n- AI算力与半导体产业链：华为韬定律芯片落地、台积电营收新高、MLCC供给紧张、光博会供不应求、Rubin升级驱动硬件扩散、DeepSeek V4.1发布\n- 霍尔木兹海峡船只遇袭，美伊外交前景渺茫：UKMTO确认袭击事件，地缘风险持续发酵\n- AI算力产业链（光通信/电子布/MLCC）：FCC靴子落地、电子布提价加速、MLCC机构看多供需缺口、CIOE光博会开幕\n\n## 事实、观点与情绪分开看\n\n同一市场叙事中，事实锚、研究判断和市场情绪不应混为一谈。\n\n- 股份回购：天安新材、三一重工、中炬高新、永茂泰等多家公司回购进展或首次回购\n- AI算力与半导体产业链：华为韬定律芯片落地、台积电营收新高、MLCC供给紧张、光博会供不应求、Rubin升级驱动硬件扩散、DeepSeek V4.1发布\n- AI算力产业链（光通信/电子布/MLCC）：FCC靴子落地、电子布提价加速、MLCC机构看多供需缺口、CIOE光博会开幕\n\n## 后续变量仍需确认\n\n风险项只来自已有来源分析与其明确限制，不额外推演。\n\n- 社区内容含大量个股推荐与情绪化表达，部分帖子疑似软文或托，不可作为投资决策依据\n- 热帖时间跨度从2023年7月至2024年7月，时效性不一，需结合当前市场验证\n- 用户评论中负面反馈较多（如称软文、垃圾股），反映社区信任度低",
       "disclaimer": "本文仅作公开信息整理与讨论，不构成任何投资建议。"
     },
-    "editor_note": "最终综合未完成：504 Server Error: Gateway Timeout for url: https://api.135468.xyz/v1/chat/completions"
+    "editor_note": "最终主编综合服务异常，已使用前置来源分析进行确定性本地综合；fallback_reason=504 Server Error: Gateway Timeout for url: https://api.135468.xyz/v1/chat/completions",
+    "fallback": {
+      "used": true,
+      "mode": "local_source_analysis",
+      "analysis_count": 7,
+      "evidence_rows": 42
+    }
   }
 }
