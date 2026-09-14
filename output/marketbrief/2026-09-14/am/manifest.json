@@ -3,7 +3,7 @@
   "project": "MarketBrief",
   "date": "2026-09-14",
   "edition": "am",
-  "generated_at": "2026-09-14T11:55:59+08:00",
+  "generated_at": "2026-09-14T12:04:01+08:00",
   "model": "SenseNova",
   "status": "publish",
   "hook_title": "晨会纪要、下周美联储动向成焦点",
@@ -21,17 +21,17 @@
       "chars": 2536,
       "quality_score": 65,
       "cache_hit": false,
-      "elapsed_sec": 0.75,
+      "elapsed_sec": 1.688,
       "analysis_ok": false
     },
     {
       "kind": "community",
       "ok": true,
       "transport": "html",
-      "chars": 2048,
+      "chars": 2080,
       "quality_score": 60,
       "cache_hit": false,
-      "elapsed_sec": 1.189,
+      "elapsed_sec": 1.233,
       "analysis_ok": false
     },
     {
@@ -41,7 +41,7 @@
       "chars": 6000,
       "quality_score": 100,
       "cache_hit": false,
-      "elapsed_sec": 2.262,
+      "elapsed_sec": 2.923,
       "analysis_ok": false
     },
     {
@@ -51,7 +51,7 @@
       "chars": 4092,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 0.584,
+      "elapsed_sec": 0.647,
       "analysis_ok": true
     },
     {
@@ -61,7 +61,7 @@
       "chars": 3879,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 0.653,
+      "elapsed_sec": 0.461,
       "analysis_ok": true
     },
     {
@@ -71,7 +71,7 @@
       "chars": 3402,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 1.505,
+      "elapsed_sec": 1.121,
       "analysis_ok": true
     },
     {
@@ -81,7 +81,7 @@
       "chars": 6000,
       "quality_score": 100,
       "cache_hit": false,
-      "elapsed_sec": 0.441,
+      "elapsed_sec": 0.201,
       "analysis_ok": false
     },
     {
@@ -91,7 +91,7 @@
       "chars": 3677,
       "quality_score": 95,
       "cache_hit": false,
-      "elapsed_sec": 1.953,
+      "elapsed_sec": 1.526,
       "analysis_ok": true
     }
   ],
